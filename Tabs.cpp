@@ -40,7 +40,7 @@ void Tabs::agregar_terrenos() {
             id_label += std::to_string(i);
             id_label += ',';
             id_label += std::to_string(j);
-            Label* label = new Label("/home/santiago/Documentos/TP Final Taller - Dune/editor/sprites/images.png", 
+            Label* label = new Label("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/images.png", 
                 id_label, this->parent);
             label->agregar_observador(this);
             terrenos_layout->addWidget(label, i + 1, j + 1);

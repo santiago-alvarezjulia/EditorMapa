@@ -22,6 +22,15 @@ void LabelMapa::mousePressEvent(QMouseEvent* event) {
     emit clickeado();
 }
 
+void LabelMapa::enterEvent(QEvent* event) {
+    this->setFrameShape(QFrame::Panel);
+    this->setLineWidth(2);
+}
+
+void LabelMapa::leaveEvent(QEvent* event) {
+    this->setLineWidth(0);
+}
+
 void LabelMapa::clickeado() {
     this->observador->en_notificacion(this->id);
 }

@@ -18,6 +18,8 @@ class LabelMapa : public QLabel {
  
     protected:
 	    void mousePressEvent(QMouseEvent * event);
+        void enterEvent(QEvent* event);
+        void leaveEvent(QEvent* event);
 
     private:
         std::string id;
