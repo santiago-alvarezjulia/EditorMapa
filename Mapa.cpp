@@ -11,11 +11,19 @@ Mapa::Mapa(QWidget* parent) : parent(parent) {
     inicializar_mapa();
 }
 
-void Mapa::en_notificacion(std::string id_label) {
+void Mapa::agregar_observador(Observador* observer) {
+    this->observador = observer;
+}
+
+void Mapa::actualizar_imagen(string id_label) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
         it->second->actualizar_imagen("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/tablero_clickeado.png");
     }
+}
+
+void Mapa::en_notificacion(string id_label) {
+    this->observador->en_notificacion(id_label);
 }
 
 void Mapa::inicializar_mapa() {

@@ -17,7 +17,7 @@ class Tabs : public Observador {
         std::map<std::string, Label*> tab_terrenos;
         std::map<std::string, Label*> tab_infanteria;
         std::map<std::string, Label*> tab_vehiculos;
-        std::string id_label_clikeado;
+        std::string id_label_clickeado;
 
         void agregar_terrenos();
         void agregar_infanteria();
