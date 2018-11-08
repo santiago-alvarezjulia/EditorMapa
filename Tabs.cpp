@@ -18,6 +18,22 @@ string Tabs::get_id_label_clickeado() {
     return this->id_label_clickeado;
 }
 
+int Tabs::get_ancho_label_clickeado() {
+    map<string, Label*>::iterator it = this->tab_terrenos.find(this->id_label_clickeado);
+	if (it != this->tab_terrenos.end()) {
+        return it->second->get_ancho();
+    }
+    return 0;
+}
+
+int Tabs::get_alto_label_clickeado() {
+    map<string, Label*>::iterator it = this->tab_terrenos.find(this->id_label_clickeado);
+	if (it != this->tab_terrenos.end()) {
+        return it->second->get_alto();
+    }
+    return 0;
+}
+
 void Tabs::en_notificacion(std::string id_label) {
     map<string, Label*>::iterator it = this->tab_terrenos.find(id_label);
 	if (it != this->tab_terrenos.end()) {
@@ -42,11 +58,12 @@ void Tabs::agregar_terrenos() {
     for (int i = 0; i < dimensions; ++i) {
         for (int j = 0; j < dimensions; ++j) {
             string id_label ("terrenos");
+            id_label += ',';
             id_label += std::to_string(i);
             id_label += ',';
             id_label += std::to_string(j);
             Label* label = new Label("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/images.png", 
-                id_label, this->parent);
+                id_label, 2, 3, this->parent);
             label->agregar_observador(this);
             terrenos_layout->addWidget(label, i + 1, j + 1);
             this->tab_terrenos.emplace(id_label, label);

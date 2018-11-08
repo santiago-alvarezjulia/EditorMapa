@@ -10,6 +10,8 @@ class Tabs : public Observador {
     public:
         Tabs(QWidget* parent = 0);
         std::string get_id_label_clickeado();
+        int get_alto_label_clickeado();
+        int get_ancho_label_clickeado();
         virtual void en_notificacion(std::string id_label);
 
     private:

@@ -3,11 +3,19 @@
 #include <iostream>
 using std::string;
 
-Label::Label(const QString & text, string id, QWidget* parent) : QLabel(parent),
-    id(id) {
+Label::Label(const QString & text, string id, int ancho, int alto, 
+    QWidget* parent) : QLabel(parent), id(id), ancho(ancho), alto(alto) {
     this->setFixedSize(120, 86);
     this->setPixmap(QPixmap(text));
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+}
+
+int Label::get_ancho() {
+    return this->ancho;
+}
+
+int Label::get_alto() {
+    return this->alto;
 }
 
 void Label::agregar_observador(Observador* observador_) {

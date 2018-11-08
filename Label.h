@@ -8,7 +8,10 @@
 
 class Label : public QLabel {
     public:
-	    Label(const QString & text, std::string id, QWidget * parent = 0);
+	    Label(const QString & text, std::string id, int ancho, int alto, 
+            QWidget * parent = 0);
+        int get_ancho();
+        int get_alto();
 	    void set_marco_clickeado();
         void borrar_marco_clickeado();
         void agregar_observador(Observador* observador);
@@ -22,6 +25,8 @@ class Label : public QLabel {
 
     private:
         std::string id;
+        int ancho;
+        int alto;
         Observador* observador;
 };
 

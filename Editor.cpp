@@ -1,6 +1,7 @@
 #include "Editor.h"
 // Cargo el archivo generado por uic, leer el CMakelist.txt para mas info
 #include "ui_Editor.h"
+#include <iostream>
 using std::string;
 
 Editor::Editor(QWidget *parent) : QWidget(parent) {
@@ -26,16 +27,22 @@ void Editor::label_mapa_clickeado(string id_label_mapa) {
 void Editor::label_mapa_enter_event(std::string id_label_mapa){
     // CAMBIAR
     if (this->tabs->get_id_label_clickeado() != "") {
+        int ancho = this->tabs->get_ancho_label_clickeado();
+        int alto = this->tabs->get_alto_label_clickeado();
+        this->mapa->set_marco_label_clickeado(id_label_mapa, ancho, alto);
+    } else {
         this->mapa->set_marco_mouse_enter(id_label_mapa);
-        return;
     }
 }
 
 void Editor::label_mapa_leave_event(std::string id_label_mapa) {
     // CAMBIAR
     if (this->tabs->get_id_label_clickeado() != "") {
+        int ancho = this->tabs->get_ancho_label_clickeado();
+        int alto = this->tabs->get_alto_label_clickeado();
+        this->mapa->borrar_marco_label_clickeado(id_label_mapa, ancho, alto);
+    } else {
         this->mapa->borrar_marco_mouse_enter(id_label_mapa);
-        return;
     }
 } 
 
