@@ -11,7 +11,7 @@ Mapa::Mapa(QWidget* parent) : parent(parent) {
     inicializar_mapa();
 }
 
-void Mapa::agregar_observador(Observador* observer) {
+void Mapa::agregar_observador(ObservadorMapa* observer) {
     this->observador = observer;
 }
 
@@ -22,8 +22,30 @@ void Mapa::actualizar_imagen(string id_label) {
     }
 }
 
-void Mapa::en_notificacion(string id_label) {
-    this->observador->en_notificacion(id_label);
+void Mapa::set_marco_mouse_enter(string id_label) {
+    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
+	if (it != this->mapa.end()) {
+        it->second->set_marco_mouse_enter();
+    }
+}
+
+void Mapa::borrar_marco_mouse_enter(string id_label) {
+    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
+	if (it != this->mapa.end()) {
+        it->second->borrar_marco_mouse_enter();
+    }
+}
+
+void Mapa::label_mapa_clickeado(std::string id_label_mapa) {
+    this->observador->label_mapa_clickeado(id_label_mapa);
+}
+
+void Mapa::label_mapa_enter_event(std::string id_label_mapa) {
+    this->observador->label_mapa_enter_event(id_label_mapa);
+}
+
+void Mapa::label_mapa_leave_event(std::string id_label_mapa) {
+    this->observador->label_mapa_leave_event(id_label_mapa);
 }
 
 void Mapa::inicializar_mapa() {

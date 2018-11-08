@@ -14,11 +14,30 @@ Editor::Editor(QWidget *parent) : QWidget(parent) {
     this->mapa->agregar_observador(this);
 }
 
-void Editor::en_notificacion(string id_label) {
+void Editor::label_mapa_clickeado(string id_label_mapa) {
+    // CAMBIAR
     if (this->tabs->get_id_label_clickeado() != "") {
-        this->mapa->actualizar_imagen(id_label);
-    } 
+        this->mapa->actualizar_imagen(id_label_mapa);
+        return;
+    }
+    
 }
+
+void Editor::label_mapa_enter_event(std::string id_label_mapa){
+    // CAMBIAR
+    if (this->tabs->get_id_label_clickeado() != "") {
+        this->mapa->set_marco_mouse_enter(id_label_mapa);
+        return;
+    }
+}
+
+void Editor::label_mapa_leave_event(std::string id_label_mapa) {
+    // CAMBIAR
+    if (this->tabs->get_id_label_clickeado() != "") {
+        this->mapa->borrar_marco_mouse_enter(id_label_mapa);
+        return;
+    }
+} 
 
 Editor::~Editor() {
     delete this->tabs;

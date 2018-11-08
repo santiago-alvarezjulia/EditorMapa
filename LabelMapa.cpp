@@ -14,7 +14,7 @@ void LabelMapa::actualizar_imagen(const QString& path_imagen) {
     this->setPixmap(QPixmap(path_imagen));
 }
 
-void LabelMapa::agregar_observador(Observador* observador_) {
+void LabelMapa::agregar_observador(ObservadorMapa* observador_) {
     this->observador = observador_;
 }
 
@@ -23,16 +23,24 @@ void LabelMapa::mousePressEvent(QMouseEvent* event) {
 }
 
 void LabelMapa::enterEvent(QEvent* event) {
+    this->observador->label_mapa_enter_event(this->id);
+}
+
+void LabelMapa::leaveEvent(QEvent* event) {
+    this->observador->label_mapa_leave_event(this->id);
+}
+
+void LabelMapa::set_marco_mouse_enter() {
     this->setFrameShape(QFrame::Panel);
     this->setLineWidth(2);
 }
 
-void LabelMapa::leaveEvent(QEvent* event) {
+void LabelMapa::borrar_marco_mouse_enter() {
     this->setLineWidth(0);
 }
 
 void LabelMapa::clickeado() {
-    this->observador->en_notificacion(this->id);
+    this->observador->label_mapa_clickeado(this->id);
 }
 
 LabelMapa::~LabelMapa() {}

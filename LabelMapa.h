@@ -4,13 +4,15 @@
 #include <QWidget>
 #include <QLabel>
 #include <string>
-#include "Observador.h"
+#include "ObservadorMapa.h"
 
 class LabelMapa : public QLabel {
     public:
 	    LabelMapa(const QString& text, std::string id, QWidget * parent = 0);
-        void agregar_observador(Observador* observador);
+        void agregar_observador(ObservadorMapa* observador);
         void actualizar_imagen(const QString& path_imagen);
+        void set_marco_mouse_enter();
+        void borrar_marco_mouse_enter();
         ~LabelMapa();
  
     signals:
@@ -23,7 +25,7 @@ class LabelMapa : public QLabel {
 
     private:
         std::string id;
-        Observador* observador;
+        ObservadorMapa* observador;
 };
 
 #endif // LABEL_H
