@@ -18,6 +18,28 @@ Mapa::Mapa(QWidget* parent) : parent(parent) {
     inicializar_mapa();
 }
 
+void Mapa::inicializar_mapa() {
+    QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
+    for (int i = 0; i < DIMENSION; ++i) {
+        for (int j = 0; j < DIMENSION; ++j) {
+            string id_label ("mapa");
+            id_label += DELIM_ID;
+            id_label += std::to_string(i);
+            id_label += DELIM_ID;
+            id_label += std::to_string(j);
+            LabelMapa* label_mapa = new LabelMapa("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/tablero.png", 
+                id_label, this->parent);
+            label_mapa->agregar_observador(this);
+            map_layout->addWidget(label_mapa, i + 1, j + 1);
+            this->mapa.emplace(id_label, label_mapa);
+        }
+    }
+
+    // junto los QLabel lo mas posible
+    map_layout->setSpacing(0);
+    map_layout->setContentsMargins(0, 0, 0, 0);
+}
+
 void Mapa::agregar_observador(ObservadorMapa* observer) {
     this->observador = observer;
 }
@@ -53,28 +75,6 @@ void Mapa::label_mapa_enter_event(std::string id_label_mapa) {
 
 void Mapa::label_mapa_leave_event(std::string id_label_mapa) {
     this->observador->label_mapa_leave_event(id_label_mapa);
-}
-
-void Mapa::inicializar_mapa() {
-    QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
-    for (int i = 0; i < DIMENSION; ++i) {
-        for (int j = 0; j < DIMENSION; ++j) {
-            string id_label ("mapa");
-            id_label += DELIM_ID;
-            id_label += std::to_string(i);
-            id_label += DELIM_ID;
-            id_label += std::to_string(j);
-            LabelMapa* label_mapa = new LabelMapa("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/tablero.png", 
-                id_label, this->parent);
-            label_mapa->agregar_observador(this);
-            map_layout->addWidget(label_mapa, i + 1, j + 1);
-            this->mapa.emplace(id_label, label_mapa);
-        }
-    }
-
-    // junto los QLabel lo mas posible
-    map_layout->setSpacing(0);
-    map_layout->setContentsMargins(0, 0, 0, 0);
 }
 
 void Mapa::set_marco_label_clickeado(std::string id_label, int ancho, 
@@ -122,5 +122,21 @@ vector<string> Mapa::split(const string& str, char delim) {
         elementos.emplace_back(item);
     }
     return elementos;
+}
+
+Mapa::~Mapa() {
+    for (int i = 0; i < DIMENSION; ++i) {
+        for (int j = 0; j < DIMENSION; ++j) {
+            string id_label ("mapa");
+            id_label += ',';
+            id_label += std::to_string(i);
+            id_label += ',';
+            id_label += std::to_string(j);
+            map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
+	        if (it != this->mapa.end()) {
+                delete it->second;
+            }
+        }
+    }
 }
         

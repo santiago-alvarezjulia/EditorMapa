@@ -23,6 +23,8 @@ class Mapa : public ObservadorMapa {
         void borrar_marco_label_clickeado(std::string id_label, int ancho, 
             int alto);
 
+        ~Mapa();
+
     private:
         QWidget* parent;
         ObservadorMapa* observador;

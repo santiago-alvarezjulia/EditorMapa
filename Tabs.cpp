@@ -78,7 +78,24 @@ void Tabs::agregar_terrenos() {
     }
     contenido_scroll_area->setLayout(terrenos_layout);
     
-    // junto los QLabel lo mas posible
+    // quiero a los QLabel separados
     terrenos_layout->setSpacing(0);
-    terrenos_layout->setContentsMargins(0, 0, 0, 0);
+}
+
+Tabs::~Tabs() {
+    int ancho_imagen_terrenos = this->imagen_terrenos.width() / 8;
+    int alto_imagen_terrenos = this->imagen_terrenos.height() / 8;
+    for (int i = 0; i < alto_imagen_terrenos; ++i) {
+        for (int j = 0; j < ancho_imagen_terrenos; ++j) {
+            string id_label ("terrenos");
+            id_label += ',';
+            id_label += std::to_string(i);
+            id_label += ',';
+            id_label += std::to_string(j);
+            map<string, Label*>::iterator it = this->tab_terrenos.find(id_label);
+	        if (it != this->tab_terrenos.end()) {
+                delete it->second;
+            }
+        }
+    }
 }
