@@ -5,7 +5,7 @@
 #include "LabelMapa.h"
 #include <sstream>
 #include <vector>
-#define DIMENSION 20
+#define DIMENSION 40
 #define DELIM_ID ','
 using std::string;
 using std::stringstream;

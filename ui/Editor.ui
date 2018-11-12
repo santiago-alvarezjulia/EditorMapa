@@ -31,111 +31,134 @@
        </layout>
       </item>
       <item>
-       <widget class="QTabWidget" name="tabWidget">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>10</width>
-          <height>10</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>500</width>
-          <height>500</height>
-         </size>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="tab_terrenos">
-         <attribute name="title">
-          <string>Terrenos</string>
-         </attribute>
-         <layout class="QGridLayout" name="gridLayout_5">
-          <item row="0" column="0">
-           <widget class="QScrollArea" name="scrollArea_terrenos">
-            <property name="widgetResizable">
-             <bool>true</bool>
-            </property>
-            <widget class="QWidget" name="scrollArea_widget_contents_terrenos">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>345</width>
-               <height>455</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <widget class="QWidget" name="gridLayoutWidget_5">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>331</width>
-                <height>451</height>
-               </rect>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>10</width>
+            <height>10</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>500</width>
+            <height>500</height>
+           </size>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tab_terrenos">
+           <attribute name="title">
+            <string>Terrenos</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="0">
+             <widget class="QScrollArea" name="scrollArea_terrenos">
+              <property name="widgetResizable">
+               <bool>true</bool>
               </property>
-              <layout class="QGridLayout" name="gridLayout_terrenos"/>
+              <widget class="QWidget" name="scrollArea_widget_contents_terrenos">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>343</width>
+                 <height>455</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <widget class="QWidget" name="gridLayoutWidget_5">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>331</width>
+                  <height>451</height>
+                 </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_terrenos"/>
+               </widget>
+              </widget>
              </widget>
-            </widget>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="tab_edificios">
-         <attribute name="title">
-          <string>Edificios</string>
-         </attribute>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <widget class="QScrollArea" name="scrollArea_edificios">
-            <property name="widgetResizable">
-             <bool>true</bool>
-            </property>
-            <widget class="QWidget" name="scrollArea_widget_contents_edificios">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>345</width>
-               <height>455</height>
-              </rect>
-             </property>
-             <widget class="QWidget" name="gridLayoutWidget_3">
-              <property name="geometry">
-               <rect>
-                <x>-1</x>
-                <y>-1</y>
-                <width>891</width>
-                <height>501</height>
-               </rect>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_edificios">
+           <attribute name="title">
+            <string>Edificios</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
+             <widget class="QScrollArea" name="scrollArea_edificios">
+              <property name="widgetResizable">
+               <bool>true</bool>
               </property>
-              <layout class="QGridLayout" name="gridLayout_edificios"/>
+              <widget class="QWidget" name="scrollArea_widget_contents_edificios">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>343</width>
+                 <height>245</height>
+                </rect>
+               </property>
+               <widget class="QWidget" name="gridLayoutWidget_3">
+                <property name="geometry">
+                 <rect>
+                  <x>-1</x>
+                  <y>-1</y>
+                  <width>891</width>
+                  <height>501</height>
+                 </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_edificios"/>
+               </widget>
+              </widget>
              </widget>
-            </widget>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="guardarButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>500</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>GUARDAR MAPA</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

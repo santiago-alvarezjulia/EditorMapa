@@ -7,7 +7,7 @@ using std::string;
 using std::map;
 
 Tabs::Tabs(QWidget* parent) : parent(parent) {
-    this->tab_terrenos = std::map<std::string, Label*>();
+    this->tab_terrenos = map<string, Label*>();
     this->id_label_clickeado = "";
     this->imagen_terrenos = QPixmap ("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/terrain/d2k_BLOXBASE.bmp");
     agregar_terrenos();
