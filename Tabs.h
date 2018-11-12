@@ -12,18 +12,16 @@ class Tabs : public Observador {
         std::string get_id_label_clickeado();
         int get_alto_label_clickeado();
         int get_ancho_label_clickeado();
+        QPixmap get_imagen_clickeado();
         virtual void en_notificacion(std::string id_label);
 
     private:
         QWidget* parent;
+        QPixmap imagen_terrenos;
         std::map<std::string, Label*> tab_terrenos;
-        std::map<std::string, Label*> tab_infanteria;
-        std::map<std::string, Label*> tab_vehiculos;
         std::string id_label_clickeado;
 
         void agregar_terrenos();
-        void agregar_infanteria();
-        void agregar_vehiculos();
 };
 
 #endif // TABS_H

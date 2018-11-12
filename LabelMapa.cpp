@@ -10,8 +10,8 @@ LabelMapa::LabelMapa(const QString& text, string id, QWidget* parent) : QLabel(p
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
-void LabelMapa::actualizar_imagen(const QString& path_imagen) {
-    this->setPixmap(QPixmap(path_imagen));
+void LabelMapa::actualizar_imagen(QPixmap& nueva_imagen) {
+    this->setPixmap(nueva_imagen.scaled(16, 16));
 }
 
 void LabelMapa::agregar_observador(ObservadorMapa* observador_) {

@@ -18,10 +18,10 @@ Editor::Editor(QWidget *parent) : QWidget(parent) {
 void Editor::label_mapa_clickeado(string id_label_mapa) {
     // CAMBIAR
     if (this->tabs->get_id_label_clickeado() != "") {
-        this->mapa->actualizar_imagen(id_label_mapa);
+        QPixmap nueva_imagen = this->tabs->get_imagen_clickeado();
+        this->mapa->actualizar_imagen(id_label_mapa, nueva_imagen);
         return;
     }
-    
 }
 
 void Editor::label_mapa_enter_event(std::string id_label_mapa){

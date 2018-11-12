@@ -10,7 +10,7 @@
 class Mapa : public ObservadorMapa {
     public:
         Mapa(QWidget* parent = 0);
-        void actualizar_imagen(std::string id_label);
+        void actualizar_imagen(std::string id_label, QPixmap& nueva_imagen);
         void set_marco_mouse_enter(std::string id_label);
         void borrar_marco_mouse_enter(std::string id_label);
         void agregar_observador(ObservadorMapa* observer);

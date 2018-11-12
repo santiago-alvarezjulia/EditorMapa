@@ -10,7 +10,7 @@ class LabelMapa : public QLabel {
     public:
 	    LabelMapa(const QString& text, std::string id, QWidget * parent = 0);
         void agregar_observador(ObservadorMapa* observador);
-        void actualizar_imagen(const QString& path_imagen);
+        void actualizar_imagen(QPixmap& nueva_imagen);
         void set_marco_mouse_enter();
         void borrar_marco_mouse_enter();
         ~LabelMapa();

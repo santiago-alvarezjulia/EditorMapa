@@ -22,10 +22,10 @@ void Mapa::agregar_observador(ObservadorMapa* observer) {
     this->observador = observer;
 }
 
-void Mapa::actualizar_imagen(string id_label) {
+void Mapa::actualizar_imagen(string id_label, QPixmap& nueva_imagen) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
-        it->second->actualizar_imagen("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/tablero_clickeado.png");
+        it->second->actualizar_imagen(nueva_imagen);
     }
 }
 
@@ -71,6 +71,10 @@ void Mapa::inicializar_mapa() {
             this->mapa.emplace(id_label, label_mapa);
         }
     }
+
+    // junto los QLabel lo mas posible
+    map_layout->setSpacing(0);
+    map_layout->setContentsMargins(0, 0, 0, 0);
 }
 
 void Mapa::set_marco_label_clickeado(std::string id_label, int ancho, 
