@@ -118,7 +118,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>343</width>
-                 <height>245</height>
+                 <height>455</height>
                 </rect>
                </property>
                <widget class="QWidget" name="gridLayoutWidget_3">
@@ -140,7 +140,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="guardarButton">
+         <widget class="QPushButton" name="botonGuardar">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
