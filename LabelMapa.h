@@ -8,9 +8,11 @@
 
 class LabelMapa : public QLabel {
     public:
-	    LabelMapa(const QString& text, std::string id, QWidget * parent = 0);
+	    LabelMapa(const QString& text, std::string id, int pos_x, int pos_y, 
+            std::string tipo, QWidget * parent = 0);
         void agregar_observador(ObservadorMapa* observador);
-        void actualizar_imagen(QPixmap& nueva_imagen);
+        void actualizar_data(QPixmap& nueva_imagen, int nueva_posicion_x,
+            int nueva_posicion_y, std::string nuevo_tipo);
         void set_marco_mouse_enter();
         void borrar_marco_mouse_enter();
         ~LabelMapa();
@@ -25,6 +27,9 @@ class LabelMapa : public QLabel {
 
     private:
         std::string id;
+        int posicion_x;
+        int posicion_y;
+        std::string tipo;
         ObservadorMapa* observador;
 };
 

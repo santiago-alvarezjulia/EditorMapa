@@ -10,18 +10,14 @@
 class Mapa : public ObservadorMapa {
     public:
         Mapa(QWidget* parent = 0);
-        void actualizar_imagen(std::string id_label, QPixmap& nueva_imagen);
+        void actualizar_data(std::string id_label, QPixmap& nueva_imagen, 
+            int nueva_posicion_x, int nueva_posicion_y, std::string nuevo_tipo);
         void set_marco_mouse_enter(std::string id_label);
         void borrar_marco_mouse_enter(std::string id_label);
         void agregar_observador(ObservadorMapa* observer);
         virtual void label_mapa_clickeado(std::string id_label_mapa);
         virtual void label_mapa_enter_event(std::string id_label_mapa);
         virtual void label_mapa_leave_event(std::string id_label_mapa);
-
-        void set_marco_label_clickeado(std::string id_label, int ancho, 
-            int alto);
-        void borrar_marco_label_clickeado(std::string id_label, int ancho, 
-            int alto);
 
         ~Mapa();
 

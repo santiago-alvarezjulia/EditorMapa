@@ -28,7 +28,7 @@ void Mapa::inicializar_mapa() {
             id_label += DELIM_ID;
             id_label += std::to_string(j);
             LabelMapa* label_mapa = new LabelMapa("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/tablero.png", 
-                id_label, this->parent);
+                id_label, -1, -1, "vacio", this->parent);
             label_mapa->agregar_observador(this);
             map_layout->addWidget(label_mapa, i + 1, j + 1);
             this->mapa.emplace(id_label, label_mapa);
@@ -44,10 +44,12 @@ void Mapa::agregar_observador(ObservadorMapa* observer) {
     this->observador = observer;
 }
 
-void Mapa::actualizar_imagen(string id_label, QPixmap& nueva_imagen) {
+void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen, 
+    int nueva_posicion_x, int nueva_posicion_y, string nuevo_tipo) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
-        it->second->actualizar_imagen(nueva_imagen);
+        it->second->actualizar_data(nueva_imagen, nueva_posicion_x, 
+            nueva_posicion_y, nuevo_tipo);
     }
 }
 
@@ -76,43 +78,6 @@ void Mapa::label_mapa_enter_event(std::string id_label_mapa) {
 void Mapa::label_mapa_leave_event(std::string id_label_mapa) {
     this->observador->label_mapa_leave_event(id_label_mapa);
 }
-
-void Mapa::set_marco_label_clickeado(std::string id_label, int ancho, 
-    int alto) {
-    vector<string> data_id = split(id_label, DELIM_ID);
-    int fila = std::stoi(data_id[1]);
-    int columna = std::stoi(data_id[2]);
-
-    for (int i = fila; i < (fila + ancho); ++i) {
-        for (int j = columna; j < (columna + alto); ++j) {
-            string label ("mapa");
-            label += DELIM_ID;
-            label += std::to_string(i);
-            label += DELIM_ID;
-            label += std::to_string(j);
-            this->set_marco_mouse_enter(label);
-        }
-    }
-}
-
-void Mapa::borrar_marco_label_clickeado(std::string id_label, int ancho, 
-    int alto) {
-    vector<string> data_id = split(id_label, DELIM_ID);
-    int fila = std::stoi(data_id[1]);
-    int columna = std::stoi(data_id[2]);
-
-    for (int i = fila; i < (fila + ancho); ++i) {
-        for (int j = columna; j < (columna + alto); ++j) {
-            string label ("mapa");
-            label += DELIM_ID;
-            label += std::to_string(i);
-            label += DELIM_ID;
-            label += std::to_string(j);
-            this->borrar_marco_mouse_enter(label);
-        }
-    }
-}
-
 
 vector<string> Mapa::split(const string& str, char delim) {
     stringstream ss(str);

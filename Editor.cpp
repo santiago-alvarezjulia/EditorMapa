@@ -18,34 +18,23 @@ Editor::Editor(QWidget *parent) : QWidget(parent) {
 }
 
 void Editor::label_mapa_clickeado(string id_label_mapa) {
-    // CAMBIAR
     if (this->tabs->get_id_label_clickeado() != "") {
         QPixmap nueva_imagen = this->tabs->get_imagen_clickeado();
-        this->mapa->actualizar_imagen(id_label_mapa, nueva_imagen);
+        int nueva_posicion_x = this->tabs->get_posicion_x_label_clickeado();
+        int nueva_posicion_y = this->tabs->get_posicion_y_label_clickeado();
+        string nuevo_tipo = this->tabs->get_tipo_label_clickeado();
+        this->mapa->actualizar_data(id_label_mapa, nueva_imagen, nueva_posicion_x,
+            nueva_posicion_y, nuevo_tipo);
         return;
     }
 }
 
 void Editor::label_mapa_enter_event(std::string id_label_mapa){
-    // CAMBIAR
-    if (this->tabs->get_id_label_clickeado() != "") {
-        int ancho = this->tabs->get_ancho_label_clickeado();
-        int alto = this->tabs->get_alto_label_clickeado();
-        this->mapa->set_marco_label_clickeado(id_label_mapa, ancho, alto);
-    } else {
-        this->mapa->set_marco_mouse_enter(id_label_mapa);
-    }
+    this->mapa->set_marco_mouse_enter(id_label_mapa);
 }
 
 void Editor::label_mapa_leave_event(std::string id_label_mapa) {
-    // CAMBIAR
-    if (this->tabs->get_id_label_clickeado() != "") {
-        int ancho = this->tabs->get_ancho_label_clickeado();
-        int alto = this->tabs->get_alto_label_clickeado();
-        this->mapa->borrar_marco_label_clickeado(id_label_mapa, ancho, alto);
-    } else {
-        this->mapa->borrar_marco_mouse_enter(id_label_mapa);
-    }
+    this->mapa->borrar_marco_mouse_enter(id_label_mapa);
 } 
 
 void Editor::conectar_boton_guardar() {

@@ -17,20 +17,28 @@ string Tabs::get_id_label_clickeado() {
     return this->id_label_clickeado;
 }
 
-int Tabs::get_ancho_label_clickeado() {
+int Tabs::get_posicion_x_label_clickeado() {
     map<string, Label*>::iterator it = this->tab_terrenos.find(this->id_label_clickeado);
 	if (it != this->tab_terrenos.end()) {
-        return it->second->get_ancho();
+        return it->second->get_posicion_x();
     }
     return 0;
 }
 
-int Tabs::get_alto_label_clickeado() {
+int Tabs::get_posicion_y_label_clickeado() {
     map<string, Label*>::iterator it = this->tab_terrenos.find(this->id_label_clickeado);
 	if (it != this->tab_terrenos.end()) {
-        return it->second->get_alto();
+        return it->second->get_posicion_y();
     }
     return 0;
+}
+
+string Tabs::get_tipo_label_clickeado() {
+    map<string, Label*>::iterator it = this->tab_terrenos.find(this->id_label_clickeado);
+	if (it != this->tab_terrenos.end()) {
+        return it->second->get_tipo();
+    }
+    return "";
 }
 
 QPixmap Tabs::get_imagen_clickeado() {
@@ -69,8 +77,8 @@ void Tabs::agregar_terrenos() {
             id_label += std::to_string(i);
             id_label += ',';
             id_label += std::to_string(j);
-            Label* label = new Label(this->imagen_terrenos, id_label, 1, 1, 
-                i * 8, j * 8, this->parent);
+            Label* label = new Label(this->imagen_terrenos, id_label, i * 8, 
+                j * 8, this->parent);
             label->agregar_observador(this);
             terrenos_layout->addWidget(label, i + 1, j + 1);
             this->tab_terrenos.emplace(id_label, label);
