@@ -45,6 +45,10 @@ bool Mapa::es_valido() {
     return false;
 }
 
+void Mapa::generar_json() {
+    // IMPLEMENTAR
+}
+
 void Mapa::agregar_observador(ObservadorMapa* observer) {
     this->observador = observer;
 }

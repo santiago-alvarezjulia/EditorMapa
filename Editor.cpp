@@ -46,11 +46,12 @@ void Editor::conectar_boton_guardar() {
 }
 
 void Editor::guardar_mapa() {
-    std::cout << "guardar_mapa" << std::endl;
     bool es_mapa_valido = this->mapa->es_valido();
     if (!es_mapa_valido) {
         QMessageBox::critical(this, "Error al guardar mapa", "Existen celdas vacías");
+        return;
     }
+    this->mapa->generar_json();
 }
 
 Editor::~Editor() {
