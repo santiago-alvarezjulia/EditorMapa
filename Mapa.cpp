@@ -30,7 +30,7 @@ void Mapa::inicializar_mapa() {
             LabelMapa* label_mapa = new LabelMapa("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/tablero.png", 
                 id_label, -1, -1, "vacio", this->parent);
             label_mapa->agregar_observador(this);
-            map_layout->addWidget(label_mapa, i + 1, j + 1);
+            map_layout->addWidget(label_mapa, i, j);
             this->mapa.emplace(id_label, label_mapa);
         }
     }
@@ -38,6 +38,11 @@ void Mapa::inicializar_mapa() {
     // junto los QLabel lo mas posible
     map_layout->setSpacing(0);
     map_layout->setContentsMargins(0, 0, 0, 0);
+}
+
+bool Mapa::es_valido() {
+    // IMPLEMENTAR
+    return false;
 }
 
 void Mapa::agregar_observador(ObservadorMapa* observer) {

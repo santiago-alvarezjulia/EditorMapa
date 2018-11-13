@@ -2,6 +2,7 @@
 // Cargo el archivo generado por uic, leer el CMakelist.txt para mas info
 #include "ui_Editor.h"
 #include <iostream>
+#include <QMessageBox>
 using std::string;
 
 Editor::Editor(QWidget *parent) : QWidget(parent) {
@@ -46,6 +47,10 @@ void Editor::conectar_boton_guardar() {
 
 void Editor::guardar_mapa() {
     std::cout << "guardar_mapa" << std::endl;
+    bool es_mapa_valido = this->mapa->es_valido();
+    if (!es_mapa_valido) {
+        QMessageBox::critical(this, "Error al guardar mapa", "Existen celdas vacías");
+    }
 }
 
 Editor::~Editor() {
