@@ -77,9 +77,6 @@ void Tabs::agregar_terrenos() {
         }
     }
     contenido_scroll_area->setLayout(terrenos_layout);
-    
-    // quiero a los QLabel separados
-    terrenos_layout->setSpacing(0);
 }
 
 Tabs::~Tabs() {
