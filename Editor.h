@@ -17,6 +17,8 @@ class Editor : public QWidget, ObservadorMapa {
     private:
         Mapa* mapa;
         Tabs* tabs;
+        void conectar_boton_guardar();
+        void guardar_mapa();
 };
 
 #endif // EDITOR_H
