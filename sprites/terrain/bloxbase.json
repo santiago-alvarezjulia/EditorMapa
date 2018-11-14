@@ -1,0 +1,60 @@
+[
+    {
+        "id": "defecto",
+        "nombre": "-",
+        "sprite_base": {
+            "x": 0,
+            "y": 0,
+            "size_x": 8,
+            "size_y": 8
+        }
+    },
+    {
+        "id": "arena",
+        "nombre": "Arena",
+        "sprite_base": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    {
+        "id": "roca",
+        "nombre": "Roca",
+        "sprite_base": {
+            "x": 120,
+            "y": 224
+        }
+    },
+    {
+        "id": "duna",
+        "nombre": "Duna",
+        "sprite_base": {
+            "x": 8,
+            "y": 0
+        }
+    },
+    {
+        "id": "especia",
+        "nombre": "Especia",
+        "sprite_base": {
+            "x": 64,
+            "y": 296
+        }
+    },
+    {
+        "id": "precipicio",
+        "nombre": "Precipio",
+        "sprite_base": {
+            "x": 96,
+            "y": 192
+        }
+    },
+    {
+        "id": "cima",
+        "nombre": "Cima",
+        "sprite_base": {
+            "x": 0,
+            "y": 280
+        }
+    }
+]
