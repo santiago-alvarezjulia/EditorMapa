@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>764</width>
+    <width>766</width>
     <height>614</height>
    </rect>
   </property>
@@ -70,7 +70,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>343</width>
+                 <width>344</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -117,8 +117,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>344</width>
+                 <height>455</height>
                 </rect>
                </property>
                <widget class="QWidget" name="gridLayoutWidget_3">
@@ -137,6 +137,13 @@
             </item>
            </layout>
           </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="botonCargarMapa">
+          <property name="text">
+           <string>CARGAR MAPA</string>
+          </property>
          </widget>
         </item>
         <item>

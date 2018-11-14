@@ -27,7 +27,7 @@ void Mapa::inicializar_mapa() {
             id_label += std::to_string(i);
             id_label += DELIM_ID;
             id_label += std::to_string(j);
-            LabelMapa* label_mapa = new LabelMapa("/home/santiago/Documentos/editor mapa/EditorMapa/sprites/tablero.png", 
+            LabelMapa* label_mapa = new LabelMapa("../sprites/tablero.png", 
                 id_label, -1, -1, "vacio", this->parent);
             label_mapa->agregar_observador(this);
             map_layout->addWidget(label_mapa, i, j);

@@ -3,6 +3,7 @@
 #include "ui_Editor.h"
 #include <iostream>
 #include <QMessageBox>
+#include <QFileDialog>
 using std::string;
 
 Editor::Editor(QWidget *parent) : QWidget(parent) {
@@ -15,7 +16,7 @@ Editor::Editor(QWidget *parent) : QWidget(parent) {
     this->mapa = new Mapa(this);
     this->mapa->agregar_observador(this);
 
-    conectar_boton_guardar();
+    conectar_botones();
 }
 
 void Editor::label_mapa_clickeado(string id_label_mapa) {
@@ -38,11 +39,16 @@ void Editor::label_mapa_leave_event(std::string id_label_mapa) {
     this->mapa->borrar_marco_mouse_enter(id_label_mapa);
 } 
 
-void Editor::conectar_boton_guardar() {
-    // Conecto el evento del boton
+void Editor::conectar_botones() {
+    // Conecto el evento del boton guardar mapa
     QPushButton* boton_guardar_mapa = findChild<QPushButton*>("botonGuardarMapa");
     QObject::connect(boton_guardar_mapa, &QPushButton::clicked,
                      this, &Editor::guardar_mapa);
+
+    // Conecto el evento del boton cargar mapa
+    QPushButton* boton_cargar_mapa = findChild<QPushButton*>("botonCargarMapa");
+    QObject::connect(boton_cargar_mapa, &QPushButton::clicked,
+                     this, &Editor::cargar_mapa);
 }
 
 void Editor::guardar_mapa() {
@@ -52,6 +58,16 @@ void Editor::guardar_mapa() {
         return;
     }
     this->mapa->generar_json();
+}
+
+void Editor::cargar_mapa() {
+    // filename incluye el filepath completo
+    QString filename = QFileDialog::getOpenFileName(this, "Seleccionar un mapa", "", "JSON files (*.json)");
+    if (filename.isNull()) {
+        // toco cancelar
+        return;
+    }
+    // cargar mapa
 }
 
 Editor::~Editor() {
