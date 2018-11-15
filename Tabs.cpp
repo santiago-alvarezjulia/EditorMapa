@@ -116,8 +116,9 @@ void Tabs::agregar_terrenos() {
         for (int i = 0; it_tiles != elem["pos_tiles"].end(); ++it_tiles) {
             json tile = *it;
 
-            Label* label = new Label(this->imagen_terrenos, tile["pos_tiles"][i]["id"], elem["tipo"],
-                tile["pos_tiles"][i]["x"], tile["pos_tiles"][i]["y"], this->parent);
+            Label* label = new Label(this->imagen_terrenos, tile["pos_tiles"][i]["id"], 
+                elem["tipo"], tile["pos_tiles"][i]["x"], tile["pos_tiles"][i]["y"], 
+                this->parent);
            
             label->agregar_observador(this);
 
