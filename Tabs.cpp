@@ -5,6 +5,7 @@
 #include "Label.h"
 #include "libs/json.hpp"
 #include <fstream>
+#define MAX_COLUMNA 8
 using std::string;
 using std::map;
 using nlohmann::json;
@@ -102,46 +103,46 @@ void Tabs::agregar_terrenos() {
     auto it = edificios_json.begin();
     const json& valores_por_defecto = *it;
     ++it;
-    int cont_a = 0;
-    int cont_c = 0;
-    int cont_r = 0;
-    int cont_p = 0;
-    int cont_e = 0;
-    int cont_d = 0;
-    for(; it != edificios_json.end(); ++it) {
+    for (; it != edificios_json.end(); ++it) {
         // Mergear valores por defecto con el elemento actual
         json elem = valores_por_defecto;
         elem.update(*it);
 
+        // valores donde ubicar los label dentro de los gridLayout
+        int columna = 0;
+        int fila = 0;
+
         auto it_tiles = elem["pos_tiles"].begin();
-        for(int i = 0; it_tiles != elem["pos_tiles"].end(); ++it_tiles) {
+        for (int i = 0; it_tiles != elem["pos_tiles"].end(); ++it_tiles) {
             json tile = *it;
 
             Label* label = new Label(this->imagen_terrenos, tile["pos_tiles"][i]["id"], elem["tipo"],
                 tile["pos_tiles"][i]["x"], tile["pos_tiles"][i]["y"], this->parent);
+           
             label->agregar_observador(this);
+
+            // me fijo de que tipo es y lo agrego al widget correspondiente
             if (elem["tipo"] == "cima") {
-                cima_layout->addWidget(label, 0, cont_c);
-                cont_c++;
+                cima_layout->addWidget(label, fila, columna);
             } else if (elem["tipo"] == "arena"){
-                arena_layout->addWidget(label, 0, cont_a);
-                cont_a++;
+                arena_layout->addWidget(label, fila, columna);
             } else if (elem["tipo"] == "roca"){
-                roca_layout->addWidget(label, 0, cont_r);
-                cont_r++;
+                roca_layout->addWidget(label, fila, columna);
             } else if (elem["tipo"] == "precipicio"){
-                precipicio_layout->addWidget(label, 0, cont_p);
-                cont_p++;
+                precipicio_layout->addWidget(label, fila, columna);
             } else if (elem["tipo"] == "especia"){
-                especia_layout->addWidget(label, 0, cont_e);
-                cont_e++;
+                especia_layout->addWidget(label, fila, columna);
             } else if (elem["tipo"] == "duna"){
-                duna_layout->addWidget(label, 0, cont_d);
-                cont_d++;
+                duna_layout->addWidget(label, fila, columna);
             } 
         
             this->tabs_terrenos.emplace(tile["pos_tiles"][i]["id"], label);
             i++;
+            columna++;
+            if (columna == MAX_COLUMNA) {
+                columna = 0;
+                fila++;
+            }
         }
     }
 
