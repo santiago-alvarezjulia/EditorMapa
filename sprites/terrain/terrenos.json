@@ -2,7 +2,9 @@
     {
         "id": "defecto",
         "nombre": "-",
-        "sprite_base": {
+        "nombre_archivo": "d2k_BLOXBASE.bmp",
+        "tipo" : "-",
+        "pos_tile": {
             "x": 0,
             "y": 0,
             "size_x": 8,
@@ -10,49 +12,55 @@
         }
     },
     {
-        "id": "arena",
+        "id": "arena1",
         "nombre": "Arena",
-        "sprite_base": {
+        "tipo" : "arena",
+        "pos_tile": {
             "x": 0,
             "y": 0
         }
     },
     {
-        "id": "roca",
+        "id": "roca1",
         "nombre": "Roca",
-        "sprite_base": {
+        "tipo" : "roca",
+        "pos_tile": {
             "x": 120,
             "y": 224
         }
     },
     {
-        "id": "duna",
+        "id": "duna1",
         "nombre": "Duna",
-        "sprite_base": {
+        "tipo" : "duna",
+        "pos_tile": {
             "x": 8,
             "y": 0
         }
     },
     {
-        "id": "especia",
+        "id": "especia1",
         "nombre": "Especia",
-        "sprite_base": {
+        "tipo" : "especia",
+        "pos_tile": {
             "x": 64,
             "y": 296
         }
     },
     {
-        "id": "precipicio",
+        "id": "precipicio1",
         "nombre": "Precipio",
-        "sprite_base": {
+        "tipo" : "precipicio",
+        "pos_tile": {
             "x": 96,
             "y": 192
         }
     },
     {
-        "id": "cima",
+        "id": "cima1",
         "nombre": "Cima",
-        "sprite_base": {
+        "tipo" : "cima",
+        "pos_tile": {
             "x": 0,
             "y": 280
         }

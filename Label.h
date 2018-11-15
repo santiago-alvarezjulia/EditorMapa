@@ -8,8 +8,8 @@
 
 class Label : public QLabel {
     public:
-	    Label(QPixmap& terrenos, std::string id, int posicion_x, int posicion_y, 
-            QWidget* parent = 0);
+	    Label(QPixmap& terrenos, std::string id, std::string tipo, int posicion_x, 
+            int posicion_y, QWidget* parent = 0);
         int get_posicion_x();
         int get_posicion_y();
         std::string get_tipo();

@@ -3,13 +3,12 @@
 #include <iostream>
 using std::string;
 
-Label::Label(QPixmap& terrenos, string id, int x, int y, QWidget* parent) : 
-    QLabel(parent), id(id), x(x), y(y), terrenos(terrenos) {
-    // hardcodeo tipo por ahora
-    this->tipo = "arena";
-    // 16x16 para que sea mas grande
+Label::Label(QPixmap& terrenos, string id, string tipo, int x, int y, 
+    QWidget* parent) :  QLabel(parent), id(id), x(x), y(y), terrenos(terrenos) {
+    this->tipo = tipo;
+    // 16x16 para que sea vea mas grande
     this->setFixedSize(16, 16);
-    QRect rect(y, x, 8, 8);
+    QRect rect(x, y, 8, 8);
     // copio de la imagen completa de terrenos un cuadrado de 8x8
     QPixmap cropped = terrenos.copy(rect);
     // escalo la imagen a 16x16 para coincidir con tamaño del label
@@ -30,7 +29,7 @@ string Label::get_tipo() {
 }
 
 QPixmap Label::get_imagen() {
-    QRect rect(this->y, this->x, 8, 8);
+    QRect rect(this->x, this->y, 8, 8);
     QPixmap cropped (this->terrenos.copy(rect));
     return cropped.scaled(16, 16);
 }

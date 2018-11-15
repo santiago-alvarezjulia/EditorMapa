@@ -53,11 +53,11 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
-          <widget class="QWidget" name="tab_terrenos">
+          <widget class="QWidget" name="tab_arenas">
            <attribute name="title">
-            <string>Terrenos</string>
+            <string>Arenas</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_5">
             <item row="0" column="0">
@@ -65,7 +65,7 @@
               <property name="widgetResizable">
                <bool>true</bool>
               </property>
-              <widget class="QWidget" name="scrollArea_widget_contents_terrenos">
+              <widget class="QWidget" name="scrollArea_widget_arena">
                <property name="geometry">
                 <rect>
                  <x>0</x>
@@ -95,16 +95,16 @@
                   <height>451</height>
                  </rect>
                 </property>
-                <layout class="QGridLayout" name="gridLayout_terrenos"/>
+                <layout class="QGridLayout" name="gridLayout_arena"/>
                </widget>
               </widget>
              </widget>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_edificios">
+          <widget class="QWidget" name="tab_cimas">
            <attribute name="title">
-            <string>Edificios</string>
+            <string>Cimas</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="0" column="0">
@@ -112,7 +112,7 @@
               <property name="widgetResizable">
                <bool>true</bool>
               </property>
-              <widget class="QWidget" name="scrollArea_widget_contents_edificios">
+              <widget class="QWidget" name="scrollArea_widget_cima">
                <property name="geometry">
                 <rect>
                  <x>0</x>
@@ -130,7 +130,7 @@
                   <height>501</height>
                  </rect>
                 </property>
-                <layout class="QGridLayout" name="gridLayout_edificios"/>
+                <layout class="QGridLayout" name="gridLayout_cima"/>
                </widget>
               </widget>
              </widget>

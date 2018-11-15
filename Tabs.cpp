@@ -3,8 +3,11 @@
 #include <QWidget>
 #include <QGridLayout>
 #include "Label.h"
+#include "libs/json.hpp"
+#include <fstream>
 using std::string;
 using std::map;
+using nlohmann::json;
 
 Tabs::Tabs(QWidget* parent) : parent(parent) {
     this->tab_terrenos = map<string, Label*>();
@@ -66,25 +69,42 @@ void Tabs::en_notificacion(std::string id_label) {
 }
 
 void Tabs::agregar_terrenos() {
-    QGridLayout* terrenos_layout = this->parent->findChild<QGridLayout*>("gridLayout_terrenos");
-    QWidget* contenido_scroll_area = this->parent->findChild<QWidget*>("scrollArea_widget_contents_terrenos");
-    int ancho_imagen_terrenos = this->imagen_terrenos.width() / 8;
-    int alto_imagen_terrenos = this->imagen_terrenos.height() / 8;
-    for (int i = 0; i < alto_imagen_terrenos; ++i) {
-        for (int j = 0; j < ancho_imagen_terrenos; ++j) {
-            string id_label ("terrenos");
-            id_label += ',';
-            id_label += std::to_string(i);
-            id_label += ',';
-            id_label += std::to_string(j);
-            Label* label = new Label(this->imagen_terrenos, id_label, i * 8, 
-                j * 8, this->parent);
-            label->agregar_observador(this);
-            terrenos_layout->addWidget(label, i + 1, j + 1);
-            this->tab_terrenos.emplace(id_label, label);
+    // getteo el layout y el widget de Arena
+    QGridLayout* arena_layout = this->parent->findChild<QGridLayout*>("gridLayout_arena");
+    QWidget* scroll_area_arena = this->parent->findChild<QWidget*>("scrollArea_widget_arena");
+
+    // getteo el layout y el widget de Cima
+    QGridLayout* cima_layout = this->parent->findChild<QGridLayout*>("gridLayout_cima");
+    QWidget* scroll_area_cima = this->parent->findChild<QWidget*>("scrollArea_widget_cima");
+    
+    std::ifstream entrada("../sprites/terrain/terrenos.json");
+
+    json edificios_json;
+
+    entrada >> edificios_json;
+
+    auto it = edificios_json.begin();
+    const json& valores_por_defecto = *it;
+    ++it;
+    for(int i = 0; it != edificios_json.end(); ++it) {
+        // Mergear valores por defecto con el elemento actual
+        json elem = valores_por_defecto;
+        elem.update(*it);
+        Label* label = new Label(this->imagen_terrenos, elem["id"], elem["tipo"],
+            elem["pos_tile"]["x"], elem["pos_tile"]["y"], this->parent);
+        label->agregar_observador(this);
+        if (elem["tipo"] == "cima") {
+            cima_layout->addWidget(label, 0, i + 1);
+        } else {
+            arena_layout->addWidget(label, 0, i + 1);
         }
+        
+        this->tab_terrenos.emplace(elem["id"], label);
+        i++;
     }
-    contenido_scroll_area->setLayout(terrenos_layout);
+
+    scroll_area_arena->setLayout(arena_layout);
+    scroll_area_cima->setLayout(cima_layout);
 }
 
 Tabs::~Tabs() {

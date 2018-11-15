@@ -3,7 +3,9 @@
 #include <QWidget>
 #include <QGridLayout>
 #include "LabelMapa.h"
+#include "libs/json.hpp"
 #include <sstream>
+#include <fstream>
 #include <vector>
 #define DIMENSION 40
 #define DELIM_ID ','
@@ -12,6 +14,7 @@ using std::stringstream;
 using std::getline;
 using std::vector;
 using std::map;
+using nlohmann::json;
 
 Mapa::Mapa(QWidget* parent) : parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
