@@ -1,68 +1,90 @@
 [
     {
-        "id": "defecto",
-        "nombre": "-",
         "nombre_archivo": "d2k_BLOXBASE.bmp",
         "tipo" : "-",
-        "pos_tile": {
-            "x": 0,
-            "y": 0,
-            "size_x": 8,
-            "size_y": 8
-        }
+        "size_x": 8,
+        "size_y": 8,
+        "pos_tiles": [
+            {
+                "id": "-",
+                "x": 0,
+                "y": 0
+            }
+        ]
     },
     {
-        "id": "arena1",
-        "nombre": "Arena",
         "tipo" : "arena",
-        "pos_tile": {
-            "x": 0,
-            "y": 0
-        }
+        "pos_tiles": [
+            {
+                "id": "arena1",
+                "x": 0,
+                "y": 0
+            }
+        ]
     },
     {
-        "id": "roca1",
-        "nombre": "Roca",
         "tipo" : "roca",
-        "pos_tile": {
-            "x": 120,
-            "y": 224
-        }
+        "pos_tiles": [
+            {   
+                "id": "roca1",
+                "x": 120,
+                "y": 224
+            }
+        ]
     },
     {
-        "id": "duna1",
-        "nombre": "Duna",
         "tipo" : "duna",
-        "pos_tile": {
-            "x": 8,
-            "y": 0
-        }
+        "pos_tiles": [
+            {
+                "id": "duna1",
+                "x": 8,
+                "y": 0
+            }
+        ]
     },
     {
-        "id": "especia1",
-        "nombre": "Especia",
         "tipo" : "especia",
-        "pos_tile": {
-            "x": 64,
-            "y": 296
-        }
+        "pos_tiles": [
+            {
+                "id": "especia1",
+                "x": 64,
+                "y": 296
+            }
+        ]
     },
     {
-        "id": "precipicio1",
-        "nombre": "Precipio",
         "tipo" : "precipicio",
-        "pos_tile": {
-            "x": 96,
-            "y": 192
-        }
+        "pos_tiles": [
+            {
+                "id": "precipicio1",
+                "x": 96,
+                "y": 192
+            }
+        ]
     },
     {
-        "id": "cima1",
-        "nombre": "Cima",
         "tipo" : "cima",
-        "pos_tile": {
-            "x": 0,
-            "y": 280
-        }
+        "pos_tiles": [
+            {
+                "id": "cima1",
+                "x": 0,
+                "y": 280
+            },
+            {
+                "id": "cima2",
+                "x": 8,
+                "y": 280
+            },
+            {
+                "id": "cima3",
+                "x": 16,
+                "y": 280
+            },
+            {
+                "id": "cima4",
+                "x": 24,
+                "y": 280
+            }
+        ]
     }
 ]

@@ -112,30 +112,37 @@ void Tabs::agregar_terrenos() {
         // Mergear valores por defecto con el elemento actual
         json elem = valores_por_defecto;
         elem.update(*it);
-        Label* label = new Label(this->imagen_terrenos, elem["id"], elem["tipo"],
-            elem["pos_tile"]["x"], elem["pos_tile"]["y"], this->parent);
-        label->agregar_observador(this);
-        if (elem["tipo"] == "cima") {
-            cima_layout->addWidget(label, 0, cont_c);
-            cont_c++;
-        } else if (elem["tipo"] == "arena"){
-            arena_layout->addWidget(label, 0, cont_a);
-            cont_a++;
-        } else if (elem["tipo"] == "roca"){
-            roca_layout->addWidget(label, 0, cont_r);
-            cont_r++;
-        } else if (elem["tipo"] == "precipicio"){
-            precipicio_layout->addWidget(label, 0, cont_p);
-            cont_p++;
-        } else if (elem["tipo"] == "especia"){
-            especia_layout->addWidget(label, 0, cont_e);
-            cont_e++;
-        } else if (elem["tipo"] == "duna"){
-            duna_layout->addWidget(label, 0, cont_d);
-            cont_d++;
-        } 
+
+        auto it_tiles = elem["pos_tiles"].begin();
+        for(int i = 0; it_tiles != elem["pos_tiles"].end(); ++it_tiles) {
+            json tile = *it;
+
+            Label* label = new Label(this->imagen_terrenos, tile["pos_tiles"][i]["id"], elem["tipo"],
+                tile["pos_tiles"][i]["x"], tile["pos_tiles"][i]["y"], this->parent);
+            label->agregar_observador(this);
+            if (elem["tipo"] == "cima") {
+                cima_layout->addWidget(label, 0, cont_c);
+                cont_c++;
+            } else if (elem["tipo"] == "arena"){
+                arena_layout->addWidget(label, 0, cont_a);
+                cont_a++;
+            } else if (elem["tipo"] == "roca"){
+                roca_layout->addWidget(label, 0, cont_r);
+                cont_r++;
+            } else if (elem["tipo"] == "precipicio"){
+                precipicio_layout->addWidget(label, 0, cont_p);
+                cont_p++;
+            } else if (elem["tipo"] == "especia"){
+                especia_layout->addWidget(label, 0, cont_e);
+                cont_e++;
+            } else if (elem["tipo"] == "duna"){
+                duna_layout->addWidget(label, 0, cont_d);
+                cont_d++;
+            } 
         
-        this->tabs_terrenos.emplace(elem["id"], label);
+            this->tabs_terrenos.emplace(tile["pos_tiles"][i]["id"], label);
+            i++;
+        }
     }
 
     scroll_area_arena->setLayout(arena_layout);
