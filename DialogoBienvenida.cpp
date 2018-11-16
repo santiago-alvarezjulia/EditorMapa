@@ -6,6 +6,8 @@
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QDialogButtonBox>
+#include <QFileDialog>
+#include "Editor.h"
 
 DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {}
 
@@ -33,13 +35,24 @@ void DialogoBienvenida::mostrar_dialog_dimension_mapa() {
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
         // If the user didn't dismiss the dialog, do something with the fields
-        std::cout << "caca" << std::endl;
+        std::cout << "aceptado" << std::endl;
+        
+        Editor* editor = new Editor (line_edit_filas.text().toInt(), 
+            line_edit_columnas.text().toInt(), 0);
+        editor->show();
+
         this->close();
     }
 }
 
 void DialogoBienvenida::cargar_mapa() {
-    mostrar_dialog_dimension_mapa();
+    // filename incluye el filepath completo
+    QString filename = QFileDialog::getOpenFileName(this, "Seleccionar un mapa", "", "JSON files (*.json)");
+    if (filename.isNull()) {
+        // toco cancelar
+        return;
+    }
+    // cargar mapa
 }
 
 DialogoBienvenida::~DialogoBienvenida() {

@@ -30,10 +30,7 @@ int main(int argc, char *argv[]) {
     QObject::connect(&boton_cargar_mapa, &QPushButton::clicked,
         &dialogo, &DialogoBienvenida::cargar_mapa);
 
-    Editor editor;
-
-    editor.show();
-    dialogo.exec();
+    dialogo.show();
 
     // Arranca el loop de la UI
     return app.exec();

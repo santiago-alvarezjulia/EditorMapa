@@ -10,15 +10,18 @@
 #include "DialogoBienvenida.h"
 using std::string;
 
-Editor::Editor(QWidget *parent) : QWidget(parent) {
+Editor::Editor(int filas, int columnas, QWidget *parent) : QWidget(parent, 
+    Qt::Window) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para use esa configuracion
     editor.setupUi(this);
-    
-    this->tabs = new Tabs(this);
-}
 
+    this->tabs = new Tabs(this);
+
+    this->mapa = new Mapa(filas, columnas, this);
+    this->mapa->agregar_observador(this);
+}
 
 void Editor::mostrar_dialog_dimension_mapa() {
     QDialog dialog (this);
