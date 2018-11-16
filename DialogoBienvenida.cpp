@@ -11,11 +11,11 @@
 
 DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {}
 
-void DialogoBienvenida::mostrar_dialog_dimension_mapa() {
+void DialogoBienvenida::crear_mapa() {
     QDialog dialog (this);
     QFormLayout form_layout (&dialog);
 
-    QLabel titulo ("Elegir dimension del mapa");
+    QLabel titulo ("Crear mapa");
     form_layout.addRow(&titulo);
 
     QString descripcion_filas ("Filas");
@@ -26,19 +26,20 @@ void DialogoBienvenida::mostrar_dialog_dimension_mapa() {
     QLineEdit line_edit_columnas (&dialog);
     form_layout.addRow(descripcion_columnas, &line_edit_columnas);
 
+    QString descripcion_cant_jugadores ("Cantidad de jugadores");
+    QLineEdit line_edit_cant_jugadores (&dialog);
+    form_layout.addRow(descripcion_cant_jugadores, &line_edit_cant_jugadores);
+
     QDialogButtonBox box_botones (QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
                            Qt::Horizontal, &dialog);
     form_layout.addRow(&box_botones);
     QObject::connect(&box_botones, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(&box_botones, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
-        // If the user didn't dismiss the dialog, do something with the fields
-        std::cout << "aceptado" << std::endl;
-        
         Editor* editor = new Editor (line_edit_filas.text().toInt(), 
-            line_edit_columnas.text().toInt(), 0);
+            line_edit_columnas.text().toInt(), line_edit_cant_jugadores.text().toInt(),
+            0);
         editor->show();
 
         this->close();
@@ -47,9 +48,10 @@ void DialogoBienvenida::mostrar_dialog_dimension_mapa() {
 
 void DialogoBienvenida::cargar_mapa() {
     // filename incluye el filepath completo
-    QString filename = QFileDialog::getOpenFileName(this, "Seleccionar un mapa", "", "JSON files (*.json)");
+    QString filename = QFileDialog::getOpenFileName(this, 
+        "Seleccionar un mapa", "", "JSON files (*.json)");
     if (filename.isNull()) {
-        // toco cancelar
+        // toco cancelar o no eligio ninguna foto
         return;
     }
     // cargar mapa

@@ -6,7 +6,7 @@
 class DialogoBienvenida : public QDialog {
     public:
         explicit DialogoBienvenida(QWidget *parent = 0);
-        void mostrar_dialog_dimension_mapa();
+        void crear_mapa();
         void cargar_mapa();
         ~DialogoBienvenida(); 
 };

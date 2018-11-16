@@ -14,62 +14,9 @@ Tabs::Tabs(QWidget* parent) : parent(parent) {
     this->tabs_terrenos = map<string, Label*>();
     this->id_label_clickeado = "";
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
-    agregar_terrenos();
 }
 
-string Tabs::get_id_label_clickeado() {
-    return this->id_label_clickeado;
-}
-
-int Tabs::get_posicion_x_label_clickeado() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
-	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_posicion_x();
-    }
-    return 0;
-}
-
-int Tabs::get_posicion_y_label_clickeado() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
-	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_posicion_y();
-    }
-    return 0;
-}
-
-string Tabs::get_tipo_label_clickeado() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
-	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_tipo();
-    }
-    return "";
-}
-
-QPixmap Tabs::get_imagen_clickeado() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
-	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_imagen();
-    }
-}
-
-void Tabs::en_notificacion(std::string id_label) {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(id_label);
-	if (it != this->tabs_terrenos.end()) {
-        if (this->id_label_clickeado == id_label) {
-            it->second->borrar_marco_clickeado();
-            this->id_label_clickeado = "";
-        } else {
-            it->second->set_marco_clickeado();
-            map<string, Label*>::iterator it2 = this->tabs_terrenos.find(this->id_label_clickeado);
-	        if (it2 != this->tabs_terrenos.end()) {
-                it2->second->borrar_marco_clickeado();
-            }
-            this->id_label_clickeado = id_label;
-        }
-    }
-}
-
-void Tabs::agregar_terrenos() {
+void Tabs::inicializar_tabs() {
     // getteo el layout y el widget de Arena
     QGridLayout* arena_layout = this->parent->findChild<QGridLayout*>("gridLayout_arena");
     QWidget* scroll_area_arena = this->parent->findChild<QWidget*>("scrollArea_widget_arena");
@@ -153,6 +100,58 @@ void Tabs::agregar_terrenos() {
     scroll_area_precipicio->setLayout(precipicio_layout);
     scroll_area_especia->setLayout(especia_layout);
     scroll_area_duna->setLayout(duna_layout);
+}
+
+string Tabs::get_id_label_clickeado() {
+    return this->id_label_clickeado;
+}
+
+int Tabs::get_posicion_x_label_clickeado() {
+    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
+	if (it != this->tabs_terrenos.end()) {
+        return it->second->get_posicion_x();
+    }
+    return 0;
+}
+
+int Tabs::get_posicion_y_label_clickeado() {
+    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
+	if (it != this->tabs_terrenos.end()) {
+        return it->second->get_posicion_y();
+    }
+    return 0;
+}
+
+string Tabs::get_tipo_label_clickeado() {
+    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
+	if (it != this->tabs_terrenos.end()) {
+        return it->second->get_tipo();
+    }
+    return "";
+}
+
+QPixmap Tabs::get_imagen_clickeado() {
+    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
+	if (it != this->tabs_terrenos.end()) {
+        return it->second->get_imagen();
+    }
+}
+
+void Tabs::en_notificacion(std::string id_label) {
+    map<string, Label*>::iterator it = this->tabs_terrenos.find(id_label);
+	if (it != this->tabs_terrenos.end()) {
+        if (this->id_label_clickeado == id_label) {
+            it->second->borrar_marco_clickeado();
+            this->id_label_clickeado = "";
+        } else {
+            it->second->set_marco_clickeado();
+            map<string, Label*>::iterator it2 = this->tabs_terrenos.find(this->id_label_clickeado);
+	        if (it2 != this->tabs_terrenos.end()) {
+                it2->second->borrar_marco_clickeado();
+            }
+            this->id_label_clickeado = id_label;
+        }
+    }
 }
 
 Tabs::~Tabs() {

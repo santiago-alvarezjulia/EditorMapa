@@ -8,20 +8,19 @@
 
 class Editor : public QWidget, ObservadorMapa {
     public:
-        explicit Editor(int filas, int columnas, QWidget *parent = 0);
+        Editor(int filas, int columnas, int cant_jugadores, 
+            QWidget *parent = 0);
         virtual void label_mapa_clickeado(std::string id_label_mapa);
         virtual void label_mapa_enter_event(std::string id_label_mapa);
         virtual void label_mapa_leave_event(std::string id_label_mapa);
         ~Editor();
         
     private:
-        Mapa* mapa;
-        Tabs* tabs;
-        void mostrar_dialog_bienvenida();
-        void mostrar_dialog_dimension_mapa();
+        Mapa mapa;
+        Tabs tabs;
+        int cant_jugadores;
         void conectar_botones();
         void guardar_mapa();
-        void cargar_mapa();
 };
 
 #endif // EDITOR_H

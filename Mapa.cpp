@@ -18,7 +18,7 @@ using nlohmann::json;
 Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas), 
     columnas(columnas), parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
-    inicializar_mapa();
+    //inicializar_mapa();
 }
 
 void Mapa::inicializar_mapa() {

@@ -22,6 +22,8 @@ class Mapa : public ObservadorMapa {
         bool es_valido();
         void generar_json();
 
+        void inicializar_mapa();
+
         ~Mapa();
 
     private:
@@ -30,7 +32,6 @@ class Mapa : public ObservadorMapa {
         QWidget* parent;
         ObservadorMapa* observador;
         std::map<std::string, LabelMapa*> mapa;
-        void inicializar_mapa();
         std::vector<std::string> split(const std::string& str, char delim);
 };
 

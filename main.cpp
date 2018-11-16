@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     QPushButton boton_nuevo_mapa ("CREAR MAPA");
     form_layout.addRow(&boton_nuevo_mapa);
     QObject::connect(&boton_nuevo_mapa, &QPushButton::clicked,
-        &dialogo, &DialogoBienvenida::mostrar_dialog_dimension_mapa);
+        &dialogo, &DialogoBienvenida::crear_mapa);
 
     QPushButton boton_cargar_mapa ("CARGAR MAPA");
     form_layout.addRow(&boton_cargar_mapa);

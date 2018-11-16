@@ -9,6 +9,7 @@
 class Tabs : public Observador {
     public:
         Tabs(QWidget* parent = 0);
+        void inicializar_tabs();
         std::string get_id_label_clickeado();
         int get_posicion_x_label_clickeado();
         int get_posicion_y_label_clickeado();
@@ -22,8 +23,6 @@ class Tabs : public Observador {
         QPixmap imagen_terrenos;
         std::map<std::string, Label*> tabs_terrenos;
         std::string id_label_clickeado;
-
-        void agregar_terrenos();
 };
 
 #endif // TABS_H
