@@ -30,6 +30,7 @@ add_executable(editor
   main.cpp
   Label.cpp
   LabelMapa.cpp
+  DialogoBienvenida.cpp
   Tabs.cpp
   Mapa.cpp
   ${UIS_HEADERS})

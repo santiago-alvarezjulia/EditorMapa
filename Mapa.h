@@ -9,7 +9,7 @@
 
 class Mapa : public ObservadorMapa {
     public:
-        Mapa(QWidget* parent = 0);
+        Mapa(int filas, int columnas, QWidget* parent = 0);
         void actualizar_data(std::string id_label, QPixmap& nueva_imagen, 
             int nueva_posicion_x, int nueva_posicion_y, std::string nuevo_tipo);
         void set_marco_mouse_enter(std::string id_label);
@@ -25,6 +25,8 @@ class Mapa : public ObservadorMapa {
         ~Mapa();
 
     private:
+        int filas;
+        int columnas;
         QWidget* parent;
         ObservadorMapa* observador;
         std::map<std::string, LabelMapa*> mapa;

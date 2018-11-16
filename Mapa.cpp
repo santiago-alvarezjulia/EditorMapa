@@ -7,7 +7,6 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
-#define DIMENSION 40
 #define DELIM_ID ','
 using std::string;
 using std::stringstream;
@@ -16,15 +15,16 @@ using std::vector;
 using std::map;
 using nlohmann::json;
 
-Mapa::Mapa(QWidget* parent) : parent(parent) {
+Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas), 
+    columnas(columnas), parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
     inicializar_mapa();
 }
 
 void Mapa::inicializar_mapa() {
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
-    for (int i = 0; i < DIMENSION; ++i) {
-        for (int j = 0; j < DIMENSION; ++j) {
+    for (int i = 0; i < this->filas; ++i) {
+        for (int j = 0; j < this->columnas; ++j) {
             string id_label ("mapa");
             id_label += DELIM_ID;
             id_label += std::to_string(i);
@@ -102,8 +102,8 @@ vector<string> Mapa::split(const string& str, char delim) {
 }
 
 Mapa::~Mapa() {
-    for (int i = 0; i < DIMENSION; ++i) {
-        for (int j = 0; j < DIMENSION; ++j) {
+    for (int i = 0; i < this->filas; ++i) {
+        for (int j = 0; j < this->columnas; ++j) {
             string id_label ("mapa");
             id_label += ',';
             id_label += std::to_string(i);
