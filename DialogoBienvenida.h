@@ -10,6 +10,10 @@ class DialogoBienvenida : public QDialog {
         void crear_mapa();
         void cargar_mapa();
         ~DialogoBienvenida(); 
+
+    private:
+        Editor* editor;
+        bool editor_fue_creado;
 };
 
 #endif // DIALOGO_BIENVENIDA_H

@@ -9,7 +9,9 @@
 #include <QFileDialog>
 #include "Editor.h"
 
-DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {}
+DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {
+    this->editor_fue_creado = false;
+}
 
 void DialogoBienvenida::crear_mapa() {
     QDialog dialog (this);
@@ -37,10 +39,11 @@ void DialogoBienvenida::crear_mapa() {
 
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
-        Editor* editor = new Editor (line_edit_filas.text().toInt(), 
+        this->editor = new Editor (line_edit_filas.text().toInt(), 
             line_edit_columnas.text().toInt(), 
             line_edit_cant_jugadores.text().toInt());
-        editor->show();
+        this->editor_fue_creado = true;
+        this->editor->show();
 
         this->close();
     }
@@ -56,13 +59,15 @@ void DialogoBienvenida::cargar_mapa() {
     }
     
     // cargar mapa
-    Editor* editor = new Editor (filename.toStdString());
-    editor->show();
+    this->editor = new Editor (filename.toStdString());
+    this->editor_fue_creado = true;
+    this->editor->show();
 
     this->close();
 }
 
 DialogoBienvenida::~DialogoBienvenida() {
-    // falla si cierro de una sin crear o cargar mapa
-    //delete this->editor;
+    if (this->editor_fue_creado) {
+        delete this->editor;
+    }
 }
