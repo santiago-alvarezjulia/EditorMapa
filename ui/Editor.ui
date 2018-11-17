@@ -26,7 +26,10 @@
       <item>
        <layout class="QGridLayout" name="mapLayout">
         <property name="sizeConstraint">
-         <enum>QLayout::SetMinimumSize</enum>
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <property name="spacing">
+         <number>0</number>
         </property>
        </layout>
       </item>
@@ -117,8 +120,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>376</width>
+                 <height>455</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -158,8 +161,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>376</width>
+                 <height>455</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -199,8 +202,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>376</width>
+                 <height>455</height>
                 </rect>
                </property>
                <widget class="QWidget" name="gridLayoutWidget_4">
@@ -234,8 +237,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>376</width>
+                 <height>455</height>
                 </rect>
                </property>
                <property name="sizePolicy">

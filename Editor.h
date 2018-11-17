@@ -6,11 +6,11 @@
 #include "Mapa.h"
 #include "ObservadorMapa.h"
 
-class Editor : public QWidget, ObservadorMapa {
+class Editor : public QWidget, Observador {
     public:
         Editor(int filas, int columnas, int cant_jugadores, 
             QWidget *parent = 0);
-        virtual void label_mapa_clickeado(std::string id_label_mapa);
+        virtual void en_notificacion(std::string id_label_mapa);
         ~Editor();
         
     private:

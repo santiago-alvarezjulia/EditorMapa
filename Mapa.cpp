@@ -55,15 +55,13 @@ void Mapa::inicializar_mapa() {
             
             label_mapa->agregar_observador(this);
             
-            map_layout->addWidget(label_mapa, i, j);
+            map_layout->addWidget(label_mapa, i + 1, j + 1);
             
             this->mapa.emplace(pos_label, label_mapa);
         }
     }
 
-    // junto los QLabel lo mas posible
     map_layout->setSpacing(0);
-    map_layout->setContentsMargins(0, 0, 0, 0);
 }
 
 bool Mapa::es_valido() {
@@ -75,7 +73,7 @@ void Mapa::generar_json() {
     // IMPLEMENTAR
 }
 
-void Mapa::agregar_observador(ObservadorMapa* observer) {
+void Mapa::agregar_observador(Observador* observer) {
     this->observador = observer;
 }
 
@@ -89,7 +87,7 @@ void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen,
 }
 
 void Mapa::label_mapa_clickeado(std::string id_label_mapa) {
-    this->observador->label_mapa_clickeado(id_label_mapa);
+    this->observador->en_notificacion(id_label_mapa);
 }
 
 void Mapa::label_mapa_enter_event(std::string id_label_mapa) {

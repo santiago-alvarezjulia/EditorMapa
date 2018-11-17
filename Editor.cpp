@@ -21,7 +21,7 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
 }
 
 
-void Editor::label_mapa_clickeado(string id_label_mapa) {
+void Editor::en_notificacion(string id_label_mapa) {
     if (this->tabs.get_id_label_clickeado() != "") {
         QPixmap nueva_imagen = this->tabs.get_imagen_clickeado();
         int nueva_posicion_x = this->tabs.get_posicion_x_label_clickeado();
