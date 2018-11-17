@@ -2,6 +2,7 @@
 #define DIALOGO_BIENVENIDA_H
 
 #include <QDialog>
+#include "Editor.h"
 
 class DialogoBienvenida : public QDialog {
     public:

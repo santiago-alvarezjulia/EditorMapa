@@ -21,6 +21,15 @@ Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas),
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
+Mapa::Mapa(std::string filename_json, QWidget* parent) {
+    this->mapa = std::map<std::string, LabelMapa*>();
+    parsear_json(filename_json);
+}
+
+void Mapa::parsear_json(string filename_json) {
+
+}
+
 void Mapa::inicializar_mapa() {
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
 

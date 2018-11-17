@@ -9,10 +9,7 @@ int main(int argc, char *argv[]) {
     // Clase que contiene el loop principal
     QApplication app(argc, argv);
     
-    // instancio editor
-    //Editor editor;
-    //editor.show();
-
+    // instancio Dialogo Bienvenida
     DialogoBienvenida dialogo;
 
     QFormLayout form_layout (&dialogo);

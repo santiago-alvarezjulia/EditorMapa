@@ -20,6 +20,19 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
     conectar_botones();
 }
 
+Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent, 
+    Qt::Window), tabs(Tabs(this)), mapa(Mapa(filename_json, this)) {
+    // Instancio la configuracion generada por el designer y uic
+    Ui::Editor editor;
+    // Configuro este widget para use esa configuracion
+    editor.setupUi(this);
+
+    this->tabs.inicializar_tabs();
+
+    this->mapa.agregar_observador(this);
+
+    conectar_botones();
+}
 
 void Editor::en_notificacion(string id_label_mapa) {
     if (this->tabs.get_id_label_clickeado() != "") {

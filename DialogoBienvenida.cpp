@@ -38,8 +38,8 @@ void DialogoBienvenida::crear_mapa() {
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
         Editor* editor = new Editor (line_edit_filas.text().toInt(), 
-            line_edit_columnas.text().toInt(), line_edit_cant_jugadores.text().toInt(),
-            0);
+            line_edit_columnas.text().toInt(), 
+            line_edit_cant_jugadores.text().toInt());
         editor->show();
 
         this->close();
@@ -54,9 +54,15 @@ void DialogoBienvenida::cargar_mapa() {
         // toco cancelar o no eligio ninguna foto
         return;
     }
+    
     // cargar mapa
+    Editor* editor = new Editor (filename.toStdString());
+    editor->show();
+
+    this->close();
 }
 
 DialogoBienvenida::~DialogoBienvenida() {
-    this->close();
+    // falla si cierro de una sin crear o cargar mapa
+    //delete this->editor;
 }

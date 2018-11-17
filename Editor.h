@@ -10,6 +10,7 @@ class Editor : public QWidget, Observador {
     public:
         Editor(int filas, int columnas, int cant_jugadores, 
             QWidget *parent = 0);
+        Editor(std::string filename_json, QWidget *parent = 0);
         virtual void en_notificacion(std::string id_label_mapa);
         ~Editor();
         
