@@ -3,11 +3,17 @@
 #include <iostream>
 using std::string;
 
-LabelMapa::LabelMapa(const QString& text, string id, int pos_x, int pos_y, 
-    string tipo, QWidget* parent) : QLabel(parent), id(id), tipo(tipo), 
-    posicion_x(pos_x), posicion_y(pos_y) {
+LabelMapa::LabelMapa(QPixmap& terrenos, string id, int pos_x, int pos_y, 
+    string tipo, string pos_label, QWidget* parent) : QLabel(parent), id(id), 
+    tipo(tipo), posicion_x(pos_x), posicion_y(pos_y), pos_label(pos_label), 
+    terrenos(terrenos) {
+    // 16x16 para que sea vea mas grande
     this->setFixedSize(16, 16);
-    this->setPixmap(QPixmap(text));
+    QRect rect(pos_x, pos_y, 8, 8);
+    // copio de la imagen completa de terrenos un cuadrado de 8x8
+    QPixmap cropped = terrenos.copy(rect);
+    // escalo la imagen a 16x16 para coincidir con tamaño del label
+    this->setPixmap(cropped.scaled(16,16));
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
@@ -28,11 +34,11 @@ void LabelMapa::mousePressEvent(QMouseEvent* event) {
 }
 
 void LabelMapa::enterEvent(QEvent* event) {
-    this->observador->label_mapa_enter_event(this->id);
+    this->observador->label_mapa_enter_event(this->pos_label);
 }
 
 void LabelMapa::leaveEvent(QEvent* event) {
-    this->observador->label_mapa_leave_event(this->id);
+    this->observador->label_mapa_leave_event(this->pos_label);
 }
 
 void LabelMapa::set_marco_mouse_enter() {
@@ -45,7 +51,7 @@ void LabelMapa::borrar_marco_mouse_enter() {
 }
 
 void LabelMapa::clickeado() {
-    this->observador->label_mapa_clickeado(this->id);
+    this->observador->label_mapa_clickeado(this->pos_label);
 }
 
 LabelMapa::~LabelMapa() {}

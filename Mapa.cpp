@@ -18,23 +18,46 @@ using nlohmann::json;
 Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas), 
     columnas(columnas), parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
-    //inicializar_mapa();
+    this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
 void Mapa::inicializar_mapa() {
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
+
+    // cosas de parseo del json de terrenos
+    std::ifstream entrada("../sprites/terrain/terrenos.json");
+    json terrenos_json;
+    entrada >> terrenos_json;
+
+    auto it = terrenos_json.begin();
+    const json& valores_por_defecto = *it;
+    ++it;
+
+    json elem = valores_por_defecto;
+    elem.update(*it);
+
+    auto it_tiles = elem["pos_tiles"].begin();
+    json tile = *it;
+    string id = tile["pos_tiles"][0]["id"];
+    string tipo = elem["tipo"];
+    int x = tile["pos_tiles"][0]["x"];
+    int y = tile["pos_tiles"][0]["y"];;
+
     for (int i = 0; i < this->filas; ++i) {
         for (int j = 0; j < this->columnas; ++j) {
-            string id_label ("mapa");
-            id_label += DELIM_ID;
-            id_label += std::to_string(i);
-            id_label += DELIM_ID;
-            id_label += std::to_string(j);
-            LabelMapa* label_mapa = new LabelMapa("../sprites/tablero.png", 
-                id_label, -1, -1, "vacio", this->parent);
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            LabelMapa* label_mapa = new LabelMapa(this->imagen_terrenos, id, 
+                x, y, tipo, pos_label, this->parent);
+            
             label_mapa->agregar_observador(this);
+            
             map_layout->addWidget(label_mapa, i, j);
-            this->mapa.emplace(id_label, label_mapa);
+            
+            this->mapa.emplace(pos_label, label_mapa);
         }
     }
 
@@ -65,30 +88,22 @@ void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen,
     }
 }
 
-void Mapa::set_marco_mouse_enter(string id_label) {
-    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
-	if (it != this->mapa.end()) {
-        it->second->set_marco_mouse_enter();
-    }
-}
-
-void Mapa::borrar_marco_mouse_enter(string id_label) {
-    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
-	if (it != this->mapa.end()) {
-        it->second->borrar_marco_mouse_enter();
-    }
-}
-
 void Mapa::label_mapa_clickeado(std::string id_label_mapa) {
     this->observador->label_mapa_clickeado(id_label_mapa);
 }
 
 void Mapa::label_mapa_enter_event(std::string id_label_mapa) {
-    this->observador->label_mapa_enter_event(id_label_mapa);
+    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
+	if (it != this->mapa.end()) {
+        it->second->set_marco_mouse_enter();
+    }
 }
 
 void Mapa::label_mapa_leave_event(std::string id_label_mapa) {
-    this->observador->label_mapa_leave_event(id_label_mapa);
+    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
+	if (it != this->mapa.end()) {
+        it->second->borrar_marco_mouse_enter();
+    }
 }
 
 vector<string> Mapa::split(const string& str, char delim) {

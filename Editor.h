@@ -11,8 +11,6 @@ class Editor : public QWidget, ObservadorMapa {
         Editor(int filas, int columnas, int cant_jugadores, 
             QWidget *parent = 0);
         virtual void label_mapa_clickeado(std::string id_label_mapa);
-        virtual void label_mapa_enter_event(std::string id_label_mapa);
-        virtual void label_mapa_leave_event(std::string id_label_mapa);
         ~Editor();
         
     private:

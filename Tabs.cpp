@@ -43,14 +43,14 @@ void Tabs::inicializar_tabs() {
 
     std::ifstream entrada("../sprites/terrain/terrenos.json");
 
-    json edificios_json;
+    json terrenos_json;
 
-    entrada >> edificios_json;
+    entrada >> terrenos_json;
 
-    auto it = edificios_json.begin();
+    auto it = terrenos_json.begin();
     const json& valores_por_defecto = *it;
     ++it;
-    for (; it != edificios_json.end(); ++it) {
+    for (; it != terrenos_json.end(); ++it) {
         // Mergear valores por defecto con el elemento actual
         json elem = valores_por_defecto;
         elem.update(*it);

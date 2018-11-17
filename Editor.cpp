@@ -3,11 +3,6 @@
 #include "ui_Editor.h"
 #include <iostream>
 #include <QMessageBox>
-#include <QFileDialog>
-#include <QFormLayout>
-#include <QLineEdit>
-#include <QDialogButtonBox>
-#include "DialogoBienvenida.h"
 using std::string;
 
 Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) : 
@@ -37,14 +32,6 @@ void Editor::label_mapa_clickeado(string id_label_mapa) {
         return;
     }
 }
-
-void Editor::label_mapa_enter_event(std::string id_label_mapa){
-    this->mapa.set_marco_mouse_enter(id_label_mapa);
-}
-
-void Editor::label_mapa_leave_event(std::string id_label_mapa) {
-    this->mapa.borrar_marco_mouse_enter(id_label_mapa);
-} 
 
 void Editor::conectar_botones() {
     // Conecto el evento del boton guardar mapa
