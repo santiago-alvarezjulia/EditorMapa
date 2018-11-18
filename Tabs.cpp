@@ -5,10 +5,12 @@
 #include "Label.h"
 #include "libs/json.hpp"
 #include <fstream>
-#define MAX_COLUMNA 8
+#include <vector>
+#define MAX_COLUMNA 4
 using std::string;
 using std::map;
 using nlohmann::json;
+using std::vector;
 
 Tabs::Tabs(QWidget* parent) : parent(parent) {
     this->tabs_terrenos = map<string, Label*>();
@@ -59,14 +61,13 @@ void Tabs::inicializar_tabs() {
         int columna = 0;
         int fila = 0;
 
-        auto it_tiles = elem["pos_tiles"].begin();
-        for (int i = 0; it_tiles != elem["pos_tiles"].end(); ++it_tiles) {
+        auto it_sprites = elem["sprites"].begin();
+        for (int i = 0; it_sprites != elem["sprites"].end(); ++it_sprites) {
             json tile = *it;
-
-            Label* label = new Label(this->imagen_terrenos, tile["pos_tiles"][i]["id"], 
-                elem["tipo"], tile["pos_tiles"][i]["x"], tile["pos_tiles"][i]["y"], 
-                this->parent);
-           
+ 
+            Label* label = new Label(this->imagen_terrenos, tile["sprites"][i]["id"], 
+                elem["tipo"], tile["sprites"][i]["pos_tiles"], this->parent);
+                       
             label->agregar_observador(this);
 
             // me fijo de que tipo es y lo agrego al widget correspondiente
@@ -84,7 +85,8 @@ void Tabs::inicializar_tabs() {
                 duna_layout->addWidget(label, fila, columna);
             } 
         
-            this->tabs_terrenos.emplace(tile["pos_tiles"][i]["id"], label);
+            this->tabs_terrenos.emplace(tile["sprites"][i]["id"], label);
+            
             i++;
             columna++;
             if (columna == MAX_COLUMNA) {

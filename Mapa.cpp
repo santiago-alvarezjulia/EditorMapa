@@ -45,12 +45,11 @@ void Mapa::inicializar_mapa() {
 
     const json& elem = *it;
 
-    auto it_tiles = elem["pos_tiles"].begin();
+    auto it_tiles = elem["sprites"].begin();
     json tile = *it;
-    string id = tile["pos_tiles"][0]["id"];
+    string id = tile["sprites"][0]["id"];
     string tipo = elem["tipo"];
-    int x = tile["pos_tiles"][0]["x"];
-    int y = tile["pos_tiles"][0]["y"];;
+    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
 
     for (int i = 0; i < this->filas; ++i) {
         for (int j = 0; j < this->columnas; ++j) {
@@ -59,8 +58,8 @@ void Mapa::inicializar_mapa() {
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            LabelMapa* label_mapa = new LabelMapa(this->imagen_terrenos, id, 
-                x, y, tipo, pos_label, this->parent);
+            LabelMapa* label_mapa = new LabelMapa(this->imagen_terrenos, id, tipo,
+                pos_tiles, pos_label, this->parent);
             
             label_mapa->agregar_observador(this);
             
@@ -80,6 +79,7 @@ bool Mapa::es_valido() {
 
 void Mapa::generar_json() {
     // IMPLEMENTAR
+    
 }
 
 void Mapa::agregar_observador(Observador* observer) {

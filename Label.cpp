@@ -1,18 +1,44 @@
 #include "Label.h"
 #include <string>
 #include <iostream>
+#include <QPainter>
 using std::string;
+using std::vector;
 
-Label::Label(QPixmap& terrenos, string id, string tipo, int x, int y, 
-    QWidget* parent) :  QLabel(parent), id(id), x(x), y(y), terrenos(terrenos) {
-    this->tipo = tipo;
-    // 16x16 para que sea vea mas grande
-    this->setFixedSize(16, 16);
-    QRect rect(x, y, 8, 8);
-    // copio de la imagen completa de terrenos un cuadrado de 8x8
-    QPixmap cropped = terrenos.copy(rect);
-    // escalo la imagen a 16x16 para coincidir con tamaño del label
-    this->setPixmap(cropped.scaled(16,16));
+Label::Label(QPixmap& terrenos, string id, string tipo, vector<uint32_t> pos_tiles, 
+    QWidget* parent) : QLabel(parent), id(id), terrenos(terrenos), tipo(tipo) {
+    this->setFixedSize(32, 32);
+    QPixmap label_32_x_32 (32, 32);
+
+    int pos_x_label = 0;
+    int pos_y_label = 0;
+    vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
+    for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
+        int x;
+        if (*it_pos_tiles < 20) {
+            x = (*it_pos_tiles) * 8;
+        } else {
+            x = (*it_pos_tiles % 20) * 8;
+        }
+
+        int y = (*it_pos_tiles / 20) * 8;
+        QRect rect(x, y, 8, 8);
+        QPixmap cropped = terrenos.copy(rect);
+    
+        QPainter painter (&label_32_x_32);
+        if (cont_tiles < 4) {
+            pos_x_label = cont_tiles * 8;
+        } else {
+             pos_x_label = (cont_tiles % 4) * 8;
+        }
+
+        pos_y_label = (cont_tiles / 4) * 8;
+        painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
+
+        cont_tiles++;
+    }
+    
+    this->setPixmap(label_32_x_32);
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
@@ -31,7 +57,8 @@ string Label::get_tipo() {
 QPixmap Label::get_imagen() {
     QRect rect(this->x, this->y, 8, 8);
     QPixmap cropped (this->terrenos.copy(rect));
-    return cropped.scaled(16, 16);
+    //return cropped.scaled(16, 16);
+    return cropped;
 }
 
 void Label::agregar_observador(Observador* observador_) {

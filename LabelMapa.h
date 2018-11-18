@@ -8,8 +8,9 @@
 
 class LabelMapa : public QLabel {
     public:
-	    LabelMapa(QPixmap& terrenos, std::string id, int pos_x, int pos_y, 
-            std::string tipo, std::string pos_label, QWidget * parent = 0);
+        LabelMapa(QPixmap& terrenos, std::string id, std::string tipo, 
+            std::vector<uint32_t> pos_tiles, std::string pos_label, 
+            QWidget* parent = 0);
         void agregar_observador(ObservadorMapa* observador);
         void actualizar_data(QPixmap& nueva_imagen, int nueva_posicion_x,
             int nueva_posicion_y, std::string nuevo_tipo);

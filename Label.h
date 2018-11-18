@@ -4,12 +4,13 @@
 #include <QWidget>
 #include <QLabel>
 #include <string>
+#include <vector>
 #include "Observador.h"
 
 class Label : public QLabel {
     public:
-	    Label(QPixmap& terrenos, std::string id, std::string tipo, int posicion_x, 
-            int posicion_y, QWidget* parent = 0);
+        Label(QPixmap& terrenos, std::string id, std::string tipo, 
+            std::vector<uint32_t> pos_tiles , QWidget* parent = 0);
         int get_posicion_x();
         int get_posicion_y();
         std::string get_tipo();
