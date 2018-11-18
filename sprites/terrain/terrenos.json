@@ -1,16 +1,6 @@
 [
     {
-        "nombre_archivo": "d2k_BLOXBASE.bmp",
-        "tipo" : "-",
-        "size_x": 8,
-        "size_y": 8,
-        "pos_tiles": [
-            {
-                "id": "-",
-                "x": 0,
-                "y": 0
-            }
-        ]
+        "nombre_archivo": "d2k_BLOXBASE.bmp"
     },
     {
         "tipo" : "arena",

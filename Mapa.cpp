@@ -39,11 +39,11 @@ void Mapa::inicializar_mapa() {
     entrada >> terrenos_json;
 
     auto it = terrenos_json.begin();
-    const json& valores_por_defecto = *it;
+    const json& data_general = *it;
+    std::cout << "data_general: " << data_general["nombre_archivo"] << std::endl;
     ++it;
 
-    json elem = valores_por_defecto;
-    elem.update(*it);
+    const json& elem = *it;
 
     auto it_tiles = elem["pos_tiles"].begin();
     json tile = *it;
