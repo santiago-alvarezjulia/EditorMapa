@@ -8,7 +8,7 @@ using std::vector;
 
 LabelMapa::LabelMapa(QPixmap& terrenos, string id, string tipo, 
     vector<uint32_t> pos_tiles, string pos_label, QWidget* parent) : QLabel(parent), 
-    id(id), tipo(tipo), pos_label(pos_label), terrenos(terrenos) {
+    id(id), tipo(tipo), pos_label(pos_label), terrenos(terrenos), pos_tiles(pos_tiles) {
     this->setFixedSize(32, 32);
     QPixmap label_32_x_32 (32, 32);
 
@@ -54,6 +54,10 @@ void LabelMapa::actualizar_data(QPixmap& nueva_imagen,
 string LabelMapa::get_tipo() {
     return this->tipo;
 } 
+
+vector<uint32_t> LabelMapa::get_pos_tiles() {
+    return this->pos_tiles;
+}
 
 void LabelMapa::agregar_observador(ObservadorMapa* observador_) {
     this->observador = observador_;

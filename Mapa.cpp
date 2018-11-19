@@ -75,13 +75,23 @@ void Mapa::inicializar_mapa() {
 }
 
 bool Mapa::es_valido() {
-    // IMPLEMENTAR
-    return false;
+    // IMPLEMENTAR -> no es valido unicamente con lo de los jugadores
+    return true;
 }
 
 void Mapa::generar_json() {
-    // IMPLEMENTAR
+    json j;
+    
+    vector<vector<string>> tipos;
+    vector<vector<uint32_t>> sprites;
+    int largo_vector_sprites = this->columnas * 4;
+    int cant_vectores_sprites = this->filas * 4;
+    int cont_sprites_agregados = 0;
+
     for (int i = 0; i < this->filas; ++i) {
+        vector<string> tipos_por_columna;
+        vector<uint32_t> sprites_por_columna;
+        
         for (int j = 0; j < this->columnas; ++j) {
             string id_label ("");
             id_label += std::to_string(i);
@@ -89,11 +99,31 @@ void Mapa::generar_json() {
             id_label += std::to_string(j);
             map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	        if (it != this->mapa.end()) {
-                it->second->get_tipo();
+                tipos_por_columna.emplace_back(it->second->get_tipo());
+                
+                vector<uint32_t> pos_tiles_label = it->second->get_pos_tiles();
+                vector<uint32_t>::iterator it_pos_tiles_label = pos_tiles_label.begin();
+                for (; it_pos_tiles_label != pos_tiles_label.end(); ++it_pos_tiles_label) {
+                    sprites_por_columna.emplace_back(*it_pos_tiles_label);
+                    cont_sprites_agregados++;
+                    if (cont_sprites_agregados == largo_vector_sprites) {
+                        sprites.emplace_back(sprites_por_columna);
+                        sprites_por_columna.clear();
+                        cont_sprites_agregados = 0;
+                    }
+                }
             }
         }
+
+        tipos.emplace_back(tipos_por_columna);
     }
 
+    j["sprite"] = sprites;
+    j["tipo"] = tipos;
+
+    // genero el archivo mapa.json
+    std::ofstream file("mapa.json");
+    file << j;
 }
 
 void Mapa::agregar_observador(Observador* observer) {

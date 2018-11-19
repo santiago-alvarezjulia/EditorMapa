@@ -147,5 +147,8 @@ void Tabs::en_notificacion(std::string id_label) {
 }
 
 Tabs::~Tabs() {
-    // IMPLEMENTAR
+    map<string, Label*>::iterator it = this->tabs_terrenos.begin();
+    for (; it != this->tabs_terrenos.end(); ++it) {
+        delete it->second;
+    }
 }
