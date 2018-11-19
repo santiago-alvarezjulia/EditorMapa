@@ -32,6 +32,7 @@ void Mapa::parsear_json(string filename_json) {
 
 void Mapa::inicializar_mapa() {
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
+    QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
 
     // cosas de parseo del json de terrenos
     std::ifstream entrada("../sprites/terrain/terrenos.json");
@@ -69,6 +70,8 @@ void Mapa::inicializar_mapa() {
     }
 
     map_layout->setSpacing(0);
+
+    scroll_area_mapa->setLayout(map_layout);
 }
 
 bool Mapa::es_valido() {
@@ -78,6 +81,18 @@ bool Mapa::es_valido() {
 
 void Mapa::generar_json() {
     // IMPLEMENTAR
+    for (int i = 0; i < this->filas; ++i) {
+        for (int j = 0; j < this->columnas; ++j) {
+            string id_label ("");
+            id_label += std::to_string(i);
+            id_label += ',';
+            id_label += std::to_string(j);
+            map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
+	        if (it != this->mapa.end()) {
+                it->second->get_tipo();
+            }
+        }
+    }
 
 }
 
@@ -125,7 +140,6 @@ Mapa::~Mapa() {
     for (int i = 0; i < this->filas; ++i) {
         for (int j = 0; j < this->columnas; ++j) {
             string id_label ("");
-            id_label += ',';
             id_label += std::to_string(i);
             id_label += ',';
             id_label += std::to_string(j);

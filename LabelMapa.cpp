@@ -51,6 +51,10 @@ void LabelMapa::actualizar_data(QPixmap& nueva_imagen,
     this->tipo = nuevo_tipo; 
 }
 
+string LabelMapa::get_tipo() {
+    return this->tipo;
+} 
+
 void LabelMapa::agregar_observador(ObservadorMapa* observador_) {
     this->observador = observador_;
 }

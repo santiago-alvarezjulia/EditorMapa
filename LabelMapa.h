@@ -16,6 +16,7 @@ class LabelMapa : public QLabel {
             std::vector<uint32_t> nuevas_pos_tiles, std::string nuevo_tipo);
         void set_marco_mouse_enter();
         void borrar_marco_mouse_enter();
+        std::string get_tipo();
         ~LabelMapa();
  
     signals:
