@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QMessageBox>
 #include <vector>
+#include <QFileDialog>
 using std::string;
 using std::vector;
 
@@ -57,10 +58,21 @@ void Editor::conectar_botones() {
 void Editor::guardar_mapa() {
     bool es_mapa_valido = this->mapa.es_valido();
     if (!es_mapa_valido) {
-        QMessageBox::critical(this, "Error al guardar mapa", "Existen celdas vacías");
+        QMessageBox::critical(this, "Error al guardar mapa", 
+            "Error con los jugadores");
         return;
     }
-    this->mapa.generar_json();
+
+    QString nombre_archivo = QFileDialog::getSaveFileName(this, "Guardar mapa",
+        QDir::currentPath(), "JSON (*.json)");
+    if (nombre_archivo.isNull()) {
+        return;
+    }
+    
+    if(!nombre_archivo.contains(".json", Qt::CaseInsensitive)) {
+        nombre_archivo += ".json";
+    }
+    this->mapa.generar_json(nombre_archivo.toStdString());
 }
 
 Editor::~Editor() {}

@@ -20,7 +20,7 @@ class Mapa : public ObservadorMapa {
         virtual void label_mapa_leave_event(std::string id_label_mapa);
 
         bool es_valido();
-        void generar_json();
+        void generar_json(std::string nombre_archivo);
 
         void inicializar_mapa();
 

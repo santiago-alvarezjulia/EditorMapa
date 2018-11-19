@@ -79,7 +79,7 @@ bool Mapa::es_valido() {
     return true;
 }
 
-void Mapa::generar_json() {
+void Mapa::generar_json(std::string nombre_archivo) {
     json j;
     
     vector<vector<string>> tipos;
@@ -122,7 +122,7 @@ void Mapa::generar_json() {
     j["tipo"] = tipos;
 
     // genero el archivo mapa.json
-    std::ofstream file("mapa.json");
+    std::ofstream file(nombre_archivo);
     file << j;
 }
 
