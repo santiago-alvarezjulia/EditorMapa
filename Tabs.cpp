@@ -43,6 +43,10 @@ void Tabs::inicializar_tabs() {
     QGridLayout* especia_layout = this->parent->findChild<QGridLayout*>("gridLayout_especia");
     QWidget* scroll_area_especia = this->parent->findChild<QWidget*>("scrollArea_widget_especia");
 
+    // getteo el layout y el widget de Jugador
+    QGridLayout* jugador_layout = this->parent->findChild<QGridLayout*>("gridLayout_jugador");
+    QWidget* scroll_area_jugador = this->parent->findChild<QWidget*>("scrollArea_widget_jugador");
+
     std::ifstream entrada("../sprites/terrain/terrenos.json");
 
     json terrenos_json;
@@ -83,6 +87,8 @@ void Tabs::inicializar_tabs() {
                 especia_layout->addWidget(label, fila, columna);
             } else if (elem["tipo"] == "duna"){
                 duna_layout->addWidget(label, fila, columna);
+            } else if (elem["tipo"] == "jugador"){
+                jugador_layout->addWidget(label, fila, columna);
             } 
         
             this->tabs_terrenos.emplace(tile["sprites"][i]["id"], label);
@@ -102,6 +108,7 @@ void Tabs::inicializar_tabs() {
     scroll_area_precipicio->setLayout(precipicio_layout);
     scroll_area_especia->setLayout(especia_layout);
     scroll_area_duna->setLayout(duna_layout);
+    scroll_area_jugador->setLayout(jugador_layout);
 }
 
 string Tabs::get_id_label_clickeado() {

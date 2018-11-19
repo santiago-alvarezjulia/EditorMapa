@@ -51,6 +51,10 @@ void LabelMapa::actualizar_data(QPixmap& nueva_imagen,
     this->tipo = nuevo_tipo; 
 }
 
+void LabelMapa::actualizar_imagen(QPixmap& nueva_imagen) {
+    this->setPixmap(nueva_imagen);
+}
+
 string LabelMapa::get_tipo() {
     return this->tipo;
 } 

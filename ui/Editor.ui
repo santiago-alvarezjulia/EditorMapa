@@ -55,7 +55,7 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>7</x>
@@ -137,7 +137,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>371</width>
+                  <width>441</width>
                   <height>451</height>
                  </rect>
                 </property>
@@ -163,7 +163,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>376</width>
+                 <width>449</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -178,7 +178,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>371</width>
+                  <width>441</width>
                   <height>451</height>
                  </rect>
                 </property>
@@ -204,7 +204,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>376</width>
+                 <width>449</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -219,7 +219,7 @@
                  <rect>
                   <x>-1</x>
                   <y>-1</y>
-                  <width>371</width>
+                  <width>441</width>
                   <height>451</height>
                  </rect>
                 </property>
@@ -245,7 +245,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>376</width>
+                 <width>449</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -254,7 +254,7 @@
                  <rect>
                   <x>-1</x>
                   <y>-1</y>
-                  <width>371</width>
+                  <width>441</width>
                   <height>451</height>
                  </rect>
                 </property>
@@ -280,7 +280,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>376</width>
+                 <width>449</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -295,7 +295,7 @@
                  <rect>
                   <x>-1</x>
                   <y>-1</y>
-                  <width>371</width>
+                  <width>441</width>
                   <height>451</height>
                  </rect>
                 </property>
@@ -321,7 +321,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>376</width>
+                 <width>449</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -330,11 +330,52 @@
                  <rect>
                   <x>-1</x>
                   <y>-1</y>
-                  <width>371</width>
+                  <width>441</width>
                   <height>451</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_duna"/>
+               </widget>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_jugadores">
+           <attribute name="title">
+            <string>Jugadores</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <item row="0" column="0">
+             <widget class="QScrollArea" name="scrollArea_jugadores">
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollArea_widget_jugador">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>449</width>
+                 <height>455</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <widget class="QWidget" name="gridLayoutWidget_7">
+                <property name="geometry">
+                 <rect>
+                  <x>-1</x>
+                  <y>-1</y>
+                  <width>441</width>
+                  <height>451</height>
+                 </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_jugador"/>
                </widget>
               </widget>
              </widget>

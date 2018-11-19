@@ -17,12 +17,14 @@ using nlohmann::json;
 
 Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas), 
     columnas(columnas), parent(parent) {
-    this->mapa = std::map<std::string, LabelMapa*>();
+    this->mapa = map<string, LabelMapa*>();
+    this->jugadores = map<string, bool>();
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
 Mapa::Mapa(QWidget* parent) : parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
+    this->jugadores = map<string, bool>();
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
@@ -35,6 +37,7 @@ void Mapa::parsear_json(string filename_json) {
     json mapa_json;
     entrada >> mapa_json;
 
+    vector<vector<uint32_t>> pos_jugadores = mapa_json["jugadores"];
     vector<vector<string>> tipos = mapa_json["tipo"];
     int cant_fila = tipos.size();
     this->filas = cant_fila;
@@ -80,6 +83,17 @@ void Mapa::parsear_json(string filename_json) {
 
         }
     }
+
+    vector<vector<uint32_t>>::iterator it_pos_jugadores = pos_jugadores.begin();
+    for (; it_pos_jugadores != pos_jugadores.end(); ++it_pos_jugadores) {
+        string id_label ("");
+        id_label += std::to_string((*it_pos_jugadores)[0]);
+        id_label += ',';
+        id_label += std::to_string((*it_pos_jugadores)[1]);
+        this->jugadores.emplace(id_label, true); 
+    }
+
+    this->cantidad_jugadores = pos_jugadores.size();
 
     map_layout->setSpacing(0);
     scroll_area_mapa->setLayout(map_layout);
@@ -153,9 +167,22 @@ void Mapa::inicializar_mapa() {
     scroll_area_mapa->setLayout(map_layout);
 }
 
-bool Mapa::es_valido() {
-    // IMPLEMENTAR -> no es valido unicamente con lo de los jugadores
-    return true;
+int Mapa::get_cantidad_jugadores() {
+    return this->cantidad_jugadores;
+}
+
+string Mapa::get_tipo_by_id(string id_label_mapa) {
+    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
+	if (it != this->mapa.end()) {
+        return it->second->get_tipo();
+    }
+}
+
+bool Mapa::es_valido_agregar_jugador(string id_label_mapa) {
+    if (this->jugadores.find(id_label_mapa) == this->jugadores.end()) {
+        return true;
+    }
+    return false;
 }
 
 void Mapa::generar_json(std::string nombre_archivo) {
@@ -163,6 +190,7 @@ void Mapa::generar_json(std::string nombre_archivo) {
     
     vector<vector<string>> tipos;
     vector<vector<uint32_t>> sprites;
+    vector<vector<uint32_t>> jugadores_json;
     int largo_vector_sprites = this->columnas * 4;
     int cant_vectores_sprites = this->filas * 4;
     int cont_sprites_agregados = 0;
@@ -197,8 +225,20 @@ void Mapa::generar_json(std::string nombre_archivo) {
         tipos.emplace_back(tipos_por_columna);
     }
 
+    vector<uint32_t> pos_jugadores;
+    map<string, bool>::iterator it_jugadores = this->jugadores.begin();
+    for (; it_jugadores != this->jugadores.end(); ++it_jugadores) {
+        vector<string> splitteado = this->split(it_jugadores->first, DELIM_ID);
+        pos_jugadores.emplace_back(std::stoi(splitteado[0]));
+        pos_jugadores.emplace_back(std::stoi(splitteado[1]));
+        jugadores_json.emplace_back(pos_jugadores);
+        pos_jugadores.clear();
+    }
+
+    // agrego data al json
     j["sprite"] = sprites;
     j["tipo"] = tipos;
+    j["jugadores"] = jugadores_json;
 
     // genero el archivo mapa.json
     std::ofstream file(nombre_archivo);
@@ -214,6 +254,14 @@ void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen,
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
         it->second->actualizar_data(nueva_imagen, nuevas_pos_tiles, nuevo_tipo);
+    }
+}
+
+void Mapa::agregar_jugador(string id_label, QPixmap& nueva_imagen) {
+    this->jugadores.emplace(id_label, true);
+    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
+	if (it != this->mapa.end()) {
+        it->second->actualizar_imagen(nueva_imagen);
     }
 }
 
@@ -243,6 +291,10 @@ vector<string> Mapa::split(const string& str, char delim) {
         elementos.emplace_back(item);
     }
     return elementos;
+}
+
+int Mapa::get_cantidad_jugadores_agregados() {
+    return this->jugadores.size();
 }
 
 Mapa::~Mapa() {

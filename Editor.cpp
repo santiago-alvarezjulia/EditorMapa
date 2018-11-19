@@ -32,19 +32,45 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
 
     this->tabs.inicializar_tabs();
     this->mapa.parsear_json(filename_json);
+    this->cant_jugadores = this->mapa.get_cantidad_jugadores();
     this->mapa.agregar_observador(this);
 
     conectar_botones();
 }
 
 void Editor::en_notificacion(string id_label_mapa) {
-    if (this->tabs.get_id_label_clickeado() != "") {
-        QPixmap nueva_imagen = this->tabs.get_imagen_clickeado();
-        vector<uint32_t> nuevas_pos_tiles = this->tabs.get_pos_tiles_clickeado();
+    string tabs_id_label_clickeado = this->tabs.get_id_label_clickeado();
+    if (tabs_id_label_clickeado != "") {
         string nuevo_tipo = this->tabs.get_tipo_label_clickeado();
-        this->mapa.actualizar_data(id_label_mapa, nueva_imagen, nuevas_pos_tiles, 
-            nuevo_tipo);
-        return;
+        QPixmap nueva_imagen = this->tabs.get_imagen_clickeado();
+        if (nuevo_tipo == "jugador") {
+            if (this->mapa.get_tipo_by_id(id_label_mapa) == "roca") {
+                if (this->mapa.get_cantidad_jugadores_agregados() < this->cant_jugadores) {
+                    if (this->mapa.es_valido_agregar_jugador(id_label_mapa)) {
+                        this->mapa.agregar_jugador(id_label_mapa, nueva_imagen);
+                    } else {
+                        QMessageBox::critical(this, "Error al agregar un jugador", 
+                            "Ya agregaste un jugador en esa posicion");
+                        return;
+                    }
+                    
+                } else {
+                    QMessageBox::critical(this, "Error al agregar un jugador", 
+                        "Ya alcanzaste el maximo de jugadores posibles");
+                    return;
+                }
+                
+            } else {
+                QMessageBox::critical(this, "Error al agregar un jugador", 
+                    "Solo se puede agregar jugadores sobre roca");
+                return;
+            }
+        } else {
+            vector<uint32_t> nuevas_pos_tiles = this->tabs.get_pos_tiles_clickeado();
+            this->mapa.actualizar_data(id_label_mapa, nueva_imagen, nuevas_pos_tiles, 
+                nuevo_tipo);
+            return;
+        }
     }
 }
 
@@ -56,10 +82,10 @@ void Editor::conectar_botones() {
 }
 
 void Editor::guardar_mapa() {
-    bool es_mapa_valido = this->mapa.es_valido();
-    if (!es_mapa_valido) {
+    int cantidad_jugadores_agregados = this->mapa.get_cantidad_jugadores_agregados();
+    if (cantidad_jugadores_agregados != this->cant_jugadores) {
         QMessageBox::critical(this, "Error al guardar mapa", 
-            "Error con los jugadores");
+            "Falta agregar jugadores");
         return;
     }
 
@@ -69,7 +95,7 @@ void Editor::guardar_mapa() {
         return;
     }
     
-    if(!nombre_archivo.contains(".json", Qt::CaseInsensitive)) {
+    if(!nombre_archivo.contains(".json", Qt::CaseSensitive)) {
         nombre_archivo += ".json";
     }
     this->mapa.generar_json(nombre_archivo.toStdString());
