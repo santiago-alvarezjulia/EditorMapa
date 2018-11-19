@@ -24,14 +24,14 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
 }
 
 Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent, 
-    Qt::Window), tabs(Tabs(this)), mapa(Mapa(filename_json, this)) {
+    Qt::Window), tabs(Tabs(this)), mapa(Mapa(this)) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para use esa configuracion
     editor.setupUi(this);
 
     this->tabs.inicializar_tabs();
-
+    this->mapa.parsear_json(filename_json);
     this->mapa.agregar_observador(this);
 
     conectar_botones();

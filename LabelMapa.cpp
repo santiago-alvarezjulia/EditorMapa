@@ -6,9 +6,9 @@
 using std::string;
 using std::vector;
 
-LabelMapa::LabelMapa(QPixmap& terrenos, string id, string tipo, 
-    vector<uint32_t> pos_tiles, string pos_label, QWidget* parent) : QLabel(parent), 
-    id(id), tipo(tipo), pos_label(pos_label), terrenos(terrenos), pos_tiles(pos_tiles) {
+LabelMapa::LabelMapa(QPixmap& terrenos, string tipo, vector<uint32_t> pos_tiles, 
+    string pos_label, QWidget* parent) : QLabel(parent), tipo(tipo), 
+    pos_label(pos_label), terrenos(terrenos), pos_tiles(pos_tiles) {
     this->setFixedSize(32, 32);
     QPixmap label_32_x_32 (32, 32);
 

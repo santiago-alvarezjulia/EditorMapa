@@ -21,14 +21,94 @@ Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas),
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
-Mapa::Mapa(std::string filename_json, QWidget* parent) {
+Mapa::Mapa(QWidget* parent) : parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
-    parsear_json(filename_json);
+    this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
 void Mapa::parsear_json(string filename_json) {
+    QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
+    QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
 
+    // cosas de parseo del json de terrenos
+    std::ifstream entrada(filename_json);
+    json mapa_json;
+    entrada >> mapa_json;
+
+    vector<vector<string>> tipos = mapa_json["tipo"];
+    int cant_fila = tipos.size();
+    this->filas = cant_fila;
+    vector<vector<uint32_t>> sprites = mapa_json["sprite"];
+
+    vector<vector<uint32_t>> sprites_reacomodados = 
+        reacomodar_sprites_json(sprites);
+    
+    vector<vector<uint32_t>>::iterator it_sprites_reacomodados = 
+        sprites_reacomodados.begin();
+    vector<vector<string>>::iterator it_filas_tipos = tipos.begin();
+    int cant_columnas = (*it_filas_tipos).size();
+    this->columnas = cant_columnas;
+
+    int fila_actual = 0;
+    int columna_actual = 0;
+    for (; it_filas_tipos != tipos.end(); ++it_filas_tipos) {
+        vector<string>::iterator it_tipos = (*it_filas_tipos).begin();
+        for (; it_tipos != (*it_filas_tipos).end(); ++it_tipos) {
+            string tipo = *it_tipos;
+            
+            string pos_label ("");
+            pos_label += std::to_string(fila_actual);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(columna_actual);
+            
+            LabelMapa* label_mapa = new LabelMapa(this->imagen_terrenos, tipo,
+                (*it_sprites_reacomodados), pos_label, this->parent);
+            
+            label_mapa->agregar_observador(this);
+            
+            map_layout->addWidget(label_mapa, fila_actual + 1, columna_actual + 1);
+            
+            this->mapa.emplace(pos_label, label_mapa);
+            
+            columna_actual++;
+            it_sprites_reacomodados++;
+            
+            if (columna_actual == cant_columnas) {
+                columna_actual = 0;
+                fila_actual++;
+            } 
+
+        }
+    }
+
+    map_layout->setSpacing(0);
+    scroll_area_mapa->setLayout(map_layout);
 }
+
+
+vector<vector<uint32_t>> Mapa::reacomodar_sprites_json(vector<vector<uint32_t>> sprites) {
+    vector<vector<uint32_t>> sprites_reacomodado;
+    vector<vector<uint32_t>>::iterator it_sprites = sprites.begin();
+    vector<uint32_t> pos_tiles_32_x_32;
+    int largo_pos_tiles_32_x_32 = 16;
+    int pos_actual_tiles_32_x_32 = 0;
+
+    for (; it_sprites != sprites.end(); ++it_sprites) {
+        vector<uint32_t>::iterator it_sprites_vect = (*it_sprites).begin();
+        for (; it_sprites_vect != (*it_sprites).end(); ++it_sprites_vect) {
+            pos_tiles_32_x_32.emplace_back(*it_sprites_vect);
+            pos_actual_tiles_32_x_32++;
+            if (pos_actual_tiles_32_x_32 == largo_pos_tiles_32_x_32) {
+                sprites_reacomodado.emplace_back(pos_tiles_32_x_32);
+                pos_tiles_32_x_32.clear();
+                pos_actual_tiles_32_x_32 = 0;
+            }
+        }
+    }
+
+    return sprites_reacomodado;
+}
+
 
 void Mapa::inicializar_mapa() {
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
@@ -58,7 +138,7 @@ void Mapa::inicializar_mapa() {
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            LabelMapa* label_mapa = new LabelMapa(this->imagen_terrenos, id, tipo,
+            LabelMapa* label_mapa = new LabelMapa(this->imagen_terrenos, tipo,
                 pos_tiles, pos_label, this->parent);
             
             label_mapa->agregar_observador(this);
@@ -70,7 +150,6 @@ void Mapa::inicializar_mapa() {
     }
 
     map_layout->setSpacing(0);
-
     scroll_area_mapa->setLayout(map_layout);
 }
 
