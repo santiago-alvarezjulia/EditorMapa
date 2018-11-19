@@ -40,9 +40,8 @@ void Mapa::inicializar_mapa() {
 
     auto it = terrenos_json.begin();
     const json& data_general = *it;
-    std::cout << "data_general: " << data_general["nombre_archivo"] << std::endl;
+    
     ++it;
-
     const json& elem = *it;
 
     auto it_tiles = elem["sprites"].begin();
@@ -79,7 +78,7 @@ bool Mapa::es_valido() {
 
 void Mapa::generar_json() {
     // IMPLEMENTAR
-    
+
 }
 
 void Mapa::agregar_observador(Observador* observer) {
@@ -87,11 +86,10 @@ void Mapa::agregar_observador(Observador* observer) {
 }
 
 void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen, 
-    int nueva_posicion_x, int nueva_posicion_y, string nuevo_tipo) {
+    vector<uint32_t> nuevas_pos_tiles, string nuevo_tipo) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
-        it->second->actualizar_data(nueva_imagen, nueva_posicion_x, 
-            nueva_posicion_y, nuevo_tipo);
+        it->second->actualizar_data(nueva_imagen, nuevas_pos_tiles, nuevo_tipo);
     }
 }
 
@@ -126,7 +124,7 @@ vector<string> Mapa::split(const string& str, char delim) {
 Mapa::~Mapa() {
     for (int i = 0; i < this->filas; ++i) {
         for (int j = 0; j < this->columnas; ++j) {
-            string id_label ("mapa");
+            string id_label ("");
             id_label += ',';
             id_label += std::to_string(i);
             id_label += ',';

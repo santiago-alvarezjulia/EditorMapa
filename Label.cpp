@@ -6,7 +6,7 @@ using std::string;
 using std::vector;
 
 Label::Label(QPixmap& terrenos, string id, string tipo, vector<uint32_t> pos_tiles, 
-    QWidget* parent) : QLabel(parent), id(id), terrenos(terrenos), tipo(tipo) {
+    QWidget* parent) : QLabel(parent), id(id), tipo(tipo), pos_tiles(pos_tiles) {
     this->setFixedSize(32, 32);
     QPixmap label_32_x_32 (32, 32);
 
@@ -39,15 +39,12 @@ Label::Label(QPixmap& terrenos, string id, string tipo, vector<uint32_t> pos_til
     }
     
     this->setPixmap(label_32_x_32);
+    this->pixmap = label_32_x_32;
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
-int Label::get_posicion_x() {
-    return this->x;
-}
-
-int Label::get_posicion_y() {
-    return this->y;
+vector<uint32_t> Label::get_pos_tiles() {
+    return this->pos_tiles;
 }
 
 string Label::get_tipo() {
@@ -55,10 +52,7 @@ string Label::get_tipo() {
 }
 
 QPixmap Label::get_imagen() {
-    QRect rect(this->x, this->y, 8, 8);
-    QPixmap cropped (this->terrenos.copy(rect));
-    //return cropped.scaled(16, 16);
-    return cropped;
+    return this->pixmap;
 }
 
 void Label::agregar_observador(Observador* observador_) {

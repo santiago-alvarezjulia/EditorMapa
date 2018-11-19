@@ -44,12 +44,10 @@ LabelMapa::LabelMapa(QPixmap& terrenos, string id, string tipo,
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
-void LabelMapa::actualizar_data(QPixmap& nueva_imagen, int nueva_posicion_x,
-            int nueva_posicion_y, std::string nuevo_tipo) {
-    //this->setPixmap(nueva_imagen.scaled(16, 16));
+void LabelMapa::actualizar_data(QPixmap& nueva_imagen, 
+    vector<uint32_t> nuevas_pos_tiles, string nuevo_tipo) {
     this->setPixmap(nueva_imagen);
-    this->posicion_x = nueva_posicion_x;
-    this->posicion_y = nueva_posicion_y;
+    this->pos_tiles = nuevas_pos_tiles;
     this->tipo = nuevo_tipo; 
 }
 

@@ -3,7 +3,9 @@
 #include "ui_Editor.h"
 #include <iostream>
 #include <QMessageBox>
+#include <vector>
 using std::string;
+using std::vector;
 
 Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) : 
     cant_jugadores(cant_jugadores), QWidget(parent, Qt::Window), tabs(Tabs(this)),
@@ -37,11 +39,10 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
 void Editor::en_notificacion(string id_label_mapa) {
     if (this->tabs.get_id_label_clickeado() != "") {
         QPixmap nueva_imagen = this->tabs.get_imagen_clickeado();
-        int nueva_posicion_x = this->tabs.get_posicion_x_label_clickeado();
-        int nueva_posicion_y = this->tabs.get_posicion_y_label_clickeado();
+        vector<uint32_t> nuevas_pos_tiles = this->tabs.get_pos_tiles_clickeado();
         string nuevo_tipo = this->tabs.get_tipo_label_clickeado();
-        this->mapa.actualizar_data(id_label_mapa, nueva_imagen, nueva_posicion_x,
-            nueva_posicion_y, nuevo_tipo);
+        this->mapa.actualizar_data(id_label_mapa, nueva_imagen, nuevas_pos_tiles, 
+            nuevo_tipo);
         return;
     }
 }

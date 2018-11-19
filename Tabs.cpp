@@ -108,20 +108,11 @@ string Tabs::get_id_label_clickeado() {
     return this->id_label_clickeado;
 }
 
-int Tabs::get_posicion_x_label_clickeado() {
+vector<uint32_t> Tabs::get_pos_tiles_clickeado() {
     map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
 	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_posicion_x();
+        return it->second->get_pos_tiles();
     }
-    return 0;
-}
-
-int Tabs::get_posicion_y_label_clickeado() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
-	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_posicion_y();
-    }
-    return 0;
 }
 
 string Tabs::get_tipo_label_clickeado() {
@@ -129,7 +120,6 @@ string Tabs::get_tipo_label_clickeado() {
 	if (it != this->tabs_terrenos.end()) {
         return it->second->get_tipo();
     }
-    return "";
 }
 
 QPixmap Tabs::get_imagen_clickeado() {
