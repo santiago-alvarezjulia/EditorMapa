@@ -32,8 +32,7 @@ void DialogoBienvenida::crear_mapa() {
     QLineEdit line_edit_cant_jugadores (&dialog);
     form_layout.addRow(descripcion_cant_jugadores, &line_edit_cant_jugadores);
 
-    QDialogButtonBox box_botones (QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                           Qt::Horizontal, &dialog);
+    QDialogButtonBox box_botones (QDialogButtonBox::Ok, Qt::Horizontal, &dialog);
     form_layout.addRow(&box_botones);
     QObject::connect(&box_botones, SIGNAL(accepted()), &dialog, SLOT(accept()));
 
