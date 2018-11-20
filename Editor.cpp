@@ -59,7 +59,7 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
 }
 
 /**
- * \brief Metodo virtual de la interfaz Observador.
+ * \brief Metodo virtual de la interfaz Observador implementada por Editor.
  * 
  * Metodo virtual que es llamado por Mapa cuando un label del mapa (LabelMapa)
  * es clickeado. Recibe por parametro el id del LabelMapa.
