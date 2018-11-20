@@ -18,7 +18,7 @@ class Editor : public QWidget, Observador {
         Mapa mapa;
         Tabs tabs;
         int cant_jugadores;
-        void conectar_botones();
+        void conectar_boton_guardar_mapa();
         void guardar_mapa();
 };
 
