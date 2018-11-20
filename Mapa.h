@@ -18,8 +18,7 @@ class Mapa : public ObservadorMapa {
         void agregar_jugador(std::string id_label, QPixmap& nueva_imagen);
         void agregar_observador(Observador* observer);
         virtual void label_mapa_clickeado(std::string id_label_mapa);
-        virtual void label_mapa_enter_event(std::string id_label_mapa);
-        virtual void label_mapa_leave_event(std::string id_label_mapa);
+        
         std::string get_tipo_by_id(std::string id_label_mapa);
 
         void parsear_json(std::string filename_json);

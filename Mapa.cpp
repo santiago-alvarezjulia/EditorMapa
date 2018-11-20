@@ -15,20 +15,41 @@ using std::vector;
 using std::map;
 using nlohmann::json;
 
+/**
+ * \brief 1er Constructor de Mapa.
+ * 
+ * Constructor de Mapa que es utilizado cuando se crea un mapa desde 0. 
+ * Recibe como parametros el tamaño (filas y columnas) y la cantidad de jugadores.
+ */
 Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas), 
     columnas(columnas), parent(parent) {
     this->mapa = map<string, LabelMapa*>();
     this->jugadores = map<string, bool>();
+    // hardcodeo el nombre del archivo .bmp con los sprites del terreno.
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
+/**
+ * \brief 2do Constructor de Mapa.
+ * 
+ * Constructor de Mapa que es utilizado cuando se carga un mapa. El tamaño y la
+ * cantidad de jugadores se define en Mapa::parsear_json.
+ */
 Mapa::Mapa(QWidget* parent) : parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
     this->jugadores = map<string, bool>();
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
+/**
+ * \brief Parseo del json Mapa.
+ * 
+ * Parseo del json con la informacion de un mapa creado y almacenado anteriormente.
+ * Precondicion -> haber construido Mapa con el 2do Constructor de Mapa.
+ * 
+ */
 void Mapa::parsear_json(string filename_json) {
+    // getteo el layout y el widget del Mapa
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
     QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
 
@@ -127,12 +148,17 @@ vector<vector<uint32_t>> Mapa::reacomodar_sprites_json(vector<vector<uint32_t>> 
     return sprites_reacomodado;
 }
 
-
+/**
+ * \brief Inicializacion Mapa.
+ * 
+ * Precondicion -> haber construido Mapa con el 1er Constructor de Mapa.
+ */
 void Mapa::inicializar_mapa() {
+    // getteo el layout y el widget del Mapa-
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
     QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
 
-    // cosas de parseo del json de terrenos
+    // cosas de parseo del json de terrenos.
     std::ifstream entrada("../sprites/terrain/terrenos.json");
     json terrenos_json;
     entrada >> terrenos_json;
@@ -171,10 +197,22 @@ void Mapa::inicializar_mapa() {
     scroll_area_mapa->setLayout(map_layout);
 }
 
+/**
+ * \brief Getter cantidad de jugadores.
+ * 
+ * Devuelvo la cantidad de jugadores que debe tener el mapa (lo proporciona el
+ * usuario de la aplicación en DialogoBienvenida).
+ */
 int Mapa::get_cantidad_jugadores() {
     return this->cantidad_jugadores;
 }
 
+/**
+ * \brief Getter tipo de LabelMapa.
+ * 
+ * Devuelvo el tipo del LabelMapa cuyo id es el especificado en el parámetro 
+ * (delego en LabelMapa). Precondicion -> el id_label_mapa es correcto.
+ */
 string Mapa::get_tipo_by_id(string id_label_mapa) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
 	if (it != this->mapa.end()) {
@@ -182,6 +220,11 @@ string Mapa::get_tipo_by_id(string id_label_mapa) {
     }
 }
 
+/**
+ * \brief Validez agregar jugador.
+ * 
+ * Verifico que no haya un jugador en el LabelMapa cuyo id recibo por parametro.
+ */
 bool Mapa::es_valido_agregar_jugador(string id_label_mapa) {
     if (this->jugadores.find(id_label_mapa) == this->jugadores.end()) {
         return true;
@@ -189,6 +232,12 @@ bool Mapa::es_valido_agregar_jugador(string id_label_mapa) {
     return false;
 }
 
+/**
+ * \brief Genero json de Mapa.
+ * 
+ * Genero json con la informacion de Mapa. Recibo el nombre del archivo que tengo 
+ * que generar por parametro (filepath incluido).
+ */
 void Mapa::generar_json(std::string nombre_archivo) {
     json j;
     
@@ -249,10 +298,21 @@ void Mapa::generar_json(std::string nombre_archivo) {
     file << j;
 }
 
+/**
+ * \brief Agrego observador del Mapa.
+ * 
+ * Agrego un observador del Mapa (Editor).
+ */
 void Mapa::agregar_observador(Observador* observer) {
     this->observador = observer;
 }
 
+/**
+ * \brief Actualizar data.
+ * 
+ * Actualizo la data de un LabelMapa cuyo id recibo por parametro (delego 
+ * en LabelMapa).
+ */
 void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen, 
     vector<uint32_t> nuevas_pos_tiles, string nuevo_tipo) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
@@ -269,24 +329,22 @@ void Mapa::agregar_jugador(string id_label, QPixmap& nueva_imagen) {
     }
 }
 
+/**
+ * \brief Metodo virtual de la interfaz ObservadorMapa.
+ * 
+ * Metodo virtual que es llamado por LabelMapa cuando este es clickeado.
+ * Avisa al observador cual LabelMapa fue clickeado.
+ */
 void Mapa::label_mapa_clickeado(std::string id_label_mapa) {
     this->observador->en_notificacion(id_label_mapa);
 }
 
-void Mapa::label_mapa_enter_event(std::string id_label_mapa) {
-    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
-	if (it != this->mapa.end()) {
-        it->second->set_marco_mouse_enter();
-    }
-}
-
-void Mapa::label_mapa_leave_event(std::string id_label_mapa) {
-    map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
-	if (it != this->mapa.end()) {
-        it->second->borrar_marco_mouse_enter();
-    }
-}
-
+/**
+ * \brief Split de string.
+ * 
+ * Devuelvo un vector de strings a partir del splitteo de un string y un 
+ * caracter delimitador.
+ */
 vector<string> Mapa::split(const string& str, char delim) {
     stringstream ss(str);
     string item;
@@ -297,10 +355,22 @@ vector<string> Mapa::split(const string& str, char delim) {
     return elementos;
 }
 
+/**
+ * \brief Getter cantidad de jugadores agregados.
+ * 
+ * Devuelvo la cantidad de jugadores que fueron agregados al mapa hasta ese
+ * momento.
+ */
 int Mapa::get_cantidad_jugadores_agregados() {
     return this->jugadores.size();
 }
 
+/**
+ * \brief Destructor de Mapa.
+ * 
+ * Libero los LabelMapa del heap (fueron tomados los recursos en 
+ * Mapa::inicializar_mapa o en Mapa::parsear_json).
+ */
 Mapa::~Mapa() {
     for (int i = 0; i < this->filas; ++i) {
         for (int j = 0; j < this->columnas; ++j) {

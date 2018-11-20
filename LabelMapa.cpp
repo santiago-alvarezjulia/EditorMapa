@@ -167,7 +167,7 @@ void LabelMapa::mousePressEvent(QMouseEvent* event) {
  * Le aviso al observador que el mouse entro al LabelMapa. 
  */
 void LabelMapa::enterEvent(QEvent* event) {
-    this->observador->label_mapa_enter_event(this->pos_label);
+    this->set_marco_mouse_enter();
 }
 
 /**
@@ -176,7 +176,7 @@ void LabelMapa::enterEvent(QEvent* event) {
  * Le aviso al observador que el mouse salio del LabelMapa. 
  */
 void LabelMapa::leaveEvent(QEvent* event) {
-    this->observador->label_mapa_leave_event(this->pos_label);
+    this->borrar_marco_mouse_enter();
 }
 
 /**
