@@ -9,10 +9,23 @@
 #include <QFileDialog>
 #include "Editor.h"
 
+/**
+ * \brief Constructor de DialogoBienvenida.
+ * 
+ * Constructor de DialogoBienvenida que es utilizado como menu principal al 
+ * iniciar el editor.
+ */
 DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {
     this->editor_fue_creado = false;
 }
 
+/**
+ * \brief Muestro dialogo crear mapa.
+ * 
+ * Es llamada al tocar el boton de crear mapa (vease main.cpp). Muestra el 
+ * dialogo con las configuraciones posibles para un mapa nuevo 
+ * (tamaño y cantidad de jugadores).
+ */
 void DialogoBienvenida::crear_mapa() {
     QDialog dialog (this);
     QFormLayout form_layout (&dialog);
@@ -44,10 +57,17 @@ void DialogoBienvenida::crear_mapa() {
         this->editor_fue_creado = true;
         this->editor->show();
 
+        // cierro DialogoBienvenida
         this->close();
     }
 }
 
+/**
+ * \brief Muestro dialogo cargar mapa.
+ * 
+ * Es llamada al tocar el boton de cargar mapa (vease main.cpp). Muestra el 
+ * dialogo para elegir al mapa previamente creado y almacenado en la pc.
+ */
 void DialogoBienvenida::cargar_mapa() {
     // filename incluye el filepath completo
     QString filename = QFileDialog::getOpenFileName(this, 
@@ -61,11 +81,18 @@ void DialogoBienvenida::cargar_mapa() {
     this->editor = new Editor (filename.toStdString());
     this->editor_fue_creado = true;
 
+    // cierro DialogoBienvenida
     this->close();
     
     this->editor->show();
 }
 
+/**
+ * \brief Destructor DialogoBienvenida.
+ * 
+ * Verifica si fue creado el editor en el heap, en caso afirmativo, libera
+ * los recursos.
+ */
 DialogoBienvenida::~DialogoBienvenida() {
     if (this->editor_fue_creado) {
         delete this->editor;
