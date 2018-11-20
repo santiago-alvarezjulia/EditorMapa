@@ -90,7 +90,11 @@ void Mapa::parsear_json(string filename_json) {
         id_label += std::to_string((*it_pos_jugadores)[0]);
         id_label += ',';
         id_label += std::to_string((*it_pos_jugadores)[1]);
-        this->jugadores.emplace(id_label, true); 
+        this->jugadores.emplace(id_label, true);
+        map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
+	    if (it != this->mapa.end()) {
+            it->second->agregar_imagen_jugador();
+        } 
     }
 
     this->cantidad_jugadores = pos_jugadores.size();

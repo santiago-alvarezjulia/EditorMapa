@@ -60,9 +60,10 @@ void DialogoBienvenida::cargar_mapa() {
     // cargar mapa
     this->editor = new Editor (filename.toStdString());
     this->editor_fue_creado = true;
-    this->editor->show();
 
     this->close();
+    
+    this->editor->show();
 }
 
 DialogoBienvenida::~DialogoBienvenida() {

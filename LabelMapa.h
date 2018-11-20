@@ -18,6 +18,8 @@ class LabelMapa : public QLabel {
         
         void set_marco_mouse_enter();
         void borrar_marco_mouse_enter();
+
+        void agregar_imagen_jugador();
         
         std::string get_tipo();
         std::vector<uint32_t> get_pos_tiles();

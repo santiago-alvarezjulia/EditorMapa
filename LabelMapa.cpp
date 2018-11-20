@@ -55,6 +55,42 @@ void LabelMapa::actualizar_imagen(QPixmap& nueva_imagen) {
     this->setPixmap(nueva_imagen);
 }
 
+void LabelMapa::agregar_imagen_jugador() {
+    // Hardcodeado pos_tiles de Jugador (terrenos.json)
+    vector<uint32_t> pos_tiles = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+    QPixmap label_32_x_32 (32, 32);
+
+    int pos_x_label = 0;
+    int pos_y_label = 0;
+    vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
+    for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
+        int x;
+        if (*it_pos_tiles < 20) {
+            x = (*it_pos_tiles) * 8;
+        } else {
+            x = (*it_pos_tiles % 20) * 8;
+        }
+
+        int y = (*it_pos_tiles / 20) * 8;
+        QRect rect(x, y, 8, 8);
+        QPixmap cropped = terrenos.copy(rect);
+    
+        QPainter painter (&label_32_x_32);
+        if (cont_tiles < 4) {
+            pos_x_label = cont_tiles * 8;
+        } else {
+             pos_x_label = (cont_tiles % 4) * 8;
+        }
+
+        pos_y_label = (cont_tiles / 4) * 8;
+        painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
+
+        cont_tiles++;
+    }
+    
+    this->setPixmap(label_32_x_32);
+}
+
 string LabelMapa::get_tipo() {
     return this->tipo;
 } 
