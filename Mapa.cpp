@@ -5,6 +5,7 @@
 #include "LabelMapa.h"
 #include "libs/json.hpp"
 #include <sstream>
+#include <QMessageBox>
 #include <fstream>
 #include <vector>
 #define DELIM_ID ','
@@ -225,11 +226,29 @@ string Mapa::get_tipo_by_id(string id_label_mapa) {
  * 
  * Verifico que no haya un jugador en el LabelMapa cuyo id recibo por parametro.
  */
-bool Mapa::es_valido_agregar_jugador(string id_label_mapa) {
-    if (this->jugadores.find(id_label_mapa) == this->jugadores.end()) {
-        return true;
+bool Mapa::es_valido_agregar_jugador(string id_label_mapa, 
+    int cantidad_jugadores) {
+    if (this->get_tipo_by_id(id_label_mapa) == "roca") {
+         // me fijo si faltan ubicar jugadores o ya fueron todos ubicados
+        if (this->get_cantidad_jugadores_agregados() < cantidad_jugadores) {
+            // me fijo si ya hay un jugador en esa posicion del Mapa
+            if (this->jugadores.find(id_label_mapa) == this->jugadores.end()) {
+                return true;
+            } else {
+                QMessageBox::critical(0, "Error al agregar un jugador", 
+                    "Ya agregaste un jugador en esa posicion");
+                return false;
+            }          
+        } else {
+            QMessageBox::critical(0, "Error al agregar un jugador", 
+                "Ya alcanzaste el maximo de jugadores posibles");
+            return false;
+        }    
+    } else {
+        QMessageBox::critical(0, "Error al agregar un jugador", 
+            "Solo se puede agregar jugadores sobre roca");
+        return false;
     }
-    return false;
 }
 
 /**
@@ -372,17 +391,9 @@ int Mapa::get_cantidad_jugadores_agregados() {
  * Mapa::inicializar_mapa o en Mapa::parsear_json).
  */
 Mapa::~Mapa() {
-    for (int i = 0; i < this->filas; ++i) {
-        for (int j = 0; j < this->columnas; ++j) {
-            string id_label ("");
-            id_label += std::to_string(i);
-            id_label += ',';
-            id_label += std::to_string(j);
-            map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
-	        if (it != this->mapa.end()) {
-                delete it->second;
-            }
-        }
+    map<string, LabelMapa*>::iterator it = this->mapa.begin();
+    for (; it != this->mapa.end(); ++it) {
+        delete it->second;
     }
 }
         

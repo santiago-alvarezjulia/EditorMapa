@@ -29,7 +29,8 @@ class Mapa : public ObservadorMapa {
         int get_cantidad_jugadores_agregados();
         int get_cantidad_jugadores();
 
-        bool es_valido_agregar_jugador(std::string id_label_mapa);
+        bool es_valido_agregar_jugador(std::string id_label_mapa, 
+            int cantidad_jugadores);
 
         ~Mapa();
 

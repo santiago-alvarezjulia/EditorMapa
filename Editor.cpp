@@ -14,8 +14,7 @@ using std::vector;
  * parametros del mapa el tamaño (filas y columnas) y la cantidad de jugadores.
  */
 Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) : 
-    cant_jugadores(cant_jugadores), QWidget(parent, Qt::Window), tabs(Tabs(this)),
-    mapa(Mapa(filas, columnas, this)) {
+    cant_jugadores(cant_jugadores), QWidget(parent, Qt::Window) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para que use esa configuracion. A partir de aca
@@ -23,7 +22,9 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
     editor.setupUi(this);
 
     // aca inicializo Tabs y Mapa para poder utilizar findChild
+    this->tabs = Tabs(this);
     this->tabs.inicializar_tabs();
+    this->mapa = Mapa(filas, columnas, this);
     this->mapa.inicializar_mapa();
 
     // agrego al editor como observador del mapa
@@ -40,7 +41,7 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
  * relacionada con el tamaño (filas y columnas) y la cantidad de jugadores.
  */
 Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent, 
-    Qt::Window), tabs(Tabs(this)), mapa(Mapa(this)) {
+    Qt::Window) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para use esa configuracion. A partir de aca
@@ -48,7 +49,9 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
     editor.setupUi(this);
 
     // aca inicializo Tabs y Mapa para poder utilizar findChild
+    this->tabs = Tabs(this);
     this->tabs.inicializar_tabs();
+    this->mapa = Mapa(this);
     this->mapa.parsear_json(filename_json);
     this->cant_jugadores = this->mapa.get_cantidad_jugadores();
 
@@ -78,28 +81,10 @@ void Editor::en_notificacion(string id_label_mapa) {
         if (nuevo_tipo == "jugador") {
             // me fijo que el tipo de LabelMapa sea una Roca para poder apoyar
             // al jugador
-            if (this->mapa.get_tipo_by_id(id_label_mapa) == "roca") {
-                // me fijo si faltan ubicar jugadores o ya fueron todos ubicados
-                if (this->mapa.get_cantidad_jugadores_agregados() < this->cant_jugadores) {
-                    // me fijo si ya hay un jugador en esa posicion del Mapa
-                    if (this->mapa.es_valido_agregar_jugador(id_label_mapa)) {
-                        // agrego al jugador al mapa
-                        this->mapa.agregar_jugador(id_label_mapa, nueva_imagen);
-                    } else {
-                        QMessageBox::critical(this, "Error al agregar un jugador", 
-                            "Ya agregaste un jugador en esa posicion");
-                        return;
-                    }
-                    
-                } else {
-                    QMessageBox::critical(this, "Error al agregar un jugador", 
-                        "Ya alcanzaste el maximo de jugadores posibles");
-                    return;
-                }
-                
+            if (this->mapa.es_valido_agregar_jugador(id_label_mapa, this->cant_jugadores)) {
+                // agrego al jugador al mapa
+                this->mapa.agregar_jugador(id_label_mapa, nueva_imagen);
             } else {
-                QMessageBox::critical(this, "Error al agregar un jugador", 
-                    "Solo se puede agregar jugadores sobre roca");
                 return;
             }
         } else {

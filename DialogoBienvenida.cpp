@@ -68,8 +68,8 @@ void DialogoBienvenida::crear_mapa() {
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
         QString filas = line_edit_filas.text();
-        QString columnas = line_edit_filas.text();
-        QString cantidad_de_jugadores = line_edit_filas.text();
+        QString columnas = line_edit_columnas.text();
+        QString cantidad_de_jugadores = line_edit_cant_jugadores.text();
         
         if (filas.isEmpty() || columnas.isEmpty() || cantidad_de_jugadores.isEmpty()) {
             QMessageBox::critical(this, "Error al crear mapa", 
