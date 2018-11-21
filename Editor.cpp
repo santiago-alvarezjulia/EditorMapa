@@ -74,11 +74,11 @@ void Editor::en_notificacion(string id_label_mapa) {
     // me fijo si hay algun Label clickeado en Tabs
     if (tabs_id_label_clickeado != "") {
         // getteo el tipo y la imagen del Label clickeado en Tabs 
-        string nuevo_tipo = this->tabs.get_tipo_label_clickeado();
+        int nuevo_tipo = this->tabs.get_tipo_label_clickeado();
         QPixmap nueva_imagen = this->tabs.get_imagen_clickeado();
         
-        // me fijo si es el caso especial en que el tipo es Jugador
-        if (nuevo_tipo == "jugador") {
+        // me fijo si es el caso especial en que el tipo es Jugador (6)
+        if (nuevo_tipo == 6) {
             // me fijo que el tipo de LabelMapa sea una Roca para poder apoyar
             // al jugador
             if (this->mapa.es_valido_agregar_jugador(id_label_mapa, this->cant_jugadores)) {

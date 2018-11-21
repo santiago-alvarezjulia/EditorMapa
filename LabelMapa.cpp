@@ -13,7 +13,7 @@ using std::vector;
  * a la imagen .bmp que contiene todos los sprites de los terrenos. Tambien
  * el pos_label, el tipo y la posicion de los tiles de este LabelMapa en particular.
  */
-LabelMapa::LabelMapa(QPixmap& terrenos, string tipo, vector<uint32_t> pos_tiles, 
+LabelMapa::LabelMapa(QPixmap& terrenos, int tipo, vector<uint32_t> pos_tiles, 
     string pos_label, QWidget* parent) : QLabel(parent), tipo(tipo), 
     pos_label(pos_label), terrenos(terrenos), pos_tiles(pos_tiles) {
     // fijo el tamaño de Label a 32x32 pixeles.
@@ -67,7 +67,7 @@ LabelMapa::LabelMapa(QPixmap& terrenos, string tipo, vector<uint32_t> pos_tiles,
  * Actualizo la data del LabelMapa.
  */
 void LabelMapa::actualizar_data(QPixmap& nueva_imagen, 
-    vector<uint32_t> nuevas_pos_tiles, string nuevo_tipo) {
+    vector<uint32_t> nuevas_pos_tiles, int nuevo_tipo) {
     this->setPixmap(nueva_imagen);
     this->pos_tiles = nuevas_pos_tiles;
     this->tipo = nuevo_tipo; 
@@ -129,7 +129,7 @@ void LabelMapa::agregar_imagen_jugador() {
  * 
  * Devuelvo el tipo del LabelMapa.
  */
-string LabelMapa::get_tipo() {
+int LabelMapa::get_tipo() {
     return this->tipo;
 } 
 

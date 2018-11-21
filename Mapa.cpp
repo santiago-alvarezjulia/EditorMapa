@@ -60,7 +60,7 @@ void Mapa::parsear_json(string filename_json) {
     entrada >> mapa_json;
 
     vector<vector<uint32_t>> pos_jugadores = mapa_json["jugadores"];
-    vector<vector<string>> tipos = mapa_json["tipo"];
+    vector<vector<int>> tipos = mapa_json["tipo"];
     int cant_fila = tipos.size();
     this->filas = cant_fila;
     vector<vector<uint32_t>> sprites = mapa_json["sprite"];
@@ -70,16 +70,16 @@ void Mapa::parsear_json(string filename_json) {
     
     vector<vector<uint32_t>>::iterator it_sprites_reacomodados = 
         sprites_reacomodados.begin();
-    vector<vector<string>>::iterator it_filas_tipos = tipos.begin();
+    vector<vector<int>>::iterator it_filas_tipos = tipos.begin();
     int cant_columnas = (*it_filas_tipos).size();
     this->columnas = cant_columnas;
 
     int fila_actual = 0;
     int columna_actual = 0;
     for (; it_filas_tipos != tipos.end(); ++it_filas_tipos) {
-        vector<string>::iterator it_tipos = (*it_filas_tipos).begin();
+        vector<int>::iterator it_tipos = (*it_filas_tipos).begin();
         for (; it_tipos != (*it_filas_tipos).end(); ++it_tipos) {
-            string tipo = *it_tipos;
+            int tipo = *it_tipos;
             
             string pos_label ("");
             pos_label += std::to_string(fila_actual);
@@ -173,7 +173,7 @@ void Mapa::inicializar_mapa() {
     auto it_tiles = elem["sprites"].begin();
     json tile = *it;
     string id = tile["sprites"][0]["id"];
-    string tipo = elem["tipo"];
+    int tipo = elem["tipo"];
     vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
 
     for (int i = 0; i < this->filas; ++i) {
@@ -214,7 +214,7 @@ int Mapa::get_cantidad_jugadores() {
  * Devuelvo el tipo del LabelMapa cuyo id es el especificado en el parámetro 
  * (delego en LabelMapa). Precondicion -> el id_label_mapa es correcto.
  */
-string Mapa::get_tipo_by_id(string id_label_mapa) {
+int Mapa::get_tipo_by_id(string id_label_mapa) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
 	if (it != this->mapa.end()) {
         return it->second->get_tipo();
@@ -228,7 +228,8 @@ string Mapa::get_tipo_by_id(string id_label_mapa) {
  */
 bool Mapa::es_valido_agregar_jugador(string id_label_mapa, 
     int cantidad_jugadores) {
-    if (this->get_tipo_by_id(id_label_mapa) == "roca") {
+    // tipo Roca (0)
+    if (this->get_tipo_by_id(id_label_mapa) == 0) {
          // me fijo si faltan ubicar jugadores o ya fueron todos ubicados
         if (this->get_cantidad_jugadores_agregados() < cantidad_jugadores) {
             // me fijo si ya hay un jugador en esa posicion del Mapa
@@ -257,10 +258,10 @@ bool Mapa::es_valido_agregar_jugador(string id_label_mapa,
  * Genero json con la informacion de Mapa. Recibo el nombre del archivo que tengo 
  * que generar por parametro (filepath incluido).
  */
-void Mapa::generar_json(std::string nombre_archivo) {
+void Mapa::generar_json(string nombre_archivo) {
     json j;
     
-    vector<vector<string>> tipos;
+    vector<vector<int>> tipos;
     vector<vector<uint32_t>> sprites;
     vector<vector<uint32_t>> jugadores_json;
     int largo_vector_sprites = this->columnas * 4;
@@ -268,7 +269,7 @@ void Mapa::generar_json(std::string nombre_archivo) {
     int cont_sprites_agregados = 0;
 
     for (int i = 0; i < this->filas; ++i) {
-        vector<string> tipos_por_columna;
+        vector<int> tipos_por_columna;
         vector<uint32_t> sprites_por_columna;
         
         for (int j = 0; j < this->columnas; ++j) {
@@ -333,7 +334,7 @@ void Mapa::agregar_observador(Observador* observer) {
  * en LabelMapa).
  */
 void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen, 
-    vector<uint32_t> nuevas_pos_tiles, string nuevo_tipo) {
+    vector<uint32_t> nuevas_pos_tiles, int nuevo_tipo) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
         it->second->actualizar_data(nueva_imagen, nuevas_pos_tiles, nuevo_tipo);

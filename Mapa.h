@@ -14,12 +14,12 @@ class Mapa : public ObservadorMapa {
         Mapa(QWidget* parent = 0);
         
         void actualizar_data(std::string id_label, QPixmap& nueva_imagen, 
-            std::vector<uint32_t> nuevas_pos_tiles, std::string nuevo_tipo);
+            std::vector<uint32_t> nuevas_pos_tiles, int nuevo_tipo);
         void agregar_jugador(std::string id_label, QPixmap& nueva_imagen);
         void agregar_observador(Observador* observer);
         virtual void label_mapa_clickeado(std::string id_label_mapa);
         
-        std::string get_tipo_by_id(std::string id_label_mapa);
+        int get_tipo_by_id(std::string id_label_mapa);
 
         void parsear_json(std::string filename_json);
         void generar_json(std::string nombre_archivo);

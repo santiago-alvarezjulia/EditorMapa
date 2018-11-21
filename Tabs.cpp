@@ -2,7 +2,7 @@
 #include <iostream>
 #include <QWidget>
 #include <QGridLayout>
-#include "Label.h"
+#include "LabelTab.h"
 #include "libs/json.hpp"
 #include <fstream>
 #include <vector>
@@ -20,7 +20,7 @@ using std::vector;
  * utilizar los elementos graficos de Qt como QGridLayout).
  */
 Tabs::Tabs(QWidget* parent) : parent(parent) {
-    this->tabs_terrenos = map<string, Label*>();
+    this->tabs_terrenos = map<string, LabelTab*>();
     this->id_label_clickeado = "";
     // hardcodeo el nombre del archivo .bmp con los sprites del terreno.
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
@@ -61,7 +61,7 @@ void Tabs::inicializar_tabs() {
     QWidget* scroll_area_jugador = this->parent->findChild<QWidget*>("scrollArea_widget_jugador");
 
     // hardcodeo la ubicacion del archivo .json con la informacion sobre los
-    // sprited del archivo this->imagen_terrenos.
+    // sprites del archivo this->imagen_terrenos.
     std::ifstream entrada("../sprites/terrain/terrenos.json");
 
     json terrenos_json;
@@ -84,25 +84,25 @@ void Tabs::inicializar_tabs() {
         for (int i = 0; it_sprites != elem["sprites"].end(); ++it_sprites) {
             json tile = *it;
  
-            Label* label = new Label(this->imagen_terrenos, tile["sprites"][i]["id"], 
+            LabelTab* label = new LabelTab(this->imagen_terrenos, tile["sprites"][i]["id"], 
                 elem["tipo"], tile["sprites"][i]["pos_tiles"], this->parent);
                        
             label->agregar_observador(this);
 
             // me fijo de que tipo es y lo agrego al layout correspondiente.
-            if (elem["tipo"] == "cima") {
+            if (elem["tipo"] == 5) {
                 cima_layout->addWidget(label, fila, columna);
-            } else if (elem["tipo"] == "arena"){
+            } else if (elem["tipo"] == 1){
                 arena_layout->addWidget(label, fila, columna);
-            } else if (elem["tipo"] == "roca"){
+            } else if (elem["tipo"] == 0){
                 roca_layout->addWidget(label, fila, columna);
-            } else if (elem["tipo"] == "precipicio"){
+            } else if (elem["tipo"] == 2){
                 precipicio_layout->addWidget(label, fila, columna);
-            } else if (elem["tipo"] == "especia"){
+            } else if (elem["tipo"] == 4){
                 especia_layout->addWidget(label, fila, columna);
-            } else if (elem["tipo"] == "duna"){
+            } else if (elem["tipo"] == 3){
                 duna_layout->addWidget(label, fila, columna);
-            } else if (elem["tipo"] == "jugador"){
+            } else if (elem["tipo"] == 6){
                 jugador_layout->addWidget(label, fila, columna);
             } 
         
@@ -143,11 +143,12 @@ string Tabs::get_id_label_clickeado() {
  * \brief Getter posicion de tiles del label clickeado.
  * 
  * Devuelvo un vector con las posiciones de los tiles dentro del archivo 
- * this->imagen_terrenos del label clickeado (delego en Label). 
+ * this->imagen_terrenos del label clickeado (delego en LabelTab). 
  * Precondicion -> tiene que haberse verificado que hay un label clickeado.
  */
 vector<uint32_t> Tabs::get_pos_tiles_clickeado() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
+    map<string, LabelTab*>::iterator it = 
+        this->tabs_terrenos.find(this->id_label_clickeado);
 	if (it != this->tabs_terrenos.end()) {
         return it->second->get_pos_tiles();
     }
@@ -156,11 +157,12 @@ vector<uint32_t> Tabs::get_pos_tiles_clickeado() {
 /**
  * \brief Getter tipo del label clickeado.
  * 
- * Devuelvo el tipo del label clickeado (delego en Label). Precondicion -> tiene que haberse
+ * Devuelvo el tipo del label clickeado (delego en LabelTab). Precondicion -> tiene que haberse
  * verificado que hay un label clickeado.
  */
-string Tabs::get_tipo_label_clickeado() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
+int Tabs::get_tipo_label_clickeado() {
+    map<string, LabelTab*>::iterator it = 
+        this->tabs_terrenos.find(this->id_label_clickeado);
 	if (it != this->tabs_terrenos.end()) {
         return it->second->get_tipo();
     }
@@ -169,11 +171,12 @@ string Tabs::get_tipo_label_clickeado() {
 /**
  * \brief Getter imagen del label clickeado.
  * 
- * Devuelvo la imagen del label clickeado (delego en Label). 
+ * Devuelvo la imagen del label clickeado (delego en LabelTab). 
  * Precondicion -> tiene que haberse verificado que hay un label clickeado.
  */
 QPixmap Tabs::get_imagen_clickeado() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(this->id_label_clickeado);
+    map<string, LabelTab*>::iterator it = 
+        this->tabs_terrenos.find(this->id_label_clickeado);
 	if (it != this->tabs_terrenos.end()) {
         return it->second->get_imagen();
     }
@@ -182,12 +185,12 @@ QPixmap Tabs::get_imagen_clickeado() {
 /**
  * \brief Metodo virtual de la interfaz Observador implementada por Tabs.
  * 
- * Metodo virtual que es llamado por Mapa cuando un label de una pestaña (Label)
+ * Metodo virtual que es llamado por Mapa cuando un label de una pestaña (LabelTab)
  * es clickeado. Recibe por parametro el id del Label.
  */
-void Tabs::en_notificacion(std::string id_label) {
+void Tabs::en_notificacion(string id_label) {
     // me fijo que tenga almacenado al Label en tabs_terrenos
-    map<string, Label*>::iterator it = this->tabs_terrenos.find(id_label);
+    map<string, LabelTab*>::iterator it = this->tabs_terrenos.find(id_label);
 	if (it != this->tabs_terrenos.end()) {
         // me fijo si el id coincide con el id del label clickeado actualmente.
         if (this->id_label_clickeado == id_label) {
@@ -195,7 +198,8 @@ void Tabs::en_notificacion(std::string id_label) {
             this->id_label_clickeado = "";
         } else {
             it->second->set_marco_clickeado();
-            map<string, Label*>::iterator it2 = this->tabs_terrenos.find(this->id_label_clickeado);
+            map<string, LabelTab*>::iterator it2 = 
+                this->tabs_terrenos.find(this->id_label_clickeado);
 	        if (it2 != this->tabs_terrenos.end()) {
                 it2->second->borrar_marco_clickeado();
             }
@@ -207,10 +211,11 @@ void Tabs::en_notificacion(std::string id_label) {
 /**
  * \brief Destructor de Tabs.
  * 
- * Libero los Label del heap (fueron tomados los recursos en Tabs::inicializar_tabs)
+ * Libero los Label del heap (fueron tomados los recursos en 
+ *  Tabs::inicializar_tabs)
  */
 Tabs::~Tabs() {
-    map<string, Label*>::iterator it = this->tabs_terrenos.begin();
+    map<string, LabelTab*>::iterator it = this->tabs_terrenos.begin();
     for (; it != this->tabs_terrenos.end(); ++it) {
         delete it->second;
     }

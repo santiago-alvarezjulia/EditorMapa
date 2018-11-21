@@ -1,4 +1,4 @@
-#include "Label.h"
+#include "LabelTab.h"
 #include <string>
 #include <iostream>
 #include <QPainter>
@@ -6,13 +6,13 @@ using std::string;
 using std::vector;
 
 /**
- * \brief Constructor de Label.
+ * \brief Constructor de LabelTab.
  * 
- * Constructor de Label que recibe como parametro el QPixmap correspondiente
+ * Constructor de LabelTab que recibe como parametro el QPixmap correspondiente
  * a la imagen .bmp que contiene todos los sprites de los terrenos. Tambien
  * el id, el tipo y la posicion de los tiles de este Label en particular.
  */
-Label::Label(QPixmap& terrenos, string id, string tipo, vector<uint32_t> pos_tiles, 
+LabelTab::LabelTab(QPixmap& terrenos, string id, int tipo, vector<uint32_t> pos_tiles, 
     QWidget* parent) : QLabel(parent), id(id), tipo(tipo), pos_tiles(pos_tiles) {
     // fijo el tamaño de Label a 32x32 pixeles. 
     this->setFixedSize(32, 32);
@@ -61,57 +61,57 @@ Label::Label(QPixmap& terrenos, string id, string tipo, vector<uint32_t> pos_til
 }
 
 /**
- * \brief Getter posicion de tiles del Label.
+ * \brief Getter posicion de tiles del LabelTab.
  * 
  * Devuelvo un vector con las posiciones de los tiles dentro del archivo de 
  * terrenos.
  */
-vector<uint32_t> Label::get_pos_tiles() {
+vector<uint32_t> LabelTab::get_pos_tiles() {
     return this->pos_tiles;
 }
 
 /**
- * \brief Getter tipo del Label.
+ * \brief Getter tipo del LabelTab.
  * 
- * Devuelvo el tipo del Label.
+ * Devuelvo el tipo del LabelTab.
  */
-string Label::get_tipo() {
+int LabelTab::get_tipo() {
     return this->tipo;
 }
 
 /**
- * \brief Getter imagen del Label.
+ * \brief Getter imagen del LabelTab.
  * 
- * Devuelvo la imagen del Label.
+ * Devuelvo la imagen del LabelTab.
  */
-QPixmap Label::get_imagen() {
+QPixmap LabelTab::get_imagen() {
     return this->pixmap;
 }
 
 /**
- * \brief Agrego observador del Label.
+ * \brief Agrego observador del LabelTab.
  * 
- * Agrego un observador del Label (Tabs).
+ * Agrego un observador del LabelTab (Tabs).
  */
-void Label::agregar_observador(Observador* observador_) {
+void LabelTab::agregar_observador(Observador* observador_) {
     this->observador = observador_;
 }
 
 /**
- * \brief Atrapo mouse clicks sobre el Label.
+ * \brief Atrapo mouse clicks sobre el LabelTab.
  * 
  * Emito la señal clickeado 
  */
-void Label::mousePressEvent(QMouseEvent* event) {
+void LabelTab::mousePressEvent(QMouseEvent* event) {
     emit clickeado();
 }
 
 /**
- * \brief Señal clickeado del Label.
+ * \brief Señal clickeado del LabelTab.
  * 
  * Le aviso al observador que fue clickeado.
  */
-void Label::clickeado() {
+void LabelTab::clickeado() {
     this->observador->en_notificacion(this->id);
 }
 
@@ -120,7 +120,7 @@ void Label::clickeado() {
  * 
  * Agrego el marco clickeado.
  */
-void Label::set_marco_clickeado() {
+void LabelTab::set_marco_clickeado() {
     this->setFrameShape(QFrame::Panel);
     this->setLineWidth(2);
 }
@@ -130,7 +130,7 @@ void Label::set_marco_clickeado() {
  * 
  * Borro el marco clickeado.
  */
-void Label::borrar_marco_clickeado() {
+void LabelTab::borrar_marco_clickeado() {
     this->setLineWidth(0);
 }
 
@@ -139,4 +139,4 @@ void Label::borrar_marco_clickeado() {
  * 
  * Destructor de Label.
  */
-Label::~Label() {}
+LabelTab::~LabelTab() {}

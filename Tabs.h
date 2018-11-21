@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "Label.h"
+#include "LabelTab.h"
 #include "Observador.h"
 
 class Tabs : public Observador {
@@ -13,7 +13,7 @@ class Tabs : public Observador {
         void inicializar_tabs();
         std::string get_id_label_clickeado();
         std::vector<uint32_t> get_pos_tiles_clickeado();
-        std::string get_tipo_label_clickeado();
+        int get_tipo_label_clickeado();
         QPixmap get_imagen_clickeado();
         virtual void en_notificacion(std::string id_label);
         ~Tabs();
@@ -21,7 +21,7 @@ class Tabs : public Observador {
     private:
         QWidget* parent;
         QPixmap imagen_terrenos;
-        std::map<std::string, Label*> tabs_terrenos;
+        std::map<std::string, LabelTab*> tabs_terrenos;
         std::string id_label_clickeado;
 };
 

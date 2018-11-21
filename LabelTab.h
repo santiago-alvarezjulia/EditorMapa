@@ -1,5 +1,5 @@
-#ifndef LABEL_H
-#define LABEL_H
+#ifndef LABEL_TAB_H
+#define LABEL_TAB_H
 
 #include <QWidget>
 #include <QLabel>
@@ -7,17 +7,17 @@
 #include <vector>
 #include "Observador.h"
 
-class Label : public QLabel {
+class LabelTab : public QLabel {
     public:
-        Label(QPixmap& terrenos, std::string id, std::string tipo, 
+        LabelTab(QPixmap& terrenos, std::string id, int tipo, 
             std::vector<uint32_t> pos_tiles , QWidget* parent = 0);
         std::vector<uint32_t> get_pos_tiles();
-        std::string get_tipo();
+        int get_tipo();
         QPixmap get_imagen();
 	    void set_marco_clickeado();
         void borrar_marco_clickeado();
         void agregar_observador(Observador* observador);
-        ~Label();
+        ~LabelTab();
  
     signals:
 	    void clickeado();
@@ -27,10 +27,10 @@ class Label : public QLabel {
 
     private:
         std::string id;
-        std::string tipo;
+        int tipo;
         std::vector<uint32_t> pos_tiles;
         QPixmap pixmap;
         Observador* observador;
 };
 
-#endif // LABEL_H
+#endif // LABEL_TAB_H

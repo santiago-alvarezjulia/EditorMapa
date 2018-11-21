@@ -28,7 +28,7 @@ message("Headers generados: ${UIS_HEADERS}")
 add_executable(editor
   Editor.cpp
   main.cpp
-  Label.cpp
+  LabelTab.cpp
   LabelMapa.cpp
   DialogoBienvenida.cpp
   Tabs.cpp

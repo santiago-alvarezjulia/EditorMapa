@@ -3,7 +3,7 @@
         "nombre_archivo": "d2k_BLOXBASE.bmp"
     },
     {
-        "tipo" : "arena",
+        "tipo" : 1,
         "sprites": [
             {
                 "id": "arena1",
@@ -11,7 +11,7 @@
             }
         ]
     },{
-        "tipo" : "precipicio",
+        "tipo" : 2,
         "sprites": [
             {
                 "id": "precipicio1",
@@ -19,7 +19,7 @@
             }
         ]
     },{
-        "tipo" : "duna",
+        "tipo" : 3,
         "sprites": [
             {
                 "id": "dunas1",
@@ -27,7 +27,7 @@
             }
         ]
     },{
-        "tipo" : "roca",
+        "tipo" : 0,
         "sprites": [
             {
                 "id": "rocas1",
@@ -35,7 +35,7 @@
             }
         ]
     },{
-        "tipo" : "cima",
+        "tipo" : 5,
         "sprites": [
             {
                 "id": "cimas1",
@@ -43,7 +43,7 @@
             }
         ]
     },{
-        "tipo" : "especia",
+        "tipo" : 4,
         "sprites": [
             {
                 "id": "especias1",
@@ -51,7 +51,7 @@
             }
         ]
     },{
-        "tipo" : "jugador",
+        "tipo" : 6,
         "sprites": [
             {
                 "id": "jugador1",

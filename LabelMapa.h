@@ -8,12 +8,12 @@
 
 class LabelMapa : public QLabel {
     public:
-        LabelMapa(QPixmap& terrenos, std::string tipo, std::vector<uint32_t> pos_tiles, 
+        LabelMapa(QPixmap& terrenos, int tipo, std::vector<uint32_t> pos_tiles, 
             std::string pos_label, QWidget* parent = 0);
         void agregar_observador(ObservadorMapa* observador);
         
         void actualizar_data(QPixmap& nueva_imagen, 
-            std::vector<uint32_t> nuevas_pos_tiles, std::string nuevo_tipo);
+            std::vector<uint32_t> nuevas_pos_tiles, int nuevo_tipo);
         void actualizar_imagen(QPixmap& nueva_imagen);
         
         void set_marco_mouse_enter();
@@ -21,7 +21,7 @@ class LabelMapa : public QLabel {
 
         void agregar_imagen_jugador();
         
-        std::string get_tipo();
+        int get_tipo();
         std::vector<uint32_t> get_pos_tiles();
         ~LabelMapa();
  
@@ -35,7 +35,7 @@ class LabelMapa : public QLabel {
 
     private:
         std::vector<uint32_t> pos_tiles;
-        std::string tipo;
+        int tipo;
         std::string pos_label;
         QPixmap& terrenos;
         ObservadorMapa* observador;
