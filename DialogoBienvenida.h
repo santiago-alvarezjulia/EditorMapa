@@ -2,6 +2,7 @@
 #define DIALOGO_BIENVENIDA_H
 
 #include <QDialog>
+#include <QFormLayout>
 #include "Editor.h"
 
 class DialogoBienvenida : public QDialog {
@@ -13,6 +14,10 @@ class DialogoBienvenida : public QDialog {
 
     private:
         Editor* editor;
+        QFormLayout* form_layout;
+        QLabel* titulo;
+        QPushButton* boton_crear_mapa;
+        QPushButton* boton_cargar_mapa;
         bool editor_fue_creado;
 };
 

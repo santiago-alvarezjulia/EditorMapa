@@ -3,7 +3,6 @@
 #include <QPushButton>
 #include <QLabel>
 #include <iostream>
-#include <QFormLayout>
 #include <QLineEdit>
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -17,6 +16,23 @@
  */
 DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {
     this->editor_fue_creado = false;
+
+    this->form_layout = new QFormLayout(this);
+
+    this->titulo = new QLabel("Bienvenido al editor de mapas de Dune");
+    form_layout->addRow(titulo);
+
+    this->boton_crear_mapa = new QPushButton("CREAR MAPA");
+    this->form_layout->addRow(this->boton_crear_mapa);
+    QObject::connect(this->boton_crear_mapa, &QPushButton::clicked,
+        this, &DialogoBienvenida::crear_mapa);
+
+    this->boton_cargar_mapa = new QPushButton("CARGAR MAPA");
+    this->form_layout->addRow(this->boton_cargar_mapa);
+    QObject::connect(this->boton_cargar_mapa, &QPushButton::clicked,
+        this, &DialogoBienvenida::cargar_mapa);
+
+    this->setWindowTitle("Editor de Mapas de Dune");
 }
 
 /**
@@ -90,11 +106,16 @@ void DialogoBienvenida::cargar_mapa() {
 /**
  * \brief Destructor DialogoBienvenida.
  * 
- * Verifica si fue creado el editor en el heap, en caso afirmativo, libera
- * los recursos.
+ * Verifica si fue creado el editor en el heap, en caso afirmativo, lo libero.
+ * Siempre liberp el titulo y los botones.
  */
 DialogoBienvenida::~DialogoBienvenida() {
     if (this->editor_fue_creado) {
         delete this->editor;
     }
+
+    delete this->form_layout;
+    delete this->titulo;
+    delete this->boton_crear_mapa;
+    delete this->boton_cargar_mapa;
 }
