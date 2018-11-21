@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QDialogButtonBox>
 #include <QFileDialog>
+#include <QMessageBox>
 #include "Editor.h"
 
 /**
@@ -46,9 +47,6 @@ void DialogoBienvenida::crear_mapa() {
     QDialog dialog (this);
     QFormLayout form_layout (&dialog);
 
-    QLabel titulo ("Crear mapa");
-    form_layout.addRow(&titulo);
-
     QString descripcion_filas ("Filas");
     QLineEdit line_edit_filas (&dialog);
     form_layout.addRow(descripcion_filas, &line_edit_filas);
@@ -65,16 +63,26 @@ void DialogoBienvenida::crear_mapa() {
     form_layout.addRow(&box_botones);
     QObject::connect(&box_botones, SIGNAL(accepted()), &dialog, SLOT(accept()));
 
+    dialog.setWindowTitle("Crear mapa");
+
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
-        this->editor = new Editor (line_edit_filas.text().toInt(), 
-            line_edit_columnas.text().toInt(), 
-            line_edit_cant_jugadores.text().toInt());
-        this->editor_fue_creado = true;
-        this->editor->show();
+        QString filas = line_edit_filas.text();
+        QString columnas = line_edit_filas.text();
+        QString cantidad_de_jugadores = line_edit_filas.text();
+        
+        if (filas.isEmpty() || columnas.isEmpty() || cantidad_de_jugadores.isEmpty()) {
+            QMessageBox::critical(this, "Error al crear mapa", 
+                "Te falto completar la configuación.");
+        } else {
+            this->editor = new Editor (filas.toInt(), columnas.toInt(), 
+                cantidad_de_jugadores.toInt());
+            this->editor_fue_creado = true;
+            this->editor->show();
 
-        // cierro DialogoBienvenida
-        this->close();
+            // cierro DialogoBienvenida
+            this->close();
+        }
     }
 }
 
@@ -85,11 +93,11 @@ void DialogoBienvenida::crear_mapa() {
  * dialogo para elegir al mapa previamente creado y almacenado en la pc.
  */
 void DialogoBienvenida::cargar_mapa() {
-    // filename incluye el filepath completo
+    // filename, incluye el filepath completo.
     QString filename = QFileDialog::getOpenFileName(this, 
-        "Seleccionar un mapa", "", "JSON files (*.json)");
+        "Cargar mapa", "", "JSON files (*.json)");
     if (filename.isNull()) {
-        // toco cancelar o no eligio ninguna foto
+        // toco cancelar o no eligio ningun archivo json.
         return;
     }
     
@@ -97,9 +105,8 @@ void DialogoBienvenida::cargar_mapa() {
     this->editor = new Editor (filename.toStdString());
     this->editor_fue_creado = true;
 
-    // cierro DialogoBienvenida
+    // cierro DialogoBienvenida y muestro el Editor.
     this->close();
-    
     this->editor->show();
 }
 

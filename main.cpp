@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     // Clase que contiene el loop principal
     QApplication app(argc, argv);
     
-    // instancio Dialogo Bienvenida
+    // instancio Dialogo Bienvenida y lo muestro.
     DialogoBienvenida dialogo;
     dialogo.show();
 
