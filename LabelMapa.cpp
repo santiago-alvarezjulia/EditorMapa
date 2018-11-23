@@ -30,13 +30,13 @@ LabelMapa::LabelMapa(QPixmap& terrenos, int tipo, vector<uint32_t> pos_tiles,
         // 20 es el ancho del archivo .bmp que contiene todos los sprites 
         // de los terrenos.
         // x e y son las posiciones de cada sprite de 8x8 en el archivo .bmp .
+        int y = ((*it_pos_tiles - 1) / 20) * 8;
         int x;
         if (*it_pos_tiles < 20) {
-            x = (*it_pos_tiles) * 8;
+            x = ((*it_pos_tiles) - 1) * 8;
         } else {
-            x = (*it_pos_tiles % 20) * 8;
+            x = ((*it_pos_tiles - 1) % 20) * 8;
         }
-        int y = (*it_pos_tiles / 20) * 8;
 
         // copio el cuadrado de 8x8 que quiero del .bmp .
         QRect rect(x, y, 8, 8);

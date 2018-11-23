@@ -188,7 +188,7 @@ void Mapa::inicializar_mapa() {
             
             label_mapa->agregar_observador(this);
             
-            map_layout->addWidget(label_mapa, i + 1, j + 1);
+            map_layout->addWidget(label_mapa, i, j);
             
             this->mapa.emplace(pos_label, label_mapa);
         }
