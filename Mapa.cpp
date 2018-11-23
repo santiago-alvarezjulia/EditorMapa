@@ -95,7 +95,7 @@ void Mapa::parsear_json(string filename_json) {
             
             label_mapa->agregar_observador(this);
             
-            map_layout->addWidget(label_mapa, fila_actual + 1, columna_actual + 1);
+            map_layout->addWidget(label_mapa, fila_actual, columna_actual);
             
             this->mapa.emplace(pos_label, label_mapa);
             
@@ -125,7 +125,7 @@ void Mapa::parsear_json(string filename_json) {
         this->jugadores.emplace(id_label, true);
         map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	    if (it != this->mapa.end()) {
-            it->second->agregar_imagen_jugador(sprite.sprite);
+            it->second->actualizar_imagen(sprite.sprite);
         } 
     }
 

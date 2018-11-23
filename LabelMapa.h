@@ -19,15 +19,10 @@ class LabelMapa : public QLabel {
         void set_marco_mouse_enter();
         void borrar_marco_mouse_enter();
 
-        void agregar_imagen_jugador(QPixmap& sprite_jugador);
-        
         int get_tipo();
         std::string get_id();
 
         ~LabelMapa();
- 
-    signals:
-	    void clickeado();
  
     protected:
 	    void mousePressEvent(QMouseEvent * event);

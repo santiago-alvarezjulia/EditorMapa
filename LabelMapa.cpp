@@ -1,10 +1,6 @@
 #include "LabelMapa.h"
-#include <string>
-#include <vector>
 #include <iostream>
-#include <QPainter>
 using std::string;
-using std::vector;
 
 /**
  * \brief Constructor de LabelMapa.
@@ -44,15 +40,6 @@ void LabelMapa::actualizar_imagen(QPixmap& nueva_imagen) {
 }
 
 /**
- * \brief Agrego imagen de jugador.
- * 
- * Agrego la imagen del jugador sobre el LabelMapa.
- */
-void LabelMapa::agregar_imagen_jugador(QPixmap& sprite_jugador) {
-    this->setPixmap(sprite_jugador);
-}
-
-/**
  * \brief Getter tipo del LabelMapa.
  * 
  * Devuelvo el tipo del LabelMapa.
@@ -84,10 +71,10 @@ void LabelMapa::agregar_observador(ObservadorMapa* observador_) {
 /**
  * \brief Atrapo mouse clicks sobre el LabelMapa.
  * 
- * Emito la señal clickeado 
+ * Le aviso al observador que fue clickeado. 
  */
 void LabelMapa::mousePressEvent(QMouseEvent* event) {
-    emit clickeado();
+    this->observador->label_mapa_clickeado(this->pos_label);
 }
 
 /**
@@ -125,15 +112,6 @@ void LabelMapa::set_marco_mouse_enter() {
  */
 void LabelMapa::borrar_marco_mouse_enter() {
     this->setLineWidth(0);
-}
-
-/**
- * \brief Señal clickeado del Label.
- * 
- * Le aviso al observador que fue clickeado.
- */
-void LabelMapa::clickeado() {
-    this->observador->label_mapa_clickeado(this->pos_label);
 }
 
 /**
