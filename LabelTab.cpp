@@ -1,5 +1,4 @@
 #include "LabelTab.h"
-#include <string>
 #include <iostream>
 #include <QPainter>
 using std::string;
@@ -100,18 +99,9 @@ void LabelTab::agregar_observador(Observador* observador_) {
 /**
  * \brief Atrapo mouse clicks sobre el LabelTab.
  * 
- * Emito la señal clickeado 
- */
-void LabelTab::mousePressEvent(QMouseEvent* event) {
-    emit clickeado();
-}
-
-/**
- * \brief Señal clickeado del LabelTab.
- * 
  * Le aviso al observador que fue clickeado.
  */
-void LabelTab::clickeado() {
+void LabelTab::mousePressEvent(QMouseEvent* event) {
     this->observador->en_notificacion(this->id);
 }
 

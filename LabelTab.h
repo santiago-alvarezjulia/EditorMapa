@@ -19,9 +19,6 @@ class LabelTab : public QLabel {
         void agregar_observador(Observador* observador);
         ~LabelTab();
  
-    signals:
-	    void clickeado();
- 
     protected:
 	    void mousePressEvent(QMouseEvent * event);
 

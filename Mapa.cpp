@@ -8,7 +8,6 @@
 #include <QMessageBox>
 #include <fstream>
 #include <QPainter>
-#include <vector>
 #define DELIM_ID ','
 using std::string;
 using std::stringstream;

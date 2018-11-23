@@ -2,10 +2,8 @@
 #include "ui_Editor.h"
 #include <iostream>
 #include <QMessageBox>
-#include <vector>
 #include <QFileDialog>
 using std::string;
-using std::vector;
 
 /**
  * \brief 1er Constructor de Editor.
