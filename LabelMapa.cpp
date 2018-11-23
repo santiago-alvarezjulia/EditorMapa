@@ -9,55 +9,16 @@ using std::vector;
 /**
  * \brief Constructor de LabelMapa.
  * 
- * Constructor de LabelMapa que recibe como parametro el QPixmap correspondiente
- * a la imagen .bmp que contiene todos los sprites de los terrenos. Tambien
- * el pos_label, el tipo y la posicion de los tiles de este LabelMapa en particular.
+ * Constructor de LabelMapa que recibe como parametro el QPixmap correspondiente. 
+ * Tambien el pos_label, el tipo y la posicion de los tiles de este 
+ * LabelMapa en particular.
  */
-LabelMapa::LabelMapa(QPixmap& terrenos, int tipo, vector<uint32_t> pos_tiles, 
-    string pos_label, QWidget* parent) : QLabel(parent), tipo(tipo), 
-    pos_label(pos_label), terrenos(terrenos), pos_tiles(pos_tiles) {
+LabelMapa::LabelMapa(QPixmap& sprite, string id, int tipo, string pos_label, 
+    QWidget* parent) : QLabel(parent), id(id), tipo(tipo), pos_label(pos_label), 
+    terrenos(terrenos) {
     // fijo el tamaño de Label a 32x32 pixeles.
     this->setFixedSize(32, 32);
-    QPixmap label_32_x_32 (32, 32);
-
-    // junto los 16 tiles de 8x8 pixeles, cuyas posiciones se encuentran en 
-    // pos_tiles y los dibujo en un unico QPixmap de 32x32 pixeles. 
-    int pos_x_label = 0;
-    int pos_y_label = 0;
-    vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
-    for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
-        // 8 es el tamaño individual de cada sprite (8x8 pixeles).
-        // 20 es el ancho del archivo .bmp que contiene todos los sprites 
-        // de los terrenos.
-        // x e y son las posiciones de cada sprite de 8x8 en el archivo .bmp .
-        int y = ((*it_pos_tiles - 1) / 20) * 8;
-        int x;
-        if (*it_pos_tiles < 20) {
-            x = ((*it_pos_tiles) - 1) * 8;
-        } else {
-            x = ((*it_pos_tiles - 1) % 20) * 8;
-        }
-
-        // copio el cuadrado de 8x8 que quiero del .bmp .
-        QRect rect(x, y, 8, 8);
-        QPixmap cropped = terrenos.copy(rect);
-    
-        // pos_x_label y pos_y_label es la posicion de cada sprite de 8x8 dentro
-        // del QPixmap de 32x32.
-        QPainter painter (&label_32_x_32);
-        if (cont_tiles < 4) {
-            pos_x_label = cont_tiles * 8;
-        } else {
-             pos_x_label = (cont_tiles % 4) * 8;
-        }
-
-        pos_y_label = (cont_tiles / 4) * 8;
-        painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
-
-        cont_tiles++;
-    }
-    
-    this->setPixmap(label_32_x_32);
+    this->setPixmap(sprite);
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
@@ -66,11 +27,11 @@ LabelMapa::LabelMapa(QPixmap& terrenos, int tipo, vector<uint32_t> pos_tiles,
  * 
  * Actualizo la data del LabelMapa.
  */
-void LabelMapa::actualizar_data(QPixmap& nueva_imagen, 
-    vector<uint32_t> nuevas_pos_tiles, int nuevo_tipo) {
+void LabelMapa::actualizar_data(QPixmap& nueva_imagen, int nuevo_tipo, 
+    string nuevo_id) {
     this->setPixmap(nueva_imagen);
-    this->pos_tiles = nuevas_pos_tiles;
     this->tipo = nuevo_tipo; 
+    this->id = nuevo_id;
 }
 
 /**
@@ -85,43 +46,10 @@ void LabelMapa::actualizar_imagen(QPixmap& nueva_imagen) {
 /**
  * \brief Agrego imagen de jugador.
  * 
- * Agrego la imagen del jugador sobre el LabelMapa (hardcodeado). La lógica es
- * la misma a la utilizada en el constructor de LabelMapa.
+ * Agrego la imagen del jugador sobre el LabelMapa.
  */
-void LabelMapa::agregar_imagen_jugador() {
-    // Hardcodeado pos_tiles de Jugador (terrenos.json)
-    vector<uint32_t> pos_tiles = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-    QPixmap label_32_x_32 (32, 32);
-
-    int pos_x_label = 0;
-    int pos_y_label = 0;
-    vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
-    for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
-        int x;
-        if (*it_pos_tiles < 20) {
-            x = (*it_pos_tiles) * 8;
-        } else {
-            x = (*it_pos_tiles % 20) * 8;
-        }
-
-        int y = (*it_pos_tiles / 20) * 8;
-        QRect rect(x, y, 8, 8);
-        QPixmap cropped = terrenos.copy(rect);
-    
-        QPainter painter (&label_32_x_32);
-        if (cont_tiles < 4) {
-            pos_x_label = cont_tiles * 8;
-        } else {
-             pos_x_label = (cont_tiles % 4) * 8;
-        }
-
-        pos_y_label = (cont_tiles / 4) * 8;
-        painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
-
-        cont_tiles++;
-    }
-    
-    this->setPixmap(label_32_x_32);
+void LabelMapa::agregar_imagen_jugador(QPixmap& sprite_jugador) {
+    this->setPixmap(sprite_jugador);
 }
 
 /**
@@ -133,15 +61,16 @@ int LabelMapa::get_tipo() {
     return this->tipo;
 } 
 
+
 /**
- * \brief Getter posicion de tiles del LabelMapa.
+ * \brief Getter id del LabelMapa.
  * 
- * Devuelvo un vector con las posiciones de los tiles dentro del archivo de 
- * terrenos.
+ * Devuelvo el id del LabelMapa.
  */
-vector<uint32_t> LabelMapa::get_pos_tiles() {
-    return this->pos_tiles;
-}
+string LabelMapa::get_id() {
+    return this->id;
+} 
+
 
 /**
  * \brief Agrego observador del LabelMapa.

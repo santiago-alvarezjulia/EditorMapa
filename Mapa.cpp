@@ -7,6 +7,7 @@
 #include <sstream>
 #include <QMessageBox>
 #include <fstream>
+#include <QPainter>
 #include <vector>
 #define DELIM_ID ','
 using std::string;
@@ -39,6 +40,7 @@ Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas),
 Mapa::Mapa(QWidget* parent) : parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
     this->jugadores = map<string, bool>();
+    // hardcodeo el nombre del archivo .bmp con los sprites del terreno.
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
@@ -60,34 +62,36 @@ void Mapa::parsear_json(string filename_json) {
     entrada >> mapa_json;
 
     vector<vector<uint32_t>> pos_jugadores = mapa_json["jugadores"];
-    vector<vector<int>> tipos = mapa_json["tipo"];
-    int cant_fila = tipos.size();
+    vector<vector<string>> ids = mapa_json["tipo"];
+    int cant_fila = ids.size();
     this->filas = cant_fila;
-    vector<vector<uint32_t>> sprites = mapa_json["sprite"];
 
-    vector<vector<uint32_t>> sprites_reacomodados = 
-        reacomodar_sprites_json(sprites);
+    map<string, Sprite> sprites_posibles = generar_sprites_posibles();
     
-    vector<vector<uint32_t>>::iterator it_sprites_reacomodados = 
-        sprites_reacomodados.begin();
-    vector<vector<int>>::iterator it_filas_tipos = tipos.begin();
-    int cant_columnas = (*it_filas_tipos).size();
+    vector<vector<string>>::iterator it_filas_ids = ids.begin();
+    int cant_columnas = (*it_filas_ids).size();
     this->columnas = cant_columnas;
 
     int fila_actual = 0;
     int columna_actual = 0;
-    for (; it_filas_tipos != tipos.end(); ++it_filas_tipos) {
-        vector<int>::iterator it_tipos = (*it_filas_tipos).begin();
-        for (; it_tipos != (*it_filas_tipos).end(); ++it_tipos) {
-            int tipo = *it_tipos;
+    for (; it_filas_ids != ids.end(); ++it_filas_ids) {
+        vector<string>::iterator it_ids = (*it_filas_ids).begin();
+        for (; it_ids != (*it_filas_ids).end(); ++it_ids) {
+            string id = *it_ids;
             
             string pos_label ("");
             pos_label += std::to_string(fila_actual);
             pos_label += DELIM_ID;
             pos_label += std::to_string(columna_actual);
             
-            LabelMapa* label_mapa = new LabelMapa(this->imagen_terrenos, tipo,
-                (*it_sprites_reacomodados), pos_label, this->parent);
+            Sprite sprite;
+            map<string, Sprite>::iterator it_sprites = sprites_posibles.find(id);
+            if (it_sprites != sprites_posibles.end()) {
+                sprite = it_sprites->second;
+            }
+            
+            LabelMapa* label_mapa = new LabelMapa(sprite.sprite, id, sprite.tipo,
+                pos_label, this->parent);
             
             label_mapa->agregar_observador(this);
             
@@ -96,7 +100,6 @@ void Mapa::parsear_json(string filename_json) {
             this->mapa.emplace(pos_label, label_mapa);
             
             columna_actual++;
-            it_sprites_reacomodados++;
             
             if (columna_actual == cant_columnas) {
                 columna_actual = 0;
@@ -106,6 +109,13 @@ void Mapa::parsear_json(string filename_json) {
         }
     }
 
+    // hardcodeo jugador1 como id
+    Sprite sprite;
+    map<string, Sprite>::iterator it_sprites = sprites_posibles.find("jugador1");
+    if (it_sprites != sprites_posibles.end()) {
+        sprite = it_sprites->second;
+    
+    }
     vector<vector<uint32_t>>::iterator it_pos_jugadores = pos_jugadores.begin();
     for (; it_pos_jugadores != pos_jugadores.end(); ++it_pos_jugadores) {
         string id_label ("");
@@ -115,7 +125,7 @@ void Mapa::parsear_json(string filename_json) {
         this->jugadores.emplace(id_label, true);
         map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	    if (it != this->mapa.end()) {
-            it->second->agregar_imagen_jugador();
+            it->second->agregar_imagen_jugador(sprite.sprite);
         } 
     }
 
@@ -125,28 +135,86 @@ void Mapa::parsear_json(string filename_json) {
     scroll_area_mapa->setLayout(map_layout);
 }
 
+map<string, Sprite> Mapa::generar_sprites_posibles() {
+    map<string, Sprite> sprites_posibles;
+    QPixmap terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 
-vector<vector<uint32_t>> Mapa::reacomodar_sprites_json(vector<vector<uint32_t>> sprites) {
-    vector<vector<uint32_t>> sprites_reacomodado;
-    vector<vector<uint32_t>>::iterator it_sprites = sprites.begin();
-    vector<uint32_t> pos_tiles_32_x_32;
-    int largo_pos_tiles_32_x_32 = 16;
-    int pos_actual_tiles_32_x_32 = 0;
+    // hardcodeo la ubicacion del archivo .json con la informacion sobre los
+    // sprites del archivo de terrenos (QPixmap terrenos).
+    std::ifstream entrada("../sprites/terrain/terrenos.json");
 
-    for (; it_sprites != sprites.end(); ++it_sprites) {
-        vector<uint32_t>::iterator it_sprites_vect = (*it_sprites).begin();
-        for (; it_sprites_vect != (*it_sprites).end(); ++it_sprites_vect) {
-            pos_tiles_32_x_32.emplace_back(*it_sprites_vect);
-            pos_actual_tiles_32_x_32++;
-            if (pos_actual_tiles_32_x_32 == largo_pos_tiles_32_x_32) {
-                sprites_reacomodado.emplace_back(pos_tiles_32_x_32);
-                pos_tiles_32_x_32.clear();
-                pos_actual_tiles_32_x_32 = 0;
+    json terrenos_json;
+
+    entrada >> terrenos_json;
+
+    auto it = terrenos_json.begin();
+    const json& valores_por_defecto = *it;
+    ++it;
+    for (; it != terrenos_json.end(); ++it) {
+        // Mergear valores por defecto con el elemento actual
+        json elem = valores_por_defecto;
+        elem.update(*it);
+
+        // valores donde ubicar los label dentro de los gridLayout de cada pestaña.
+        int columna = 0;
+        int fila = 0;
+
+        auto it_sprites = elem["sprites"].begin();
+        for (int i = 0; it_sprites != elem["sprites"].end(); ++it_sprites) {
+            json tile = *it;
+
+            Sprite sprite;
+            sprite.tipo = elem["tipo"];
+            vector<uint32_t> pos_tiles = tile["sprites"][i]["pos_tiles"];
+            string id = tile["sprites"][i]["id"];
+
+            QPixmap label_32_x_32 (32, 32);
+
+            // junto los 16 tiles de 8x8 pixeles, cuyas posiciones se encuentran en 
+            // pos_tiles y los dibujo en un unico QPixmap de 32x32 pixeles. 
+            // pos_x_label y pos_y_label es la posicion de cada sprite de 8x8 dentro
+            // del QPixmap de 32x32.
+            int pos_x_label = 0;
+            int pos_y_label = 0;
+            vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
+            for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
+                // 8 es el tamaño individual de cada sprite (8x8 pixeles).
+                // 20 es el ancho del archivo .bmp que contiene todos los sprites 
+                // de los terrenos.
+                // x e y son las posiciones de cada sprite de 8x8 en el archivo .bmp .
+                // los -1 es que arranco a contar desde 1.
+                int y = ((*it_pos_tiles - 1) / 20) * 8;
+                int x;
+                if (*it_pos_tiles < 20) {
+                    x = (*it_pos_tiles - 1) * 8;
+                } else {
+                    x = ((*it_pos_tiles - 1) % 20) * 8;
+                }
+
+                // copio el cuadrado de 8x8 que quiero del .bmp .
+                QRect rect(x, y, 8, 8);
+                QPixmap cropped = terrenos.copy(rect);
+            
+                QPainter painter (&label_32_x_32);
+                if (cont_tiles < 4) {
+                    pos_x_label = cont_tiles * 8;
+                } else {
+                    pos_x_label = (cont_tiles % 4) * 8;
+                }
+
+                pos_y_label = (cont_tiles / 4) * 8;
+                painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
+
+                cont_tiles++;
             }
+
+            sprite.sprite = label_32_x_32;
+
+            sprites_posibles.emplace(id, sprite);
         }
     }
 
-    return sprites_reacomodado;
+    return sprites_posibles;
 }
 
 /**
@@ -175,6 +243,7 @@ void Mapa::inicializar_mapa() {
     string id = tile["sprites"][0]["id"];
     int tipo = elem["tipo"];
     vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
+    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
 
     for (int i = 0; i < this->filas; ++i) {
         for (int j = 0; j < this->columnas; ++j) {
@@ -183,8 +252,8 @@ void Mapa::inicializar_mapa() {
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            LabelMapa* label_mapa = new LabelMapa(this->imagen_terrenos, tipo,
-                pos_tiles, pos_label, this->parent);
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
+                pos_label, this->parent);
             
             label_mapa->agregar_observador(this);
             
@@ -196,6 +265,49 @@ void Mapa::inicializar_mapa() {
 
     map_layout->setSpacing(0);
     scroll_area_mapa->setLayout(map_layout);
+}
+
+QPixmap Mapa::generar_sprite_inicial(vector<uint32_t> pos_tiles) {
+    QPixmap label_32_x_32 (32, 32);
+
+    // junto los 16 tiles de 8x8 pixeles, cuyas posiciones se encuentran en 
+    // pos_tiles y los dibujo en un unico QPixmap de 32x32 pixeles. 
+    int pos_x_label = 0;
+    int pos_y_label = 0;
+    vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
+    for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
+        // 8 es el tamaño individual de cada sprite (8x8 pixeles).
+        // 20 es el ancho del archivo .bmp que contiene todos los sprites 
+        // de los terrenos.
+        // x e y son las posiciones de cada sprite de 8x8 en el archivo .bmp .
+        int y = ((*it_pos_tiles - 1) / 20) * 8;
+        int x;
+        if (*it_pos_tiles < 20) {
+            x = ((*it_pos_tiles) - 1) * 8;
+        } else {
+            x = ((*it_pos_tiles - 1) % 20) * 8;
+        }
+
+        // copio el cuadrado de 8x8 que quiero del .bmp .
+        QRect rect(x, y, 8, 8);
+        QPixmap cropped = this->imagen_terrenos.copy(rect);
+    
+        // pos_x_label y pos_y_label es la posicion de cada sprite de 8x8 dentro
+        // del QPixmap de 32x32.
+        QPainter painter (&label_32_x_32);
+        if (cont_tiles < 4) {
+            pos_x_label = cont_tiles * 8;
+        } else {
+             pos_x_label = (cont_tiles % 4) * 8;
+        }
+
+        pos_y_label = (cont_tiles / 4) * 8;
+        painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
+
+        cont_tiles++;
+    }
+
+    return label_32_x_32;
 }
 
 /**
@@ -261,16 +373,12 @@ bool Mapa::es_valido_agregar_jugador(string id_label_mapa,
 void Mapa::generar_json(string nombre_archivo) {
     json j;
     
-    vector<vector<int>> tipos;
-    vector<vector<uint32_t>> sprites;
+    vector<vector<string>> tipos;
     vector<vector<uint32_t>> jugadores_json;
-    int largo_vector_sprites = this->columnas * 4;
-    int cant_vectores_sprites = this->filas * 4;
     int cont_sprites_agregados = 0;
 
     for (int i = 0; i < this->filas; ++i) {
-        vector<int> tipos_por_columna;
-        vector<uint32_t> sprites_por_columna;
+        vector<string> tipos_por_columna;
         
         for (int j = 0; j < this->columnas; ++j) {
             string id_label ("");
@@ -279,19 +387,7 @@ void Mapa::generar_json(string nombre_archivo) {
             id_label += std::to_string(j);
             map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	        if (it != this->mapa.end()) {
-                tipos_por_columna.emplace_back(it->second->get_tipo());
-                
-                vector<uint32_t> pos_tiles_label = it->second->get_pos_tiles();
-                vector<uint32_t>::iterator it_pos_tiles_label = pos_tiles_label.begin();
-                for (; it_pos_tiles_label != pos_tiles_label.end(); ++it_pos_tiles_label) {
-                    sprites_por_columna.emplace_back(*it_pos_tiles_label);
-                    cont_sprites_agregados++;
-                    if (cont_sprites_agregados == largo_vector_sprites) {
-                        sprites.emplace_back(sprites_por_columna);
-                        sprites_por_columna.clear();
-                        cont_sprites_agregados = 0;
-                    }
-                }
+                tipos_por_columna.emplace_back(it->second->get_id());
             }
         }
 
@@ -309,7 +405,6 @@ void Mapa::generar_json(string nombre_archivo) {
     }
 
     // agrego data al json
-    j["sprite"] = sprites;
     j["tipo"] = tipos;
     j["jugadores"] = jugadores_json;
 
@@ -334,10 +429,10 @@ void Mapa::agregar_observador(Observador* observer) {
  * en LabelMapa).
  */
 void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen, 
-    vector<uint32_t> nuevas_pos_tiles, int nuevo_tipo) {
+    int nuevo_tipo, string nuevo_id) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
-        it->second->actualizar_data(nueva_imagen, nuevas_pos_tiles, nuevo_tipo);
+        it->second->actualizar_data(nueva_imagen, nuevo_tipo, nuevo_id);
     }
 }
 

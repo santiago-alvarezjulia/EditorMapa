@@ -73,7 +73,7 @@ void Editor::en_notificacion(string id_label_mapa) {
 
     // me fijo si hay algun Label clickeado en Tabs
     if (tabs_id_label_clickeado != "") {
-        // getteo el tipo y la imagen del Label clickeado en Tabs 
+        // getteo el tipo y la imagen del Label clickeado en Tabs
         int nuevo_tipo = this->tabs.get_tipo_label_clickeado();
         QPixmap nueva_imagen = this->tabs.get_imagen_clickeado();
         
@@ -88,9 +88,8 @@ void Editor::en_notificacion(string id_label_mapa) {
                 return;
             }
         } else {
-            vector<uint32_t> nuevas_pos_tiles = this->tabs.get_pos_tiles_clickeado();
-            this->mapa.actualizar_data(id_label_mapa, nueva_imagen, nuevas_pos_tiles, 
-                nuevo_tipo);
+            this->mapa.actualizar_data(id_label_mapa, nueva_imagen, nuevo_tipo,
+                tabs_id_label_clickeado);
             return;
         }
     }

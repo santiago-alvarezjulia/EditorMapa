@@ -8,13 +8,18 @@
 #include "Observador.h"
 #include "ObservadorMapa.h"
 
+struct Sprite {
+    int tipo;
+    QPixmap sprite;
+};
+
 class Mapa : public ObservadorMapa {
     public:
         Mapa(int filas, int columnas, QWidget* parent = 0);
         Mapa(QWidget* parent = 0);
         
         void actualizar_data(std::string id_label, QPixmap& nueva_imagen, 
-            std::vector<uint32_t> nuevas_pos_tiles, int nuevo_tipo);
+            int nuevo_tipo, std::string nuevo_id);
         void agregar_jugador(std::string id_label, QPixmap& nueva_imagen);
         void agregar_observador(Observador* observer);
         virtual void label_mapa_clickeado(std::string id_label_mapa);
@@ -43,9 +48,11 @@ class Mapa : public ObservadorMapa {
         Observador* observador;
         std::map<std::string, LabelMapa*> mapa;
         std::map<std::string, bool> jugadores;
-        std::vector<std::vector<uint32_t>> reacomodar_sprites_json(
-            std::vector<std::vector<uint32_t>> sprites); 
+
         std::vector<std::string> split(const std::string& str, char delim);
+        
+        QPixmap generar_sprite_inicial(std::vector<uint32_t> pos_tiles);
+        std::map<std::string, Sprite> generar_sprites_posibles();
 };
 
 #endif // MAPA_H

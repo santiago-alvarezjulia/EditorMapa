@@ -140,21 +140,6 @@ string Tabs::get_id_label_clickeado() {
 }
 
 /**
- * \brief Getter posicion de tiles del label clickeado.
- * 
- * Devuelvo un vector con las posiciones de los tiles dentro del archivo 
- * this->imagen_terrenos del label clickeado (delego en LabelTab). 
- * Precondicion -> tiene que haberse verificado que hay un label clickeado.
- */
-vector<uint32_t> Tabs::get_pos_tiles_clickeado() {
-    map<string, LabelTab*>::iterator it = 
-        this->tabs_terrenos.find(this->id_label_clickeado);
-	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_pos_tiles();
-    }
-}
-
-/**
  * \brief Getter tipo del label clickeado.
  * 
  * Devuelvo el tipo del label clickeado (delego en LabelTab). Precondicion -> tiene que haberse
@@ -185,7 +170,7 @@ QPixmap Tabs::get_imagen_clickeado() {
 /**
  * \brief Metodo virtual de la interfaz Observador implementada por Tabs.
  * 
- * Metodo virtual que es llamado por Mapa cuando un label de una pestaña (LabelTab)
+ * Metodo virtual que es llamado cuando un label de una pestaña (LabelTab)
  * es clickeado. Recibe por parametro el id del Label.
  */
 void Tabs::en_notificacion(string id_label) {

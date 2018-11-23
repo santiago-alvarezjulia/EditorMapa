@@ -13,7 +13,7 @@ using std::vector;
  * el id, el tipo y la posicion de los tiles de este Label en particular.
  */
 LabelTab::LabelTab(QPixmap& terrenos, string id, int tipo, vector<uint32_t> pos_tiles, 
-    QWidget* parent) : QLabel(parent), id(id), tipo(tipo), pos_tiles(pos_tiles) {
+    QWidget* parent) : QLabel(parent), id(id), tipo(tipo) {
     // fijo el tamaño de Label a 32x32 pixeles. 
     this->setFixedSize(32, 32);
     QPixmap label_32_x_32 (32, 32);
@@ -62,22 +62,21 @@ LabelTab::LabelTab(QPixmap& terrenos, string id, int tipo, vector<uint32_t> pos_
 }
 
 /**
- * \brief Getter posicion de tiles del LabelTab.
- * 
- * Devuelvo un vector con las posiciones de los tiles dentro del archivo de 
- * terrenos.
- */
-vector<uint32_t> LabelTab::get_pos_tiles() {
-    return this->pos_tiles;
-}
-
-/**
  * \brief Getter tipo del LabelTab.
  * 
  * Devuelvo el tipo del LabelTab.
  */
 int LabelTab::get_tipo() {
     return this->tipo;
+}
+
+/**
+ * \brief Getter id del LabelTab.
+ * 
+ * Devuelvo el id del LabelTab.
+ */
+string LabelTab::get_id() {
+    return this->id;
 }
 
 /**

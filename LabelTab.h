@@ -11,8 +11,8 @@ class LabelTab : public QLabel {
     public:
         LabelTab(QPixmap& terrenos, std::string id, int tipo, 
             std::vector<uint32_t> pos_tiles , QWidget* parent = 0);
-        std::vector<uint32_t> get_pos_tiles();
         int get_tipo();
+        std::string get_id();
         QPixmap get_imagen();
 	    void set_marco_clickeado();
         void borrar_marco_clickeado();
@@ -28,7 +28,6 @@ class LabelTab : public QLabel {
     private:
         std::string id;
         int tipo;
-        std::vector<uint32_t> pos_tiles;
         QPixmap pixmap;
         Observador* observador;
 };
