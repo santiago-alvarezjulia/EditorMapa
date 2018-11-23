@@ -479,6 +479,286 @@ int Mapa::get_cantidad_jugadores_agregados() {
     return this->jugadores.size();
 }
 
+void Mapa::cambiar_tamanio(int nueva_cant_filas, int nueva_cant_columnas) {
+    if (nueva_cant_columnas == this->columnas && nueva_cant_filas == this->filas) {
+        return;
+    }
+
+    if (nueva_cant_columnas >= this->columnas && nueva_cant_filas >= this->filas) {
+        agrandar_mapa(nueva_cant_filas, nueva_cant_columnas);
+    } else if (nueva_cant_columnas <= this->columnas && nueva_cant_filas <= this->filas) {
+        achicar_mapa(nueva_cant_filas, nueva_cant_columnas);
+    } else if (nueva_cant_columnas < this->columnas && nueva_cant_filas > this->filas) {
+        sacar_columnas_agregar_filas(nueva_cant_filas, nueva_cant_columnas);
+    } else if (nueva_cant_columnas > this->columnas && nueva_cant_filas < this->filas) {
+        sacar_filas_agregar_columnas(nueva_cant_filas, nueva_cant_columnas);
+    }
+
+
+}
+
+void Mapa::agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
+    // getteo el layout y el widget del Mapa-
+    QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
+    QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
+
+    // cosas de parseo del json de terrenos.
+    std::ifstream entrada("../sprites/terrain/terrenos.json");
+    json terrenos_json;
+    entrada >> terrenos_json;
+
+    auto it = terrenos_json.begin();
+    const json& data_general = *it;
+    
+    ++it;
+    const json& elem = *it;
+
+    auto it_tiles = elem["sprites"].begin();
+    json tile = *it;
+    string id = tile["sprites"][0]["id"];
+    int tipo = elem["tipo"];
+    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
+    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+    
+    for (int i = 0; i < this->filas; ++i) {
+        for (int j = this->columnas; j < nueva_cant_columnas; ++j) {
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
+                pos_label, this->parent);
+            
+            label_mapa->agregar_observador(this);
+            
+            map_layout->addWidget(label_mapa, i, j);
+            
+            this->mapa.emplace(pos_label, label_mapa);
+        }
+    }
+
+    for (int j = 0; j < nueva_cant_columnas; ++j) {
+        for (int i = this->filas; i < nueva_cant_filas; ++i) {
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
+                pos_label, this->parent);
+            
+            label_mapa->agregar_observador(this);
+            
+            map_layout->addWidget(label_mapa, i, j);
+            
+            this->mapa.emplace(pos_label, label_mapa);
+        }
+    }
+
+
+    this->filas = nueva_cant_filas;
+    this->columnas = nueva_cant_columnas;
+    scroll_area_mapa->setLayout(map_layout);
+}
+
+void Mapa::achicar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
+    // getteo el layout y el widget del Mapa-
+    QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
+    QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
+
+    // cosas de parseo del json de terrenos.
+    std::ifstream entrada("../sprites/terrain/terrenos.json");
+    json terrenos_json;
+    entrada >> terrenos_json;
+
+    auto it = terrenos_json.begin();
+    const json& data_general = *it;
+    
+    ++it;
+    const json& elem = *it;
+
+    auto it_tiles = elem["sprites"].begin();
+    json tile = *it;
+    string id = tile["sprites"][0]["id"];
+    int tipo = elem["tipo"];
+    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
+    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+    
+    for (int i = 0; i < nueva_cant_filas; ++i) {
+        for (int j = (this->columnas - 1); j >= nueva_cant_columnas; --j) {
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            map<string, LabelMapa*>::iterator it = this->mapa.find(pos_label);
+            if (it != this->mapa.end()) {
+                map_layout->removeWidget(it->second);
+                delete it->second;
+            }
+
+            this->mapa.erase(pos_label);
+        }
+    }
+
+    for (int j = 0; j < this->columnas; ++j) {
+        for (int i = (this->filas - 1); i >= nueva_cant_filas; --i) {
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            map<string, LabelMapa*>::iterator it = this->mapa.find(pos_label);
+            if (it != this->mapa.end()) {
+                map_layout->removeWidget(it->second);
+                delete it->second;
+            }
+            
+            this->mapa.erase(pos_label);
+        }
+    }
+
+
+    this->filas = nueva_cant_filas;
+    this->columnas = nueva_cant_columnas;
+    scroll_area_mapa->setLayout(map_layout);
+}
+
+void Mapa::sacar_columnas_agregar_filas(int nueva_cant_filas, 
+    int nueva_cant_columnas) {
+    // getteo el layout y el widget del Mapa-
+    QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
+    QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
+
+    // cosas de parseo del json de terrenos.
+    std::ifstream entrada("../sprites/terrain/terrenos.json");
+    json terrenos_json;
+    entrada >> terrenos_json;
+
+    auto it = terrenos_json.begin();
+    const json& data_general = *it;
+    
+    ++it;
+    const json& elem = *it;
+
+    auto it_tiles = elem["sprites"].begin();
+    json tile = *it;
+    string id = tile["sprites"][0]["id"];
+    int tipo = elem["tipo"];
+    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
+    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+    
+    // saco columnas
+    for (int i = 0; i < nueva_cant_filas; ++i) {
+        for (int j = (this->columnas - 1); j >= nueva_cant_columnas; --j) {
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            map<string, LabelMapa*>::iterator it = this->mapa.find(pos_label);
+            if (it != this->mapa.end()) {
+                map_layout->removeWidget(it->second);
+                delete it->second;
+            }
+
+            this->mapa.erase(pos_label);
+        }
+    }
+
+    this->columnas = nueva_cant_columnas;
+
+    // agrego filas
+    for (int j = 0; j < nueva_cant_columnas; ++j) {
+        for (int i = this->filas; i < nueva_cant_filas; ++i) {
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
+                pos_label, this->parent);
+            
+            label_mapa->agregar_observador(this);
+            
+            map_layout->addWidget(label_mapa, i, j);
+            
+            this->mapa.emplace(pos_label, label_mapa);
+        }
+    }
+
+    this->filas = nueva_cant_filas;
+    scroll_area_mapa->setLayout(map_layout);
+}
+
+void Mapa::sacar_filas_agregar_columnas(int nueva_cant_filas, 
+    int nueva_cant_columnas) {
+    // getteo el layout y el widget del Mapa-
+    QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
+    QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
+
+    // cosas de parseo del json de terrenos.
+    std::ifstream entrada("../sprites/terrain/terrenos.json");
+    json terrenos_json;
+    entrada >> terrenos_json;
+
+    auto it = terrenos_json.begin();
+    const json& data_general = *it;
+    
+    ++it;
+    const json& elem = *it;
+
+    auto it_tiles = elem["sprites"].begin();
+    json tile = *it;
+    string id = tile["sprites"][0]["id"];
+    int tipo = elem["tipo"];
+    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
+    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+
+    // saco filas
+    for (int j = 0; j < this->columnas; ++j) {
+        for (int i = (this->filas - 1); i >= nueva_cant_filas; --i) {
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            map<string, LabelMapa*>::iterator it = this->mapa.find(pos_label);
+            if (it != this->mapa.end()) {
+                map_layout->removeWidget(it->second);
+                delete it->second;
+            }
+            
+            this->mapa.erase(pos_label);
+        }
+    }
+
+    this->filas = nueva_cant_filas;
+
+    // agrego columnas
+    for (int i = 0; i < this->filas; ++i) {
+        for (int j = this->columnas; j < nueva_cant_columnas; ++j) {
+            string pos_label ("");
+            pos_label += std::to_string(i);
+            pos_label += DELIM_ID;
+            pos_label += std::to_string(j);
+            
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
+                pos_label, this->parent);
+            
+            label_mapa->agregar_observador(this);
+            
+            map_layout->addWidget(label_mapa, i, j);
+            
+            this->mapa.emplace(pos_label, label_mapa);
+        }
+    }
+
+    this->columnas = nueva_cant_columnas;
+    scroll_area_mapa->setLayout(map_layout);
+}
+
 /**
  * \brief Destructor de Mapa.
  * 

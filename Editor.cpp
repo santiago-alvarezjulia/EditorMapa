@@ -2,6 +2,7 @@
 #include "ui_Editor.h"
 #include <iostream>
 #include <QMessageBox>
+#include <QSpinBox>
 #include <QFileDialog>
 using std::string;
 
@@ -28,7 +29,7 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
     // agrego al editor como observador del mapa
     this->mapa.agregar_observador(this);
 
-    conectar_boton_guardar_mapa();
+    conectar_botones();
 }
 
 /**
@@ -56,7 +57,7 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
     // agrego al editor como observador del mapa
     this->mapa.agregar_observador(this);
 
-    conectar_boton_guardar_mapa();
+    conectar_botones();
 }
 
 /**
@@ -99,11 +100,17 @@ void Editor::en_notificacion(string id_label_mapa) {
  * Asocia el boton de guardar mapa de la interfaz Editor con la funcion 
  * Editor::guardar_mapa.
  */
-void Editor::conectar_boton_guardar_mapa() {
+void Editor::conectar_botones() {
     // Conecto el evento del boton guardar mapa
     QPushButton* boton_guardar_mapa = findChild<QPushButton*>("botonGuardarMapa");
     QObject::connect(boton_guardar_mapa, &QPushButton::clicked, this, 
         &Editor::guardar_mapa);
+
+    // Conecto el evento del boton cambiar tamanio del mapa
+    QPushButton* boton_cambiar_tamanio_mapa = 
+        findChild<QPushButton*>("botonCambiarTamanioMapa");
+    QObject::connect(boton_cambiar_tamanio_mapa, &QPushButton::clicked, this, 
+        &Editor::cambiar_tamanio_mapa);
 }
 
 /**
@@ -135,6 +142,14 @@ void Editor::guardar_mapa() {
         nombre_archivo += ".json";
     }
     this->mapa.generar_json(nombre_archivo.toStdString());
+}
+
+void Editor::cambiar_tamanio_mapa() {
+    QSpinBox* spin_box_filas = findChild<QSpinBox*>("spinBoxFilas");
+    QSpinBox* spin_box_columnas = findChild<QSpinBox*>("spinBoxColumnas");
+    
+    this->mapa.cambiar_tamanio(spin_box_filas->value(), 
+        spin_box_columnas->value());
 }
 
 /**

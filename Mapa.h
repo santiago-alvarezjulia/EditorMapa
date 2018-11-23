@@ -37,6 +37,8 @@ class Mapa : public ObservadorMapa {
         bool es_valido_agregar_jugador(std::string id_label_mapa, 
             int cantidad_jugadores);
 
+        void cambiar_tamanio(int nueva_cant_filas, int nueva_cant_columnas);
+
         ~Mapa();
 
     private:
@@ -53,6 +55,13 @@ class Mapa : public ObservadorMapa {
         
         QPixmap generar_sprite_inicial(std::vector<uint32_t> pos_tiles);
         std::map<std::string, Sprite> generar_sprites_posibles();
+
+        void agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas);
+        void achicar_mapa(int nueva_cant_filas, int nueva_cant_columnas);
+        void sacar_columnas_agregar_filas(int nueva_cant_filas, 
+            int nueva_cant_columnas);
+        void sacar_filas_agregar_columnas(int nueva_cant_filas, 
+            int nueva_cant_columnas);
 };
 
 #endif // MAPA_H

@@ -45,7 +45,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>470</width>
+           <width>439</width>
            <height>598</height>
           </rect>
          </property>
@@ -79,6 +79,68 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <item>
+           <widget class="QSpinBox" name="spinBoxFilas">
+            <property name="wrapping">
+             <bool>false</bool>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>10</width>
+              <height>10</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>x</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBoxColumnas">
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::UpDownArrows</enum>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>999</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="botonCambiarTamanioMapa">
+          <property name="text">
+           <string>CAMBIAR TAMANIO MAPA</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QTabWidget" name="tabWidget">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -88,14 +150,14 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>10</width>
-            <height>10</height>
+            <width>500</width>
+            <height>500</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>500</width>
-            <height>500</height>
+            <width>600</width>
+            <height>600</height>
            </size>
           </property>
           <property name="currentIndex">
@@ -116,7 +178,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>449</width>
+                 <width>480</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -163,7 +225,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>449</width>
+                 <width>480</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -204,7 +266,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>449</width>
+                 <width>480</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -245,7 +307,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>449</width>
+                 <width>480</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -280,7 +342,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>449</width>
+                 <width>480</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -321,7 +383,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>449</width>
+                 <width>480</width>
                  <height>455</height>
                 </rect>
                </property>
@@ -356,7 +418,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>449</width>
+                 <width>480</width>
                  <height>455</height>
                 </rect>
                </property>
