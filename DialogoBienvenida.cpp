@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <iostream>
 #include <QLineEdit>
+#include <QSpinBox>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -48,16 +49,22 @@ void DialogoBienvenida::crear_mapa() {
     QFormLayout form_layout (&dialog);
 
     QString descripcion_filas ("Filas");
-    QLineEdit line_edit_filas (&dialog);
-    form_layout.addRow(descripcion_filas, &line_edit_filas);
+    QSpinBox spinbox_filas (&dialog);
+    spinbox_filas.setMinimum(20);
+    //QLineEdit line_edit_filas (&dialog);
+    form_layout.addRow(descripcion_filas, &spinbox_filas);
 
     QString descripcion_columnas ("Columnas");
-    QLineEdit line_edit_columnas (&dialog);
-    form_layout.addRow(descripcion_columnas, &line_edit_columnas);
+    QSpinBox spinbox_columnas (&dialog);
+    spinbox_columnas.setMinimum(20);
+    //QLineEdit line_edit_columnas (&dialog);
+    form_layout.addRow(descripcion_columnas, &spinbox_columnas);
 
     QString descripcion_cant_jugadores ("Cantidad de jugadores");
-    QLineEdit line_edit_cant_jugadores (&dialog);
-    form_layout.addRow(descripcion_cant_jugadores, &line_edit_cant_jugadores);
+    QSpinBox spinbox_jugadores (&dialog);
+    spinbox_jugadores.setMinimum(2);
+    //QLineEdit line_edit_cant_jugadores (&dialog);
+    form_layout.addRow(descripcion_cant_jugadores, &spinbox_jugadores);
 
     QDialogButtonBox box_botones (QDialogButtonBox::Ok, Qt::Horizontal, &dialog);
     form_layout.addRow(&box_botones);
@@ -67,22 +74,19 @@ void DialogoBienvenida::crear_mapa() {
 
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
-        QString filas = line_edit_filas.text();
-        QString columnas = line_edit_columnas.text();
-        QString cantidad_de_jugadores = line_edit_cant_jugadores.text();
+        int filas = spinbox_filas.value();
+        int columnas = spinbox_columnas.value();
+        int cantidad_de_jugadores = spinbox_jugadores.value();
+        //QString filas = line_edit_filas.text();
+        //QString columnas = line_edit_columnas.text();
+        //QString cantidad_de_jugadores = line_edit_cant_jugadores.text();
         
-        if (filas.isEmpty() || columnas.isEmpty() || cantidad_de_jugadores.isEmpty()) {
-            QMessageBox::critical(this, "Error al crear mapa", 
-                "Te falto completar la configuación.");
-        } else {
-            this->editor = new Editor (filas.toInt(), columnas.toInt(), 
-                cantidad_de_jugadores.toInt());
-            this->editor_fue_creado = true;
-            this->editor->show();
+        this->editor = new Editor (filas, columnas, cantidad_de_jugadores);
+        this->editor_fue_creado = true;
+        this->editor->show();
 
-            // cierro DialogoBienvenida
-            this->close();
-        }
+        // cierro DialogoBienvenida
+        this->close();
     }
 }
 
