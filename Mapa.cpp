@@ -425,12 +425,20 @@ void Mapa::agregar_observador(Observador* observer) {
  * \brief Actualizar data.
  * 
  * Actualizo la data de un LabelMapa cuyo id recibo por parametro (delego 
- * en LabelMapa).
+ * en LabelMapa). 
+ * Precondicion -> Ya fue contemplado el caso en que tipo_label_mapa y nuevo_tipo
+ * son Jugador. 
  */
 void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen, 
     int nuevo_tipo, string nuevo_id) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
+        // me fijo si es el caso especial en que reemplazo a un jugador por otra
+        // cosa que no es jugador.
+        if (this->jugadores.find(id_label) != this->jugadores.end()) {
+            std::cout << "caso especial" << std::endl;
+            this->jugadores.erase(id_label);
+        }
         it->second->actualizar_data(nueva_imagen, nuevo_tipo, nuevo_id);
     }
 }
