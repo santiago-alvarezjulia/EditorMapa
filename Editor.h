@@ -5,6 +5,7 @@
 #include "Tabs.h"
 #include "Mapa.h"
 #include "ObservadorMapa.h"
+#include <QSpinBox>
 
 class Editor : public QWidget, Observador {
     public:
@@ -17,10 +18,12 @@ class Editor : public QWidget, Observador {
     private:
         Mapa mapa;
         Tabs tabs;
+        QSpinBox* spin_box_cantidad_jugadores;
         int cant_jugadores;
         void conectar_botones();
         void guardar_mapa();
         void cambiar_tamanio_mapa();
+        void cambiar_cantidad_jugadores();
 };
 
 #endif // EDITOR_H

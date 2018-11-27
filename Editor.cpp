@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QFileDialog>
+#define MINIMO_CANTIDAD_JUGADORES 2
 using std::string;
 
 /**
@@ -52,7 +53,7 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
     this->tabs.inicializar_tabs();
     this->mapa = Mapa(this);
     this->mapa.parsear_json(filename_json);
-    this->cant_jugadores = this->mapa.get_cantidad_jugadores();
+    this->cant_jugadores = this->mapa.get_cantidad_jugadores_agregados();
 
     // agrego al editor como observador del mapa
     this->mapa.agregar_observador(this);
@@ -92,6 +93,11 @@ void Editor::en_notificacion(string id_label_mapa) {
             return;
         }
     }
+
+    // actualizo el valor minimo de spin_box_cantidad_jugadores
+    int cantidad_jugadores_agregados = 
+        this->mapa.get_cantidad_jugadores_agregados();
+    this->spin_box_cantidad_jugadores->setMinimum(cantidad_jugadores_agregados);
 }
 
 /**
@@ -111,6 +117,17 @@ void Editor::conectar_botones() {
         findChild<QPushButton*>("botonCambiarTamanioMapa");
     QObject::connect(boton_cambiar_tamanio_mapa, &QPushButton::clicked, this, 
         &Editor::cambiar_tamanio_mapa);
+
+    // Conecto el evento del boton cambiar cantidad de jugadores
+    QPushButton* boton_cambiar_cantidad_jugadores = 
+        findChild<QPushButton*>("botonCambiarCantidadJugadores");
+    QObject::connect(boton_cambiar_cantidad_jugadores, &QPushButton::clicked, this, 
+        &Editor::cambiar_cantidad_jugadores);
+
+    // setteo el spinbox de cantidad de jugadores
+    this->spin_box_cantidad_jugadores = 
+        findChild<QSpinBox*>("spinBoxCantidadJugadores");
+    this->spin_box_cantidad_jugadores->setMinimum(MINIMO_CANTIDAD_JUGADORES);
 }
 
 /**
@@ -142,6 +159,10 @@ void Editor::guardar_mapa() {
         nombre_archivo += ".json";
     }
     this->mapa.generar_json(nombre_archivo.toStdString());
+
+    // muestro mensaje de que se guardo el mapa correctamente
+    QMessageBox::information(this, "Mapa guardado", 
+            "Se guardo el mapa correctamente.");
 }
 
 void Editor::cambiar_tamanio_mapa() {
@@ -150,6 +171,18 @@ void Editor::cambiar_tamanio_mapa() {
     
     this->mapa.cambiar_tamanio(spin_box_filas->value(), 
         spin_box_columnas->value());
+
+    // muestro mensaje de que se cambio el tamaño del mapa correctamente
+    QMessageBox::information(this, "Tamaño del Mapa", 
+            "Tamaño del mapa cambiado correctamente.");
+}
+
+void Editor::cambiar_cantidad_jugadores() {
+    this->cant_jugadores = this->spin_box_cantidad_jugadores->value();
+    
+    // muestro mensaje de que se cambio la cantidad de jugadores correctamente
+    QMessageBox::information(this, "Cantidad de jugadores", 
+            "Cantidad de jugadores cambiados correctamente.");
 }
 
 /**

@@ -32,7 +32,6 @@ class Mapa : public ObservadorMapa {
         void inicializar_mapa();
 
         int get_cantidad_jugadores_agregados();
-        int get_cantidad_jugadores();
 
         bool es_valido_agregar_jugador(std::string id_label_mapa, 
             int cantidad_jugadores);
@@ -44,7 +43,6 @@ class Mapa : public ObservadorMapa {
     private:
         int filas;
         int columnas;
-        int cantidad_jugadores;
         QWidget* parent;
         QPixmap imagen_terrenos;
         Observador* observador;

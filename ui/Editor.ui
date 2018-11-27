@@ -78,8 +78,24 @@
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>9</number>
+        </property>
+        <item>
+         <widget class="QSpinBox" name="spinBoxCantidadJugadores"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="botonCambiarCantidadJugadores">
+          <property name="text">
+           <string>CAMBIAR CANTIDAD DE JUGADORES</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>5</number>
+          </property>
           <property name="sizeConstraint">
            <enum>QLayout::SetMinimumSize</enum>
           </property>
@@ -136,7 +152,7 @@
         <item>
          <widget class="QPushButton" name="botonCambiarTamanioMapa">
           <property name="text">
-           <string>CAMBIAR TAMANIO MAPA</string>
+           <string>CAMBIAR TAMAÑO MAPA</string>
           </property>
          </widget>
         </item>

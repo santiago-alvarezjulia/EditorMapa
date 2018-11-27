@@ -51,19 +51,16 @@ void DialogoBienvenida::crear_mapa() {
     QString descripcion_filas ("Filas");
     QSpinBox spinbox_filas (&dialog);
     spinbox_filas.setMinimum(20);
-    //QLineEdit line_edit_filas (&dialog);
     form_layout.addRow(descripcion_filas, &spinbox_filas);
 
     QString descripcion_columnas ("Columnas");
     QSpinBox spinbox_columnas (&dialog);
     spinbox_columnas.setMinimum(20);
-    //QLineEdit line_edit_columnas (&dialog);
     form_layout.addRow(descripcion_columnas, &spinbox_columnas);
 
     QString descripcion_cant_jugadores ("Cantidad de jugadores");
     QSpinBox spinbox_jugadores (&dialog);
     spinbox_jugadores.setMinimum(2);
-    //QLineEdit line_edit_cant_jugadores (&dialog);
     form_layout.addRow(descripcion_cant_jugadores, &spinbox_jugadores);
 
     QDialogButtonBox box_botones (QDialogButtonBox::Ok, Qt::Horizontal, &dialog);
@@ -77,9 +74,6 @@ void DialogoBienvenida::crear_mapa() {
         int filas = spinbox_filas.value();
         int columnas = spinbox_columnas.value();
         int cantidad_de_jugadores = spinbox_jugadores.value();
-        //QString filas = line_edit_filas.text();
-        //QString columnas = line_edit_columnas.text();
-        //QString cantidad_de_jugadores = line_edit_cant_jugadores.text();
         
         this->editor = new Editor (filas, columnas, cantidad_de_jugadores);
         this->editor_fue_creado = true;

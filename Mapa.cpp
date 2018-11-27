@@ -128,8 +128,6 @@ void Mapa::parsear_json(string filename_json) {
         } 
     }
 
-    this->cantidad_jugadores = pos_jugadores.size();
-
     map_layout->setSpacing(0);
     scroll_area_mapa->setLayout(map_layout);
 }
@@ -307,16 +305,6 @@ QPixmap Mapa::generar_sprite_inicial(vector<uint32_t> pos_tiles) {
     }
 
     return label_32_x_32;
-}
-
-/**
- * \brief Getter cantidad de jugadores.
- * 
- * Devuelvo la cantidad de jugadores que debe tener el mapa (lo proporciona el
- * usuario de la aplicación en DialogoBienvenida).
- */
-int Mapa::get_cantidad_jugadores() {
-    return this->cantidad_jugadores;
 }
 
 /**
