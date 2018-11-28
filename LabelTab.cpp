@@ -4,13 +4,6 @@
 using std::string;
 using std::vector;
 
-/**
- * \brief Constructor de LabelTab.
- * 
- * Constructor de LabelTab que recibe como parametro el QPixmap correspondiente
- * a la imagen .bmp que contiene todos los sprites de los terrenos. Tambien
- * el id, el tipo y la posicion de los tiles de este Label en particular.
- */
 LabelTab::LabelTab(QPixmap& terrenos, string id, int tipo, vector<uint32_t> pos_tiles, 
     QWidget* parent) : QLabel(parent), id(id), tipo(tipo) {
     // fijo el tamaño de Label a 32x32 pixeles. 
@@ -60,73 +53,38 @@ LabelTab::LabelTab(QPixmap& terrenos, string id, int tipo, vector<uint32_t> pos_
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
-/**
- * \brief Getter tipo del LabelTab.
- * 
- * Devuelvo el tipo del LabelTab.
- */
+
 int LabelTab::get_tipo() {
     return this->tipo;
 }
 
-/**
- * \brief Getter id del LabelTab.
- * 
- * Devuelvo el id del LabelTab.
- */
+
 string LabelTab::get_id() {
     return this->id;
 }
 
-/**
- * \brief Getter imagen del LabelTab.
- * 
- * Devuelvo la imagen del LabelTab.
- */
+
 QPixmap LabelTab::get_imagen() {
     return this->pixmap;
 }
 
-/**
- * \brief Agrego observador del LabelTab.
- * 
- * Agrego un observador del LabelTab (Tabs).
- */
+
 void LabelTab::agregar_observador(Observador* observador_) {
     this->observador = observador_;
 }
 
-/**
- * \brief Atrapo mouse clicks sobre el LabelTab.
- * 
- * Le aviso al observador que fue clickeado.
- */
+
 void LabelTab::mousePressEvent(QMouseEvent* event) {
     this->observador->en_notificacion(this->id);
 }
 
-/**
- * \brief Agrego el marco clickeado.
- * 
- * Agrego el marco clickeado.
- */
+
 void LabelTab::set_marco_clickeado() {
     this->setFrameShape(QFrame::Panel);
     this->setLineWidth(2);
 }
 
-/**
- * \brief Borro el marco clickeado.
- * 
- * Borro el marco clickeado.
- */
+
 void LabelTab::borrar_marco_clickeado() {
     this->setLineWidth(0);
 }
-
-/**
- * \brief Destructor de Label.
- * 
- * Destructor de Label.
- */
-LabelTab::~LabelTab() {}

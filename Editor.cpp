@@ -7,12 +7,6 @@
 #define MINIMO_CANTIDAD_JUGADORES 2
 using std::string;
 
-/**
- * \brief 1er Constructor de Editor.
- * 
- * Constructor de Editor que es utilizado cuando se crea un mapa. Recibe como 
- * parametros del mapa el tamaño (filas y columnas) y la cantidad de jugadores.
- */
 Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) : 
     mapa(Mapa(filas, columnas, this)), tabs(Tabs(this)), cant_jugadores(cant_jugadores), 
     QWidget(parent, Qt::Window) {
@@ -32,13 +26,7 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
     conectar_botones();
 }
 
-/**
- * \brief 2do Constructor de Editor.
- * 
- * Constructor de Editor que es utilizado cuando se carga un mapa. Recibe como
- * parametro el nombre del archivo del mapa. El archivo contiene la informacion
- * relacionada con el tamaño (filas y columnas) y la cantidad de jugadores.
- */
+
 Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent, 
     Qt::Window), mapa(Mapa(this)), tabs(Tabs(this)) {
     // Instancio la configuracion generada por el designer y uic
@@ -58,12 +46,7 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
     conectar_botones();
 }
 
-/**
- * \brief Metodo virtual de la interfaz Observador implementada por Editor.
- * 
- * Metodo virtual que es llamado por Mapa cuando un label del mapa (LabelMapa)
- * es clickeado. Recibe por parametro el id del LabelMapa.
- */
+
 void Editor::en_notificacion(string id_label_mapa) {
     // getteo el id del Label clickeado en Tabs
     string tabs_id_label_clickeado = this->tabs.get_id_label_clickeado();
@@ -97,12 +80,7 @@ void Editor::en_notificacion(string id_label_mapa) {
     this->spin_box_cantidad_jugadores->setMinimum(cantidad_jugadores_agregados);
 }
 
-/**
- * \brief Conector de botones de la interfaz Editor.
- * 
- * Asocia el boton de guardar mapa de la interfaz Editor con la funcion 
- * Editor::guardar_mapa.
- */
+
 void Editor::conectar_botones() {
     // Conecto el evento del boton guardar mapa
     QPushButton* boton_guardar_mapa = findChild<QPushButton*>("botonGuardarMapa");
@@ -127,14 +105,7 @@ void Editor::conectar_botones() {
     this->spin_box_cantidad_jugadores->setMinimum(MINIMO_CANTIDAD_JUGADORES);
 }
 
-/**
- * \brief Funcion que guarda el mapa en un archivo.
- * 
- * Antes de guardar el mapa, verifica que sea valido (se fija en la cantidad
- * de jugadores ubicados en el mapa) y luego muestra un dialogo para elegir
- * el nombre del mapa y el directorio. Finalmente delega en Mapa la generacion
- * del archivo.
- */
+
 void Editor::guardar_mapa() {
     int cantidad_jugadores_agregados = this->mapa.get_cantidad_jugadores_agregados();
     if (cantidad_jugadores_agregados != this->cant_jugadores) {
@@ -162,6 +133,7 @@ void Editor::guardar_mapa() {
             "Se guardo el mapa correctamente.");
 }
 
+
 void Editor::cambiar_tamanio_mapa() {
     QSpinBox* spin_box_filas = findChild<QSpinBox*>("spinBoxFilas");
     QSpinBox* spin_box_columnas = findChild<QSpinBox*>("spinBoxColumnas");
@@ -174,6 +146,7 @@ void Editor::cambiar_tamanio_mapa() {
             "Tamaño del mapa cambiado correctamente.");
 }
 
+
 void Editor::cambiar_cantidad_jugadores() {
     this->cant_jugadores = this->spin_box_cantidad_jugadores->value();
     
@@ -181,10 +154,3 @@ void Editor::cambiar_cantidad_jugadores() {
     QMessageBox::information(this, "Cantidad de jugadores", 
             "Cantidad de jugadores cambiados correctamente.");
 }
-
-/**
- * \brief Destructor de Editor.
- * 
- * Destructor de editor.
- */
-Editor::~Editor() {}

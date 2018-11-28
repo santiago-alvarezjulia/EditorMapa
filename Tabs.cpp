@@ -12,13 +12,6 @@ using std::map;
 using nlohmann::json;
 using std::vector;
 
-/**
- * \brief Constructor Tabs.
- * 
- * Es llamado por el constructor de Editor, por lo tanto se separa la creacion
- * de la inicializacion de Tabs (el Editor debe hacer setupUi para poder 
- * utilizar los elementos graficos de Qt como QGridLayout).
- */
 Tabs::Tabs(QWidget* parent) : parent(parent) {
     this->tabs_terrenos = map<string, LabelTab*>();
     this->id_label_clickeado = "";
@@ -26,11 +19,7 @@ Tabs::Tabs(QWidget* parent) : parent(parent) {
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
-/**
- * \brief Inicializador Tabs.
- * 
- * Llena las pestañas o tabs de sprites. Los separa segun su tipo.
- */
+
 void Tabs::inicializar_tabs() {
     // getteo el layout y el widget de Arena
     QGridLayout* arena_layout = this->parent->findChild<QGridLayout*>("gridLayout_arena");
@@ -130,21 +119,10 @@ void Tabs::inicializar_tabs() {
     scroll_area_jugador->setLayout(jugador_layout);
 }
 
-/**
- * \brief Getter id label clickeado.
- * 
- * Devuelvo el id del label clickeado, puede estar vacio ("").
- */
 string Tabs::get_id_label_clickeado() {
     return this->id_label_clickeado;
 }
 
-/**
- * \brief Getter tipo del label clickeado.
- * 
- * Devuelvo el tipo del label clickeado (delego en LabelTab). Precondicion -> tiene que haberse
- * verificado que hay un label clickeado.
- */
 int Tabs::get_tipo_label_clickeado() {
     map<string, LabelTab*>::iterator it = 
         this->tabs_terrenos.find(this->id_label_clickeado);
@@ -153,12 +131,6 @@ int Tabs::get_tipo_label_clickeado() {
     }
 }
 
-/**
- * \brief Getter imagen del label clickeado.
- * 
- * Devuelvo la imagen del label clickeado (delego en LabelTab). 
- * Precondicion -> tiene que haberse verificado que hay un label clickeado.
- */
 QPixmap Tabs::get_imagen_clickeado() {
     map<string, LabelTab*>::iterator it = 
         this->tabs_terrenos.find(this->id_label_clickeado);
@@ -167,12 +139,6 @@ QPixmap Tabs::get_imagen_clickeado() {
     }
 }
 
-/**
- * \brief Metodo virtual de la interfaz Observador implementada por Tabs.
- * 
- * Metodo virtual que es llamado cuando un label de una pestaña (LabelTab)
- * es clickeado. Recibe por parametro el id del Label.
- */
 void Tabs::en_notificacion(string id_label) {
     // me fijo que tenga almacenado al Label en tabs_terrenos
     map<string, LabelTab*>::iterator it = this->tabs_terrenos.find(id_label);
@@ -193,12 +159,6 @@ void Tabs::en_notificacion(string id_label) {
     }
 }
 
-/**
- * \brief Destructor de Tabs.
- * 
- * Libero los Label del heap (fueron tomados los recursos en 
- *  Tabs::inicializar_tabs)
- */
 Tabs::~Tabs() {
     map<string, LabelTab*>::iterator it = this->tabs_terrenos.begin();
     for (; it != this->tabs_terrenos.end(); ++it) {

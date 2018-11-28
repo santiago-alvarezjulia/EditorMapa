@@ -7,9 +7,37 @@
 
 class DialogoBienvenida : public QDialog {
     public:
+        /**
+         * \brief Constructor de DialogoBienvenida.
+         * 
+         * Constructor de DialogoBienvenida que es utilizado como menu principal al 
+         * iniciar el editor.
+         */
         explicit DialogoBienvenida(QWidget *parent = 0);
+
+         /**
+         * \brief Muestro dialogo crear mapa.
+         * 
+         * Es llamada al tocar el boton de crear mapa (vease main.cpp). Muestra el 
+         * dialogo con las configuraciones posibles para un mapa nuevo 
+         * (tamaño y cantidad de jugadores).
+         */
         void crear_mapa();
+
+        /**
+         * \brief Muestro dialogo cargar mapa.
+         * 
+         * Es llamada al tocar el boton de cargar mapa (vease main.cpp). Muestra el 
+         * dialogo para elegir al mapa previamente creado y almacenado en la pc.
+         */
         void cargar_mapa();
+
+        /**
+         * \brief Destructor DialogoBienvenida.
+         * 
+         * Verifica si fue creado el editor en el heap, en caso afirmativo, lo libero.
+         * Siempre liberp el titulo y los botones.
+         */
         ~DialogoBienvenida(); 
 
     private:
