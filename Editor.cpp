@@ -14,7 +14,8 @@ using std::string;
  * parametros del mapa el tamaño (filas y columnas) y la cantidad de jugadores.
  */
 Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) : 
-    cant_jugadores(cant_jugadores), QWidget(parent, Qt::Window) {
+    mapa(Mapa(filas, columnas, this)), tabs(Tabs(this)), cant_jugadores(cant_jugadores), 
+    QWidget(parent, Qt::Window) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para que use esa configuracion. A partir de aca
@@ -22,9 +23,7 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
     editor.setupUi(this);
 
     // aca inicializo Tabs y Mapa para poder utilizar findChild
-    this->tabs = Tabs(this);
     this->tabs.inicializar_tabs();
-    this->mapa = Mapa(filas, columnas, this);
     this->mapa.inicializar_mapa();
 
     // agrego al editor como observador del mapa
@@ -41,7 +40,7 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
  * relacionada con el tamaño (filas y columnas) y la cantidad de jugadores.
  */
 Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent, 
-    Qt::Window) {
+    Qt::Window), mapa(Mapa(this)), tabs(Tabs(this)) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para use esa configuracion. A partir de aca
@@ -49,9 +48,7 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
     editor.setupUi(this);
 
     // aca inicializo Tabs y Mapa para poder utilizar findChild
-    this->tabs = Tabs(this);
     this->tabs.inicializar_tabs();
-    this->mapa = Mapa(this);
     this->mapa.parsear_json(filename_json);
     this->cant_jugadores = this->mapa.get_cantidad_jugadores_agregados();
 

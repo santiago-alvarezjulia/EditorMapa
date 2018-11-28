@@ -488,8 +488,6 @@ void Mapa::cambiar_tamanio(int nueva_cant_filas, int nueva_cant_columnas) {
     } else if (nueva_cant_columnas > this->columnas && nueva_cant_filas < this->filas) {
         sacar_filas_agregar_columnas(nueva_cant_filas, nueva_cant_columnas);
     }
-
-
 }
 
 void Mapa::agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
@@ -591,9 +589,14 @@ void Mapa::achicar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
             if (it != this->mapa.end()) {
                 map_layout->removeWidget(it->second);
                 delete it->second;
+                this->mapa.erase(it);
             }
 
-            this->mapa.erase(pos_label);
+            // me fijo si habia un jugador en esa posicion
+            map<string, bool>::iterator it_jugadores = this->jugadores.find(pos_label);
+            if (it_jugadores != this->jugadores.end()) {
+                this->jugadores.erase(it_jugadores);
+            }
         }
     }
 
@@ -608,9 +611,14 @@ void Mapa::achicar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
             if (it != this->mapa.end()) {
                 map_layout->removeWidget(it->second);
                 delete it->second;
+                this->mapa.erase(it);
             }
-            
-            this->mapa.erase(pos_label);
+
+            // me fijo si habia un jugador en esa posicion
+            map<string, bool>::iterator it_jugadores = this->jugadores.find(pos_label);
+            if (it_jugadores != this->jugadores.end()) {
+                this->jugadores.erase(it_jugadores);
+            }
         }
     }
 
@@ -656,9 +664,14 @@ void Mapa::sacar_columnas_agregar_filas(int nueva_cant_filas,
             if (it != this->mapa.end()) {
                 map_layout->removeWidget(it->second);
                 delete it->second;
+                this->mapa.erase(it);
             }
 
-            this->mapa.erase(pos_label);
+            // me fijo si habia un jugador en esa posicion
+            map<string, bool>::iterator it_jugadores = this->jugadores.find(pos_label);
+            if (it_jugadores != this->jugadores.end()) {
+                this->jugadores.erase(it_jugadores);
+            }
         }
     }
 
@@ -723,9 +736,14 @@ void Mapa::sacar_filas_agregar_columnas(int nueva_cant_filas,
             if (it != this->mapa.end()) {
                 map_layout->removeWidget(it->second);
                 delete it->second;
+                this->mapa.erase(it);
             }
-            
-            this->mapa.erase(pos_label);
+
+            // me fijo si habia un jugador en esa posicion
+            map<string, bool>::iterator it_jugadores = this->jugadores.find(pos_label);
+            if (it_jugadores != this->jugadores.end()) {
+                this->jugadores.erase(it_jugadores);
+            }
         }
     }
 
