@@ -139,7 +139,7 @@ QPixmap Tabs::get_imagen_clickeado() {
     }
 }
 
-void Tabs::en_notificacion(string id_label) {
+void Tabs::en_notificacion(string& id_label) {
     // me fijo que tenga almacenado al Label en tabs_terrenos
     map<string, LabelTab*>::iterator it = this->tabs_terrenos.find(id_label);
 	if (it != this->tabs_terrenos.end()) {

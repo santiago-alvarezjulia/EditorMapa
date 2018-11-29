@@ -15,8 +15,8 @@ class LabelMapa : public QLabel {
          * Tambien el pos_label, el tipo y la posicion de los tiles de este 
          * LabelMapa en particular.
          */
-        LabelMapa(QPixmap& terrenos, std::string id, int tipo, 
-            std::string pos_label, QWidget* parent = 0);
+        LabelMapa(QPixmap& terrenos, std::string& id, int tipo, 
+            std::string& pos_label, QWidget* parent = 0);
 
         /**
          * \brief Agrego observador del LabelMapa.
@@ -31,7 +31,7 @@ class LabelMapa : public QLabel {
          * Actualizo la data del LabelMapa.
          */
         void actualizar_data(QPixmap& nueva_imagen, int nuevo_tipo, 
-            std::string nuevo_id);
+            std::string& nuevo_id);
 
         /**
          * \brief Actualizar imagen del LabelMapa.

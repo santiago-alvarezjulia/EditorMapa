@@ -4,7 +4,7 @@
 using std::string;
 using std::vector;
 
-LabelTab::LabelTab(QPixmap& terrenos, string id, int tipo, vector<uint32_t> pos_tiles, 
+LabelTab::LabelTab(QPixmap& terrenos, string& id, int tipo, vector<uint32_t>& pos_tiles, 
     QWidget* parent) : QLabel(parent), id(id), tipo(tipo) {
     // fijo el tamaño de Label a 32x32 pixeles. 
     this->setFixedSize(32, 32);

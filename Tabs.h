@@ -54,7 +54,7 @@ class Tabs : public Observador {
          * Metodo virtual que es llamado cuando un label de una pestaña (LabelTab)
          * es clickeado. Recibe por parametro el id del Label.
          */
-        virtual void en_notificacion(std::string id_label);
+        virtual void en_notificacion(std::string& id_label);
 
         /**
          * \brief Destructor de Tabs.

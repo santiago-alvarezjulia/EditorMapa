@@ -38,7 +38,7 @@ class Mapa : public ObservadorMapa {
          * Precondicion -> haber construido Mapa con el 2do Constructor de Mapa.
          * 
          */
-        void parsear_json(std::string filename_json);
+        void parsear_json(std::string& filename_json);
 
         /**
          * \brief Inicializacion Mapa.
@@ -47,7 +47,7 @@ class Mapa : public ObservadorMapa {
          */
         void inicializar_mapa();
 
-        void agregar_jugador(std::string id_label, QPixmap& nueva_imagen);
+        void agregar_jugador(std::string& id_label, QPixmap& nueva_imagen);
 
         /**
          * \brief Agrego observador del Mapa.
@@ -62,14 +62,14 @@ class Mapa : public ObservadorMapa {
          * Devuelvo el tipo del LabelMapa cuyo id es el especificado en el parámetro 
          * (delego en LabelMapa). Precondicion -> el id_label_mapa es correcto.
          */
-        int get_tipo_by_id(std::string id_label_mapa);
+        int get_tipo_by_id(std::string& id_label_mapa);
 
         /**
          * \brief Validez agregar jugador.
          * 
          * Verifico que no haya un jugador en el LabelMapa cuyo id recibo por parametro.
          */
-        bool es_valido_agregar_jugador(std::string id_label_mapa, 
+        bool es_valido_agregar_jugador(std::string& id_label_mapa, 
             int cantidad_jugadores);
 
         /**
@@ -78,7 +78,7 @@ class Mapa : public ObservadorMapa {
          * Genero json con la informacion de Mapa. Recibo el nombre del archivo que tengo 
          * que generar por parametro (filepath incluido).
          */        
-        void generar_json(std::string nombre_archivo);
+        void generar_json(std::string& nombre_archivo);
 
 
         /**
@@ -89,8 +89,8 @@ class Mapa : public ObservadorMapa {
          * Precondicion -> Ya fue contemplado el caso en que tipo_label_mapa y nuevo_tipo
          * son Jugador. 
          */
-        void actualizar_data(std::string id_label, QPixmap& nueva_imagen, 
-            int nuevo_tipo, std::string nuevo_id);
+        void actualizar_data(std::string& id_label, QPixmap& nueva_imagen, 
+            int nuevo_tipo, std::string& nuevo_id);
 
         /**
          * \brief Metodo virtual de la interfaz ObservadorMapa.
@@ -98,7 +98,7 @@ class Mapa : public ObservadorMapa {
          * Metodo virtual que es llamado por LabelMapa cuando este es clickeado.
          * Avisa al observador cual LabelMapa fue clickeado.
          */
-        virtual void label_mapa_clickeado(std::string id_label_mapa);
+        virtual void label_mapa_clickeado(std::string& id_label_mapa);
 
         /**
          * \brief Getter cantidad de jugadores agregados.
@@ -136,7 +136,7 @@ class Mapa : public ObservadorMapa {
          */
         std::vector<std::string> split(const std::string& str, char delim);
         
-        QPixmap generar_sprite_inicial(std::vector<uint32_t> pos_tiles);
+        QPixmap generar_sprite_inicial(std::vector<uint32_t>& pos_tiles);
         std::map<std::string, Sprite> generar_sprites_posibles();
 
         void agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas);

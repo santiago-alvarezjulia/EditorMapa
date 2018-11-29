@@ -16,8 +16,8 @@ class LabelTab : public QLabel {
          * a la imagen .bmp que contiene todos los sprites de los terrenos. Tambien
          * el id, el tipo y la posicion de los tiles de este Label en particular.
          */
-        LabelTab(QPixmap& terrenos, std::string id, int tipo, 
-            std::vector<uint32_t> pos_tiles , QWidget* parent = 0);
+        LabelTab(QPixmap& terrenos, std::string& id, int tipo, 
+            std::vector<uint32_t>& pos_tiles , QWidget* parent = 0);
 
         /**
          * \brief Getter tipo del LabelTab.
@@ -79,7 +79,7 @@ class LabelTab : public QLabel {
     private:
         std::string id;
         int tipo;
-        QPixmap pixmap;
+        QPixmap& pixmap;
         Observador* observador;
 };
 

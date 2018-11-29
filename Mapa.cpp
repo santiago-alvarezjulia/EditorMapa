@@ -33,7 +33,7 @@ Mapa::Mapa(QWidget* parent) : parent(parent) {
 }
 
 
-void Mapa::parsear_json(string filename_json) {
+void Mapa::parsear_json(string& filename_json) {
     // getteo el layout y el widget del Mapa
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
     QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
@@ -243,7 +243,7 @@ void Mapa::inicializar_mapa() {
     scroll_area_mapa->setLayout(map_layout);
 }
 
-QPixmap Mapa::generar_sprite_inicial(vector<uint32_t> pos_tiles) {
+QPixmap Mapa::generar_sprite_inicial(vector<uint32_t>& pos_tiles) {
     QPixmap label_32_x_32 (32, 32);
 
     // junto los 16 tiles de 8x8 pixeles, cuyas posiciones se encuentran en 
@@ -287,7 +287,7 @@ QPixmap Mapa::generar_sprite_inicial(vector<uint32_t> pos_tiles) {
 }
 
 
-int Mapa::get_tipo_by_id(string id_label_mapa) {
+int Mapa::get_tipo_by_id(string& id_label_mapa) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
 	if (it != this->mapa.end()) {
         return it->second->get_tipo();
@@ -295,7 +295,7 @@ int Mapa::get_tipo_by_id(string id_label_mapa) {
 }
 
 
-bool Mapa::es_valido_agregar_jugador(string id_label_mapa, 
+bool Mapa::es_valido_agregar_jugador(string& id_label_mapa, 
     int cantidad_jugadores) {
     // tipo Roca (0)
     if (this->get_tipo_by_id(id_label_mapa) == 0) {
@@ -322,7 +322,7 @@ bool Mapa::es_valido_agregar_jugador(string id_label_mapa,
 }
 
 
-void Mapa::generar_json(string nombre_archivo) {
+void Mapa::generar_json(string& nombre_archivo) {
     json j;
     
     vector<vector<string>> tipos;
@@ -371,20 +371,21 @@ void Mapa::agregar_observador(Observador* observer) {
 }
 
 
-void Mapa::actualizar_data(string id_label, QPixmap& nueva_imagen, 
-    int nuevo_tipo, string nuevo_id) {
+void Mapa::actualizar_data(string& id_label, QPixmap& nueva_imagen, 
+    int nuevo_tipo, string& nuevo_id) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
         // me fijo si es el caso especial en que reemplazo a un jugador por otra
         // cosa que no es jugador.
-        if (this->jugadores.find(id_label) != this->jugadores.end()) {
-            this->jugadores.erase(id_label);
+        map<string, bool>::iterator it_jugadores = this->jugadores.find(id_label);
+        if (it_jugadores != this->jugadores.end()) {
+            this->jugadores.erase(it_jugadores);
         }
         it->second->actualizar_data(nueva_imagen, nuevo_tipo, nuevo_id);
     }
 }
 
-void Mapa::agregar_jugador(string id_label, QPixmap& nueva_imagen) {
+void Mapa::agregar_jugador(string& id_label, QPixmap& nueva_imagen) {
     this->jugadores.emplace(id_label, true);
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
@@ -393,7 +394,7 @@ void Mapa::agregar_jugador(string id_label, QPixmap& nueva_imagen) {
 }
 
 
-void Mapa::label_mapa_clickeado(std::string id_label_mapa) {
+void Mapa::label_mapa_clickeado(std::string& id_label_mapa) {
     this->observador->en_notificacion(id_label_mapa);
 }
 

@@ -3,7 +3,7 @@
 #define TAMANIO_LABEL_MAPA 32
 using std::string;
 
-LabelMapa::LabelMapa(QPixmap& sprite, string id, int tipo, string pos_label, 
+LabelMapa::LabelMapa(QPixmap& sprite, string& id, int tipo, string& pos_label, 
     QWidget* parent) : QLabel(parent), id(id), tipo(tipo), pos_label(pos_label), 
     terrenos(terrenos) {
     this->setFixedSize(TAMANIO_LABEL_MAPA, TAMANIO_LABEL_MAPA);
@@ -13,7 +13,7 @@ LabelMapa::LabelMapa(QPixmap& sprite, string id, int tipo, string pos_label,
 
 
 void LabelMapa::actualizar_data(QPixmap& nueva_imagen, int nuevo_tipo, 
-    string nuevo_id) {
+    string& nuevo_id) {
     this->setPixmap(nueva_imagen);
     this->tipo = nuevo_tipo; 
     this->id = nuevo_id;

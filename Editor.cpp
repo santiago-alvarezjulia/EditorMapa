@@ -23,11 +23,12 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
     // agrego al editor como observador del mapa
     this->mapa.agregar_observador(this);
 
-    conectar_botones();
+    inicializar_ui();
+    set_minimo_spin_box_jugadores(MINIMO_CANTIDAD_JUGADORES);
 }
 
 
-Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent, 
+Editor::Editor(string& filename_json, QWidget *parent) : QWidget(parent, 
     Qt::Window), mapa(Mapa(this)), tabs(Tabs(this)) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
@@ -43,11 +44,12 @@ Editor::Editor(std::string filename_json, QWidget *parent) : QWidget(parent,
     // agrego al editor como observador del mapa
     this->mapa.agregar_observador(this);
 
-    conectar_botones();
+    inicializar_ui();
+    set_minimo_spin_box_jugadores(this->cant_jugadores);
 }
 
 
-void Editor::en_notificacion(string id_label_mapa) {
+void Editor::en_notificacion(string& id_label_mapa) {
     // getteo el id del Label clickeado en Tabs
     string tabs_id_label_clickeado = this->tabs.get_id_label_clickeado();
 
@@ -70,18 +72,21 @@ void Editor::en_notificacion(string id_label_mapa) {
         } else {
             this->mapa.actualizar_data(id_label_mapa, nueva_imagen, nuevo_tipo,
                 tabs_id_label_clickeado);
-            return;
         }
     }
 
     // actualizo el valor minimo de spin_box_cantidad_jugadores
     int cantidad_jugadores_agregados = 
         this->mapa.get_cantidad_jugadores_agregados();
-    this->spin_box_cantidad_jugadores->setMinimum(cantidad_jugadores_agregados);
+    if (cantidad_jugadores_agregados < MINIMO_CANTIDAD_JUGADORES) {
+        set_minimo_spin_box_jugadores(MINIMO_CANTIDAD_JUGADORES);
+    } else {
+        set_minimo_spin_box_jugadores(cantidad_jugadores_agregados);
+    }
 }
 
 
-void Editor::conectar_botones() {
+void Editor::inicializar_ui() {
     // Conecto el evento del boton guardar mapa
     QPushButton* boton_guardar_mapa = findChild<QPushButton*>("botonGuardarMapa");
     QObject::connect(boton_guardar_mapa, &QPushButton::clicked, this, 
@@ -102,9 +107,11 @@ void Editor::conectar_botones() {
     // setteo el spinbox de cantidad de jugadores
     this->spin_box_cantidad_jugadores = 
         findChild<QSpinBox*>("spinBoxCantidadJugadores");
-    this->spin_box_cantidad_jugadores->setMinimum(MINIMO_CANTIDAD_JUGADORES);
 }
 
+void Editor::set_minimo_spin_box_jugadores(int valor_minimo) {
+    this->spin_box_cantidad_jugadores->setMinimum(valor_minimo);
+}
 
 void Editor::guardar_mapa() {
     int cantidad_jugadores_agregados = this->mapa.get_cantidad_jugadores_agregados();
@@ -140,6 +147,15 @@ void Editor::cambiar_tamanio_mapa() {
     
     this->mapa.cambiar_tamanio(spin_box_filas->value(), 
         spin_box_columnas->value());
+
+    // actualizo el valor minimo de spin_box_cantidad_jugadores
+    int cantidad_jugadores_agregados = 
+        this->mapa.get_cantidad_jugadores_agregados();
+    if (cantidad_jugadores_agregados < MINIMO_CANTIDAD_JUGADORES) {
+        set_minimo_spin_box_jugadores(MINIMO_CANTIDAD_JUGADORES);
+    } else {
+        set_minimo_spin_box_jugadores(cantidad_jugadores_agregados);
+    }
 
     // muestro mensaje de que se cambio el tamaño del mapa correctamente
     QMessageBox::information(this, "Tamaño del Mapa", 

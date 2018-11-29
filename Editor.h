@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "Tabs.h"
 #include "Mapa.h"
-#include "ObservadorMapa.h"
+#include "Observador.h"
 #include <QSpinBox>
 
 class Editor : public QWidget, Observador {
@@ -15,8 +15,7 @@ class Editor : public QWidget, Observador {
          * Constructor de Editor que es utilizado cuando se crea un mapa. Recibe como 
          * parametros del mapa el tamaño (filas y columnas) y la cantidad de jugadores.
          */
-        Editor(int filas, int columnas, int cant_jugadores, 
-            QWidget *parent = 0);
+        Editor(int filas, int columnas, int cant_jugadores, QWidget *parent = 0);
 
         /**
          * \brief 2do Constructor de Editor.
@@ -25,7 +24,7 @@ class Editor : public QWidget, Observador {
          * parametro el nombre del archivo del mapa. El archivo contiene la informacion
          * relacionada con el tamaño (filas y columnas) y la cantidad de jugadores.
          */
-        Editor(std::string filename_json, QWidget *parent = 0);
+        Editor(std::string& filename_json, QWidget *parent = 0);
 
         /**
          * \brief Metodo virtual de la interfaz Observador implementada por Editor.
@@ -33,7 +32,7 @@ class Editor : public QWidget, Observador {
          * Metodo virtual que es llamado por Mapa cuando un label del mapa (LabelMapa)
          * es clickeado. Recibe por parametro el id del LabelMapa.
          */
-        virtual void en_notificacion(std::string id_label_mapa);
+        virtual void en_notificacion(std::string& id_label_mapa);
 
         /**
          * \brief Destructor de Editor.
@@ -49,13 +48,14 @@ class Editor : public QWidget, Observador {
         int cant_jugadores;
         
         /**
-         * \brief Conector de botones de la interfaz Editor.
+         * \brief Inicializa la interfaz del Editor.
          * 
-         * Asocia el boton de guardar mapa de la interfaz Editor con la funcion 
-         * Editor::guardar_mapa.
+         * Asocia los botones con sus respectivos metodos y el resto de widgets
+         * presentes en la ui del Editor.
          */
-        void conectar_botones();
+        void inicializar_ui();
 
+        void set_minimo_spin_box_jugadores(int valor_minimo);
         /**
          * \brief Funcion que guarda el mapa en un archivo.
          * 
@@ -66,6 +66,11 @@ class Editor : public QWidget, Observador {
          */
         void guardar_mapa();
 
+        /**
+         * \brief Funcion para cambiar el tamaño de Mapa.
+         * 
+         * Delego en Mapa.
+         */
         void cambiar_tamanio_mapa();
         
         void cambiar_cantidad_jugadores();

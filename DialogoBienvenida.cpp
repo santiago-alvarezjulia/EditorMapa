@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include "Editor.h"
+using std::string;
 
 DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {
     this->editor_fue_creado = false;
@@ -81,7 +82,8 @@ void DialogoBienvenida::cargar_mapa() {
     }
     
     // cargar mapa
-    this->editor = new Editor (filename.toStdString());
+    string filename_std_string = filename.toStdString();
+    this->editor = new Editor (filename_std_string);
     this->editor_fue_creado = true;
 
     // cierro DialogoBienvenida y muestro el Editor.
