@@ -33,14 +33,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>500</width>
-          <height>500</height>
+          <width>600</width>
+          <height>600</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>800</width>
-          <height>800</height>
+          <width>1000</width>
+          <height>1000</height>
          </size>
         </property>
         <property name="widgetResizable">
@@ -51,7 +51,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>498</width>
+           <width>598</width>
            <height>662</height>
           </rect>
          </property>
@@ -64,10 +64,10 @@
          <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
-            <x>7</x>
-            <y>7</y>
-            <width>491</width>
-            <height>651</height>
+            <x>0</x>
+            <y>0</y>
+            <width>591</width>
+            <height>661</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="mapLayout">
@@ -83,392 +83,310 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>9</number>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <item>
-         <widget class="QSpinBox" name="spinBoxCantidadJugadores"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="botonCambiarCantidadJugadores">
-          <property name="text">
-           <string>CAMBIAR CANTIDAD DE JUGADORES</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>5</number>
-          </property>
-          <property name="sizeConstraint">
-           <enum>QLayout::SetMinimumSize</enum>
-          </property>
-          <item>
-           <widget class="QSpinBox" name="spinBoxFilas">
-            <property name="wrapping">
-             <bool>false</bool>
-            </property>
-            <property name="minimum">
-             <number>20</number>
-            </property>
-            <property name="maximum">
-             <number>999</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>10</width>
-              <height>10</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>x</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="spinBoxColumnas">
-            <property name="frame">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>500</width>
+          <height>500</height>
+         </size>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab_arenas">
+         <attribute name="title">
+          <string>Arenas</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QScrollArea" name="scrollArea_arenas">
+            <property name="widgetResizable">
              <bool>true</bool>
             </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::UpDownArrows</enum>
-            </property>
-            <property name="minimum">
-             <number>20</number>
-            </property>
-            <property name="maximum">
-             <number>999</number>
-            </property>
+            <widget class="QWidget" name="scrollArea_widget_arena">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>323</width>
+               <height>455</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget_5">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>421</width>
+                <height>551</height>
+               </rect>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_arena"/>
+             </widget>
+            </widget>
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QPushButton" name="botonCambiarTamanioMapa">
-          <property name="text">
-           <string>CAMBIAR TAMAÑO MAPA</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTabWidget" name="tabWidget">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>500</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>600</width>
-            <height>600</height>
-           </size>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <widget class="QWidget" name="tab_arenas">
-           <attribute name="title">
-            <string>Arenas</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_5">
-            <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_arenas">
-              <property name="widgetResizable">
-               <bool>true</bool>
+        </widget>
+        <widget class="QWidget" name="tab_cimas">
+         <attribute name="title">
+          <string>Cimas</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QScrollArea" name="scrollArea_cimas">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollArea_widget_cima">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>423</width>
+               <height>455</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget_3">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>421</width>
+                <height>551</height>
+               </rect>
               </property>
-              <widget class="QWidget" name="scrollArea_widget_arena">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>421</width>
-                 <height>455</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <widget class="QWidget" name="gridLayoutWidget_5">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>441</width>
-                  <height>451</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_arena"/>
-               </widget>
-              </widget>
+              <layout class="QGridLayout" name="gridLayout_cima"/>
              </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_cimas">
-           <attribute name="title">
-            <string>Cimas</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_cimas">
-              <property name="widgetResizable">
-               <bool>true</bool>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_rocas">
+         <attribute name="title">
+          <string>Rocas</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+           <widget class="QScrollArea" name="scrollArea_rocas">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollArea_widget_roca">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>423</width>
+               <height>455</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>-1</y>
+                <width>421</width>
+                <height>551</height>
+               </rect>
               </property>
-              <widget class="QWidget" name="scrollArea_widget_cima">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>421</width>
-                 <height>455</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <widget class="QWidget" name="gridLayoutWidget_3">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>441</width>
-                  <height>451</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_cima"/>
-               </widget>
-              </widget>
+              <layout class="QGridLayout" name="gridLayout_roca"/>
              </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_rocas">
-           <attribute name="title">
-            <string>Rocas</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_rocas">
-              <property name="widgetResizable">
-               <bool>true</bool>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_especias">
+         <attribute name="title">
+          <string>Especias</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="0">
+           <widget class="QScrollArea" name="scrollArea_especias">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollArea_widget_especia">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>423</width>
+               <height>455</height>
+              </rect>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget_4">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>-1</y>
+                <width>421</width>
+                <height>551</height>
+               </rect>
               </property>
-              <widget class="QWidget" name="scrollArea_widget_roca">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>421</width>
-                 <height>455</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <widget class="QWidget" name="gridLayoutWidget">
-                <property name="geometry">
-                 <rect>
-                  <x>-1</x>
-                  <y>-1</y>
-                  <width>441</width>
-                  <height>451</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_roca"/>
-               </widget>
-              </widget>
+              <layout class="QGridLayout" name="gridLayout_especia"/>
              </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_especias">
-           <attribute name="title">
-            <string>Especias</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_7">
-            <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_especias">
-              <property name="widgetResizable">
-               <bool>true</bool>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_precipicios">
+         <attribute name="title">
+          <string>Precipicios</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <widget class="QScrollArea" name="scrollArea_precipicios">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollArea_widget_precipicio">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>423</width>
+               <height>455</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget_2">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>-1</y>
+                <width>421</width>
+                <height>551</height>
+               </rect>
               </property>
-              <widget class="QWidget" name="scrollArea_widget_especia">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>421</width>
-                 <height>455</height>
-                </rect>
-               </property>
-               <widget class="QWidget" name="gridLayoutWidget_4">
-                <property name="geometry">
-                 <rect>
-                  <x>-1</x>
-                  <y>-1</y>
-                  <width>441</width>
-                  <height>451</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_especia"/>
-               </widget>
-              </widget>
+              <layout class="QGridLayout" name="gridLayout_precipicio"/>
              </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_precipicios">
-           <attribute name="title">
-            <string>Precipicios</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_6">
-            <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_precipicios">
-              <property name="widgetResizable">
-               <bool>true</bool>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_dunas">
+         <attribute name="title">
+          <string>Dunas</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QScrollArea" name="scrollArea_dunas">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollArea_widget_duna">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>423</width>
+               <height>455</height>
+              </rect>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget_6">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>-1</y>
+                <width>421</width>
+                <height>551</height>
+               </rect>
               </property>
-              <widget class="QWidget" name="scrollArea_widget_precipicio">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>421</width>
-                 <height>455</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <widget class="QWidget" name="gridLayoutWidget_2">
-                <property name="geometry">
-                 <rect>
-                  <x>-1</x>
-                  <y>-1</y>
-                  <width>441</width>
-                  <height>451</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_precipicio"/>
-               </widget>
-              </widget>
+              <layout class="QGridLayout" name="gridLayout_duna"/>
              </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_dunas">
-           <attribute name="title">
-            <string>Dunas</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_dunas">
-              <property name="widgetResizable">
-               <bool>true</bool>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_jugadores">
+         <attribute name="title">
+          <string>Jugadores</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_9">
+          <item row="0" column="0">
+           <widget class="QScrollArea" name="scrollArea_jugadores">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollArea_widget_jugador">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>423</width>
+               <height>455</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget_7">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>-1</y>
+                <width>421</width>
+                <height>551</height>
+               </rect>
               </property>
-              <widget class="QWidget" name="scrollArea_widget_duna">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>421</width>
-                 <height>455</height>
-                </rect>
-               </property>
-               <widget class="QWidget" name="gridLayoutWidget_6">
-                <property name="geometry">
-                 <rect>
-                  <x>-1</x>
-                  <y>-1</y>
-                  <width>441</width>
-                  <height>451</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_duna"/>
-               </widget>
-              </widget>
+              <layout class="QGridLayout" name="gridLayout_jugador"/>
              </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_jugadores">
-           <attribute name="title">
-            <string>Jugadores</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_9">
-            <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_jugadores">
-              <property name="widgetResizable">
-               <bool>true</bool>
-              </property>
-              <widget class="QWidget" name="scrollArea_widget_jugador">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>421</width>
-                 <height>455</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <widget class="QWidget" name="gridLayoutWidget_7">
-                <property name="geometry">
-                 <rect>
-                  <x>-1</x>
-                  <y>-1</y>
-                  <width>441</width>
-                  <height>451</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_jugador"/>
-               </widget>
-              </widget>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-       </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
       </item>
      </layout>
     </widget>

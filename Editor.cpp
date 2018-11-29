@@ -4,7 +4,10 @@
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QFileDialog>
+#include <QFormLayout>
+#include <QDialogButtonBox>
 #define MINIMO_CANTIDAD_JUGADORES 2
+#define DIMENSION_MINIMA_MAPA 30
 using std::string;
 
 Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) : 
@@ -24,7 +27,7 @@ Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) :
     this->mapa.agregar_observador(this);
 
     inicializar_ui();
-    set_minimo_spin_box_jugadores(MINIMO_CANTIDAD_JUGADORES);
+    this->min_cant_jugadores = MINIMO_CANTIDAD_JUGADORES;
 }
 
 
@@ -45,7 +48,7 @@ Editor::Editor(string& filename_json, QWidget *parent) : QWidget(parent,
     this->mapa.agregar_observador(this);
 
     inicializar_ui();
-    set_minimo_spin_box_jugadores(this->cant_jugadores);
+    this->min_cant_jugadores = this->cant_jugadores;
 }
 
 
@@ -75,43 +78,27 @@ void Editor::en_notificacion(string& id_label_mapa) {
         }
     }
 
-    // actualizo el valor minimo de spin_box_cantidad_jugadores
+    // actualizo el valor minimo de cantidad de jugadores
     int cantidad_jugadores_agregados = 
         this->mapa.get_cantidad_jugadores_agregados();
     if (cantidad_jugadores_agregados < MINIMO_CANTIDAD_JUGADORES) {
-        set_minimo_spin_box_jugadores(MINIMO_CANTIDAD_JUGADORES);
+        this->min_cant_jugadores = MINIMO_CANTIDAD_JUGADORES;
     } else {
-        set_minimo_spin_box_jugadores(cantidad_jugadores_agregados);
+        this->min_cant_jugadores = cantidad_jugadores_agregados;
     }
 }
 
 
 void Editor::inicializar_ui() {
-    // Conecto el evento del boton cambiar tamanio del mapa
-    QPushButton* boton_cambiar_tamanio_mapa = 
-        findChild<QPushButton*>("botonCambiarTamanioMapa");
-    QObject::connect(boton_cambiar_tamanio_mapa, &QPushButton::clicked, this, 
-        &Editor::cambiar_tamanio_mapa);
-
-    // Conecto el evento del boton cambiar cantidad de jugadores
-    QPushButton* boton_cambiar_cantidad_jugadores = 
-        findChild<QPushButton*>("botonCambiarCantidadJugadores");
-    QObject::connect(boton_cambiar_cantidad_jugadores, &QPushButton::clicked, this, 
-        &Editor::cambiar_cantidad_jugadores);
-
-    // setteo el spinbox de cantidad de jugadores
-    this->spin_box_cantidad_jugadores = 
-        findChild<QSpinBox*>("spinBoxCantidadJugadores");
-
     // agrego QMenuBar
     this->menu_bar = new QMenuBar(this);
     QMenu* menu_archivo = this->menu_bar->addMenu("Archivo");
     QMenu* menu_editar = this->menu_bar->addMenu("Editar");
     menu_archivo->addAction("Guardar mapa", this, &Editor::guardar_mapa);
-}
-
-void Editor::set_minimo_spin_box_jugadores(int valor_minimo) {
-    this->spin_box_cantidad_jugadores->setMinimum(valor_minimo);
+    menu_editar->addAction("Cambiar cantidad de jugadores", this, 
+        &Editor::mostrar_dialogo_cantidad_jugadores);
+    menu_editar->addAction("Cambiar tamaño mapa", this, 
+        &Editor::mostrar_dialogo_tamanio_mapa);
 }
 
 void Editor::guardar_mapa() {
@@ -143,34 +130,66 @@ void Editor::guardar_mapa() {
 }
 
 
-void Editor::cambiar_tamanio_mapa() {
-    QSpinBox* spin_box_filas = findChild<QSpinBox*>("spinBoxFilas");
-    QSpinBox* spin_box_columnas = findChild<QSpinBox*>("spinBoxColumnas");
-    
-    this->mapa.cambiar_tamanio(spin_box_filas->value(), 
-        spin_box_columnas->value());
+void Editor::mostrar_dialogo_tamanio_mapa() {
+    QDialog dialog (this);
+    QFormLayout form_layout (&dialog);
 
-    // actualizo el valor minimo de spin_box_cantidad_jugadores
-    int cantidad_jugadores_agregados = 
-        this->mapa.get_cantidad_jugadores_agregados();
-    if (cantidad_jugadores_agregados < MINIMO_CANTIDAD_JUGADORES) {
-        set_minimo_spin_box_jugadores(MINIMO_CANTIDAD_JUGADORES);
-    } else {
-        set_minimo_spin_box_jugadores(cantidad_jugadores_agregados);
+    QString descripcion_filas ("Filas");
+    QSpinBox spinbox_filas (&dialog);
+    spinbox_filas.setMinimum(DIMENSION_MINIMA_MAPA);
+    form_layout.addRow(descripcion_filas, &spinbox_filas);
+
+    QString descripcion_columnas ("Columnas");
+    QSpinBox spinbox_columnas (&dialog);
+    spinbox_columnas.setMinimum(DIMENSION_MINIMA_MAPA);
+    form_layout.addRow(descripcion_columnas, &spinbox_columnas);
+
+    QDialogButtonBox box_botones (QDialogButtonBox::Ok, Qt::Horizontal, &dialog);
+    form_layout.addRow(&box_botones);
+    QObject::connect(&box_botones, SIGNAL(accepted()), &dialog, SLOT(accept()));
+
+    dialog.setWindowTitle("Cambiar tamaño mapa");
+
+    // Show the dialog as modal
+    if (dialog.exec() == QDialog::Accepted) {
+        this->mapa.cambiar_tamanio(spinbox_filas.value(), 
+            spinbox_columnas.value());
+
+        // actualizo el valor minimo de cantidad de jugadores
+        int cantidad_jugadores_agregados = 
+            this->mapa.get_cantidad_jugadores_agregados();
+        if (cantidad_jugadores_agregados < MINIMO_CANTIDAD_JUGADORES) {
+            this->min_cant_jugadores = MINIMO_CANTIDAD_JUGADORES;
+        } else {
+            this->min_cant_jugadores = cantidad_jugadores_agregados;
+        }
     }
-
-    // muestro mensaje de que se cambio el tamaño del mapa correctamente
-    QMessageBox::information(this, "Tamaño del Mapa", 
-            "Tamaño del mapa cambiado correctamente.");
 }
 
 
-void Editor::cambiar_cantidad_jugadores() {
-    this->cant_jugadores = this->spin_box_cantidad_jugadores->value();
+void Editor::mostrar_dialogo_cantidad_jugadores() {
+    QDialog dialog (this);
+    QFormLayout form_layout (&dialog);
+
+    QString descripcion_cant_jugadores ("Cantidad de jugadores");
+    QSpinBox spinbox_jugadores (&dialog);
+    spinbox_jugadores.setMinimum(this->min_cant_jugadores);
+    form_layout.addRow(descripcion_cant_jugadores, &spinbox_jugadores);
+
+    QDialogButtonBox box_botones (QDialogButtonBox::Ok, Qt::Horizontal, &dialog);
+    form_layout.addRow(&box_botones);
+    QObject::connect(&box_botones, SIGNAL(accepted()), &dialog, SLOT(accept()));
+
+    dialog.setWindowTitle("Cambiar cantidad de jugadores");
+
+    // Show the dialog as modal
+    if (dialog.exec() == QDialog::Accepted) {
+        this->cant_jugadores = spinbox_jugadores.value();
     
-    // muestro mensaje de que se cambio la cantidad de jugadores correctamente
-    QMessageBox::information(this, "Cantidad de jugadores", 
+        // muestro mensaje de que se cambio la cantidad de jugadores correctamente
+        QMessageBox::information(this, "Cantidad de jugadores", 
             "Cantidad de jugadores cambiados correctamente.");
+    }
 }
 
 Editor::~Editor () {

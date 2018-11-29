@@ -48,6 +48,7 @@ class Editor : public QWidget, Observador {
         QSpinBox* spin_box_cantidad_jugadores;
         QMenuBar* menu_bar;
         int cant_jugadores;
+        int min_cant_jugadores;
         
         /**
          * \brief Inicializa la interfaz del Editor.
@@ -57,7 +58,6 @@ class Editor : public QWidget, Observador {
          */
         void inicializar_ui();
 
-        void set_minimo_spin_box_jugadores(int valor_minimo);
         /**
          * \brief Funcion que guarda el mapa en un archivo.
          * 
@@ -67,15 +67,10 @@ class Editor : public QWidget, Observador {
          * del archivo.
          */
         void guardar_mapa();
-
-        /**
-         * \brief Funcion para cambiar el tamaño de Mapa.
-         * 
-         * Delego en Mapa.
-         */
-        void cambiar_tamanio_mapa();
         
-        void cambiar_cantidad_jugadores();
+        void mostrar_dialogo_tamanio_mapa();
+
+        void mostrar_dialogo_cantidad_jugadores();
 };
 
 #endif // EDITOR_H
