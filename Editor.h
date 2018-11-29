@@ -6,6 +6,7 @@
 #include "Mapa.h"
 #include "Observador.h"
 #include <QSpinBox>
+#include <QMenuBar>
 
 class Editor : public QWidget, Observador {
     public:
@@ -39,19 +40,20 @@ class Editor : public QWidget, Observador {
          * 
          * Destructor de editor.
          */
-        ~Editor() {};
+        ~Editor();
         
     private:
         Mapa mapa;
         Tabs tabs;
         QSpinBox* spin_box_cantidad_jugadores;
+        QMenuBar* menu_bar;
         int cant_jugadores;
         
         /**
          * \brief Inicializa la interfaz del Editor.
          * 
          * Asocia los botones con sus respectivos metodos y el resto de widgets
-         * presentes en la ui del Editor.
+         * presentes en la ui del Editor. Agrego el menu bar.
          */
         void inicializar_ui();
 

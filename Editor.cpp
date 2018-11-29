@@ -87,11 +87,6 @@ void Editor::en_notificacion(string& id_label_mapa) {
 
 
 void Editor::inicializar_ui() {
-    // Conecto el evento del boton guardar mapa
-    QPushButton* boton_guardar_mapa = findChild<QPushButton*>("botonGuardarMapa");
-    QObject::connect(boton_guardar_mapa, &QPushButton::clicked, this, 
-        &Editor::guardar_mapa);
-
     // Conecto el evento del boton cambiar tamanio del mapa
     QPushButton* boton_cambiar_tamanio_mapa = 
         findChild<QPushButton*>("botonCambiarTamanioMapa");
@@ -107,6 +102,12 @@ void Editor::inicializar_ui() {
     // setteo el spinbox de cantidad de jugadores
     this->spin_box_cantidad_jugadores = 
         findChild<QSpinBox*>("spinBoxCantidadJugadores");
+
+    // agrego QMenuBar
+    this->menu_bar = new QMenuBar(this);
+    QMenu* menu_archivo = this->menu_bar->addMenu("Archivo");
+    QMenu* menu_editar = this->menu_bar->addMenu("Editar");
+    menu_archivo->addAction("Guardar mapa", this, &Editor::guardar_mapa);
 }
 
 void Editor::set_minimo_spin_box_jugadores(int valor_minimo) {
@@ -170,4 +171,8 @@ void Editor::cambiar_cantidad_jugadores() {
     // muestro mensaje de que se cambio la cantidad de jugadores correctamente
     QMessageBox::information(this, "Cantidad de jugadores", 
             "Cantidad de jugadores cambiados correctamente.");
+}
+
+Editor::~Editor () {
+    delete this->menu_bar;
 }

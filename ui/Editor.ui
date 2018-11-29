@@ -468,25 +468,6 @@
           </widget>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="botonGuardarMapa">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>500</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>GUARDAR MAPA</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
      </layout>
