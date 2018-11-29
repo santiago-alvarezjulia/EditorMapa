@@ -114,6 +114,8 @@ class Mapa : public ObservadorMapa {
 
         void cambiar_tamanio(int nueva_cant_filas, int nueva_cant_columnas);
 
+        void limpiar_mapa();
+        
         /**
          * \brief Destructor de Mapa.
          * 

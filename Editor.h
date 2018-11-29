@@ -57,7 +57,7 @@ class Editor : public QWidget, Observador {
          * Asocia los botones con sus respectivos metodos y el resto de widgets
          * presentes en la ui del Editor. Agrego el menu bar.
          */
-        void inicializar_ui();
+        void inicializar_menu();
 
         /**
          * \brief Funcion que guarda el mapa en un archivo.
@@ -68,6 +68,8 @@ class Editor : public QWidget, Observador {
          * del archivo.
          */
         void guardar_mapa();
+
+        void cargar_mapa_en_ejecucion();
         
         void mostrar_dialogo_tamanio_mapa();
 

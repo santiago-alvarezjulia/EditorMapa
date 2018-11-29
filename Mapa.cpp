@@ -55,14 +55,12 @@ void Mapa::parsear_json(string& filename_json) {
 
     vector<vector<uint32_t>> pos_jugadores = mapa_json["jugadores"];
     vector<vector<string>> ids = mapa_json["tipo"];
-    int cant_fila = ids.size();
-    this->filas = cant_fila;
+    this->filas = ids.size();
 
     map<string, Sprite> sprites_posibles = generar_sprites_posibles();
     
     vector<vector<string>>::iterator it_filas_ids = ids.begin();
-    int cant_columnas = (*it_filas_ids).size();
-    this->columnas = cant_columnas;
+    this->columnas = (*it_filas_ids).size();
 
     int fila_actual = 0;
     int columna_actual = 0;
@@ -93,7 +91,7 @@ void Mapa::parsear_json(string& filename_json) {
             
             columna_actual++;
             
-            if (columna_actual == cant_columnas) {
+            if (columna_actual == this->columnas) {
                 columna_actual = 0;
                 fila_actual++;
             } 
@@ -723,10 +721,21 @@ void Mapa::sacar_filas_agregar_columnas(int nueva_cant_filas,
 }
 
 
+void Mapa::limpiar_mapa() {
+    map<string, LabelMapa*>::iterator it = this->mapa.begin();
+    for (; it != this->mapa.end(); ++it) {
+        delete it->second;
+        this->mapa.erase(it);
+    }
+
+    this->jugadores.clear();
+}
+
 Mapa::~Mapa() {
     map<string, LabelMapa*>::iterator it = this->mapa.begin();
     for (; it != this->mapa.end(); ++it) {
         delete it->second;
+        this->mapa.erase(it);
     }
 }
         

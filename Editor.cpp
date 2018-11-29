@@ -8,6 +8,7 @@
 #include <QDialogButtonBox>
 #define MINIMO_CANTIDAD_JUGADORES 2
 #define DIMENSION_MINIMA_MAPA 30
+#define DIMENSION_MAXIMA_MAPA 1000
 using std::string;
 
 Editor::Editor(int filas, int columnas, int cant_elegida_jugadores, QWidget *parent) : 
@@ -22,12 +23,12 @@ Editor::Editor(int filas, int columnas, int cant_elegida_jugadores, QWidget *par
     // aca inicializo Tabs y Mapa para poder utilizar findChild
     this->tabs.inicializar_tabs();
     this->mapa.inicializar_mapa();
+    this->min_cant_jugadores = MINIMO_CANTIDAD_JUGADORES;
 
     // agrego al editor como observador del mapa
     this->mapa.agregar_observador(this);
 
-    inicializar_ui();
-    this->min_cant_jugadores = MINIMO_CANTIDAD_JUGADORES;
+    inicializar_menu();
 }
 
 
@@ -43,12 +44,12 @@ Editor::Editor(string& filename_json, QWidget *parent) : QWidget(parent,
     this->tabs.inicializar_tabs();
     this->mapa.parsear_json(filename_json);
     this->cant_elegida_jugadores = this->mapa.get_cantidad_jugadores_agregados();
+    this->min_cant_jugadores = this->cant_elegida_jugadores;
 
     // agrego al editor como observador del mapa
     this->mapa.agregar_observador(this);
 
-    inicializar_ui();
-    this->min_cant_jugadores = this->cant_elegida_jugadores;
+    inicializar_menu();
 }
 
 
@@ -89,16 +90,37 @@ void Editor::en_notificacion(string& id_label_mapa) {
 }
 
 
-void Editor::inicializar_ui() {
+void Editor::inicializar_menu() {
     // agrego QMenuBar
     this->menu_bar = new QMenuBar(this);
     QMenu* menu_archivo = this->menu_bar->addMenu("Archivo");
     QMenu* menu_editar = this->menu_bar->addMenu("Editar");
     menu_archivo->addAction("Guardar mapa", this, &Editor::guardar_mapa);
+    menu_archivo->addAction("Cargar mapa", this, 
+        &Editor::cargar_mapa_en_ejecucion);
     menu_editar->addAction("Cambiar cantidad de jugadores", this, 
         &Editor::mostrar_dialogo_cantidad_jugadores);
     menu_editar->addAction("Cambiar tamaño mapa", this, 
         &Editor::mostrar_dialogo_tamanio_mapa);
+}
+
+void Editor::cargar_mapa_en_ejecucion() {
+    // filename, incluye el filepath completo.
+    QString filename = QFileDialog::getOpenFileName(this, 
+        "Cargar mapa", "", "JSON files (*.json)");
+    if (filename.isNull()) {
+        // toco cancelar o no eligio ningun archivo json.
+        return;
+    }
+    
+    // limpio el mapa actual y cargo el elegido por el user mapa
+    string filename_std_string = filename.toStdString();
+    this->mapa.limpiar_mapa();
+    this->mapa.parsear_json(filename_std_string);
+
+    // actualizo atributos 
+    this->cant_elegida_jugadores = this->mapa.get_cantidad_jugadores_agregados();
+    this->min_cant_jugadores = this->cant_elegida_jugadores;
 }
 
 void Editor::guardar_mapa() {
@@ -150,12 +172,14 @@ void Editor::mostrar_dialogo_tamanio_mapa() {
     QString descripcion_filas ("Filas");
     QSpinBox spinbox_filas (&dialog);
     spinbox_filas.setMinimum(DIMENSION_MINIMA_MAPA);
+    spinbox_filas.setMaximum(DIMENSION_MAXIMA_MAPA);
     spinbox_filas.setValue(filas);
     form_layout.addRow(descripcion_filas, &spinbox_filas);
 
     QString descripcion_columnas ("Columnas");
     QSpinBox spinbox_columnas (&dialog);
     spinbox_columnas.setMinimum(DIMENSION_MINIMA_MAPA);
+    spinbox_columnas.setMaximum(DIMENSION_MAXIMA_MAPA);
     spinbox_columnas.setValue(columnas);
     form_layout.addRow(descripcion_columnas, &spinbox_columnas);
 
@@ -206,11 +230,17 @@ void Editor::mostrar_dialogo_cantidad_jugadores() {
 
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
-        this->cant_elegida_jugadores = spinbox_jugadores.value();
+        if (this->cant_elegida_jugadores == spinbox_jugadores.value()) {
+            // muestro mensaje de que se cambio la cantidad de jugadores correctamente
+            QMessageBox::information(this, "Cantidad de jugadores", 
+                "Elegiste la misma cantidad de jugadores");
+        } else {
+            this->cant_elegida_jugadores = spinbox_jugadores.value();
     
-        // muestro mensaje de que se cambio la cantidad de jugadores correctamente
-        QMessageBox::information(this, "Cantidad de jugadores", 
-            "Cantidad de jugadores cambiados correctamente.");
+            // muestro mensaje de que se cambio la cantidad de jugadores correctamente
+            QMessageBox::information(this, "Cantidad de jugadores", 
+                "Cantidad de jugadores cambiados correctamente.");
+        }
     }
 }
 
