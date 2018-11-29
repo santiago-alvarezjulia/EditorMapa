@@ -79,7 +79,7 @@ class LabelTab : public QLabel {
     private:
         std::string id;
         int tipo;
-        QPixmap& pixmap;
+        QPixmap pixmap;
         Observador* observador;
 };
 

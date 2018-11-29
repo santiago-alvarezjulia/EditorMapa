@@ -72,9 +72,12 @@ void Tabs::inicializar_tabs() {
         auto it_sprites = elem["sprites"].begin();
         for (int i = 0; it_sprites != elem["sprites"].end(); ++it_sprites) {
             json tile = *it;
- 
-            LabelTab* label = new LabelTab(this->imagen_terrenos, tile["sprites"][i]["id"], 
-                elem["tipo"], tile["sprites"][i]["pos_tiles"], this->parent);
+
+            string id = tile["sprites"][i]["id"];
+            vector<uint32_t> pos_tiles = tile["sprites"][i]["pos_tiles"];
+            
+            LabelTab* label = new LabelTab(this->imagen_terrenos, id, 
+                elem["tipo"], pos_tiles, this->parent);
                        
             label->agregar_observador(this);
 

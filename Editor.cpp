@@ -133,7 +133,8 @@ void Editor::guardar_mapa() {
     if(!nombre_archivo.contains(".json", Qt::CaseSensitive)) {
         nombre_archivo += ".json";
     }
-    this->mapa.generar_json(nombre_archivo.toStdString());
+    string nombre_archivo_std_string = nombre_archivo.toStdString();
+    this->mapa.generar_json(nombre_archivo_std_string);
 
     // muestro mensaje de que se guardo el mapa correctamente
     QMessageBox::information(this, "Mapa guardado", 
