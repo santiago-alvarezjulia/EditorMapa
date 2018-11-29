@@ -11,6 +11,7 @@
 #include "Editor.h"
 #define MINIMO_CANTIDAD_JUGADORES 2
 #define DIMENSION_MINIMA_MAPA 30
+#define DIMENSION_MAXIMA_MAPA 1000
 using std::string;
 
 DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {
@@ -41,11 +42,13 @@ void DialogoBienvenida::crear_mapa() {
     QString descripcion_filas ("Filas");
     QSpinBox spinbox_filas (&dialog);
     spinbox_filas.setMinimum(DIMENSION_MINIMA_MAPA);
+    spinbox_filas.setMaximum(DIMENSION_MAXIMA_MAPA);
     form_layout.addRow(descripcion_filas, &spinbox_filas);
 
     QString descripcion_columnas ("Columnas");
     QSpinBox spinbox_columnas (&dialog);
     spinbox_columnas.setMinimum(DIMENSION_MINIMA_MAPA);
+    spinbox_columnas.setMaximum(DIMENSION_MAXIMA_MAPA);
     form_layout.addRow(descripcion_columnas, &spinbox_columnas);
 
     QString descripcion_cant_jugadores ("Cantidad de jugadores");

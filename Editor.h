@@ -74,6 +74,8 @@ class Editor : public QWidget, Observador {
         void mostrar_dialogo_tamanio_mapa();
 
         void mostrar_dialogo_cantidad_jugadores();
+
+        void terminar_ejecucion();
 };
 
 #endif // EDITOR_H

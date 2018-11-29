@@ -94,10 +94,13 @@ void Editor::inicializar_menu() {
     // agrego QMenuBar
     this->menu_bar = new QMenuBar(this);
     QMenu* menu_archivo = this->menu_bar->addMenu("Archivo");
-    QMenu* menu_editar = this->menu_bar->addMenu("Editar");
     menu_archivo->addAction("Guardar mapa", this, &Editor::guardar_mapa);
     menu_archivo->addAction("Cargar mapa", this, 
         &Editor::cargar_mapa_en_ejecucion);
+    menu_archivo->addAction("Salir", this, 
+        &Editor::terminar_ejecucion);
+    
+    QMenu* menu_editar = this->menu_bar->addMenu("Editar");
     menu_editar->addAction("Cambiar cantidad de jugadores", this, 
         &Editor::mostrar_dialogo_cantidad_jugadores);
     menu_editar->addAction("Cambiar tamaño mapa", this, 
@@ -243,6 +246,12 @@ void Editor::mostrar_dialogo_cantidad_jugadores() {
         }
     }
 }
+
+
+void Editor::terminar_ejecucion() {
+    this->close();
+}
+
 
 Editor::~Editor () {
     delete this->menu_bar;
