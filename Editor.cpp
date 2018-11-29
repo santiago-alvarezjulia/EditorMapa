@@ -10,9 +10,9 @@
 #define DIMENSION_MINIMA_MAPA 30
 using std::string;
 
-Editor::Editor(int filas, int columnas, int cant_jugadores, QWidget *parent) : 
-    mapa(Mapa(filas, columnas, this)), tabs(Tabs(this)), cant_jugadores(cant_jugadores), 
-    QWidget(parent, Qt::Window) {
+Editor::Editor(int filas, int columnas, int cant_elegida_jugadores, QWidget *parent) : 
+    mapa(Mapa(filas, columnas, this)), tabs(Tabs(this)), 
+    cant_elegida_jugadores(cant_elegida_jugadores), QWidget(parent, Qt::Window) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para que use esa configuracion. A partir de aca
@@ -42,13 +42,13 @@ Editor::Editor(string& filename_json, QWidget *parent) : QWidget(parent,
     // aca inicializo Tabs y Mapa para poder utilizar findChild
     this->tabs.inicializar_tabs();
     this->mapa.parsear_json(filename_json);
-    this->cant_jugadores = this->mapa.get_cantidad_jugadores_agregados();
+    this->cant_elegida_jugadores = this->mapa.get_cantidad_jugadores_agregados();
 
     // agrego al editor como observador del mapa
     this->mapa.agregar_observador(this);
 
     inicializar_ui();
-    this->min_cant_jugadores = this->cant_jugadores;
+    this->min_cant_jugadores = this->cant_elegida_jugadores;
 }
 
 
@@ -66,7 +66,7 @@ void Editor::en_notificacion(string& id_label_mapa) {
         if (nuevo_tipo == 6) {
             // me fijo que el tipo de LabelMapa sea una Roca para poder apoyar
             // al jugador
-            if (this->mapa.es_valido_agregar_jugador(id_label_mapa, this->cant_jugadores)) {
+            if (this->mapa.es_valido_agregar_jugador(id_label_mapa, this->cant_elegida_jugadores)) {
                 // agrego al jugador al mapa
                 this->mapa.agregar_jugador(id_label_mapa, nueva_imagen);
             } else {
@@ -103,7 +103,7 @@ void Editor::inicializar_ui() {
 
 void Editor::guardar_mapa() {
     int cantidad_jugadores_agregados = this->mapa.get_cantidad_jugadores_agregados();
-    if (cantidad_jugadores_agregados != this->cant_jugadores) {
+    if (cantidad_jugadores_agregados != this->cant_elegida_jugadores) {
         QMessageBox::critical(this, "Error al guardar mapa", 
             "Falta agregar jugadores");
         return;
@@ -134,14 +134,29 @@ void Editor::mostrar_dialogo_tamanio_mapa() {
     QDialog dialog (this);
     QFormLayout form_layout (&dialog);
 
+    int filas = this->mapa.get_cant_filas();
+    int columnas = this->mapa.get_cant_columnas();
+
+    QString cant_actual_filas = QString::fromStdString(
+        "Cantidad de filas actualmente: " + std::to_string(filas));
+    QLabel label_cant_actual_filas (cant_actual_filas);
+    form_layout.addRow(&label_cant_actual_filas);
+
+    QString cant_actual_columnas = QString::fromStdString(
+        "Cantidad de columnas actualmente: " + std::to_string(columnas));
+    QLabel label_cant_actual_columnas (cant_actual_columnas);
+    form_layout.addRow(&label_cant_actual_columnas);
+
     QString descripcion_filas ("Filas");
     QSpinBox spinbox_filas (&dialog);
     spinbox_filas.setMinimum(DIMENSION_MINIMA_MAPA);
+    spinbox_filas.setValue(filas);
     form_layout.addRow(descripcion_filas, &spinbox_filas);
 
     QString descripcion_columnas ("Columnas");
     QSpinBox spinbox_columnas (&dialog);
     spinbox_columnas.setMinimum(DIMENSION_MINIMA_MAPA);
+    spinbox_columnas.setValue(columnas);
     form_layout.addRow(descripcion_columnas, &spinbox_columnas);
 
     QDialogButtonBox box_botones (QDialogButtonBox::Ok, Qt::Horizontal, &dialog);
@@ -171,9 +186,16 @@ void Editor::mostrar_dialogo_cantidad_jugadores() {
     QDialog dialog (this);
     QFormLayout form_layout (&dialog);
 
+    QString cant_actual_jugadores = QString::fromStdString(
+        "Cantidad de jugadores elegida actualmente: " + 
+        std::to_string(this->cant_elegida_jugadores));
+    QLabel label_cant_actual_jugadores (cant_actual_jugadores);
+    form_layout.addRow(&label_cant_actual_jugadores);
+
     QString descripcion_cant_jugadores ("Cantidad de jugadores");
     QSpinBox spinbox_jugadores (&dialog);
     spinbox_jugadores.setMinimum(this->min_cant_jugadores);
+    spinbox_jugadores.setValue(this->cant_elegida_jugadores);
     form_layout.addRow(descripcion_cant_jugadores, &spinbox_jugadores);
 
     QDialogButtonBox box_botones (QDialogButtonBox::Ok, Qt::Horizontal, &dialog);
@@ -184,7 +206,7 @@ void Editor::mostrar_dialogo_cantidad_jugadores() {
 
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
-        this->cant_jugadores = spinbox_jugadores.value();
+        this->cant_elegida_jugadores = spinbox_jugadores.value();
     
         // muestro mensaje de que se cambio la cantidad de jugadores correctamente
         QMessageBox::information(this, "Cantidad de jugadores", 

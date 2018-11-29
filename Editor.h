@@ -16,7 +16,8 @@ class Editor : public QWidget, Observador {
          * Constructor de Editor que es utilizado cuando se crea un mapa. Recibe como 
          * parametros del mapa el tamaño (filas y columnas) y la cantidad de jugadores.
          */
-        Editor(int filas, int columnas, int cant_jugadores, QWidget *parent = 0);
+        Editor(int filas, int columnas, int cant_elegida_jugadores, 
+            QWidget *parent = 0);
 
         /**
          * \brief 2do Constructor de Editor.
@@ -47,7 +48,7 @@ class Editor : public QWidget, Observador {
         Tabs tabs;
         QSpinBox* spin_box_cantidad_jugadores;
         QMenuBar* menu_bar;
-        int cant_jugadores;
+        int cant_elegida_jugadores;
         int min_cant_jugadores;
         
         /**

@@ -33,6 +33,16 @@ Mapa::Mapa(QWidget* parent) : parent(parent) {
 }
 
 
+int Mapa::get_cant_filas() {
+    return this->filas;
+}
+
+
+int Mapa::get_cant_columnas() {
+    return this->columnas;
+}
+
+
 void Mapa::parsear_json(string& filename_json) {
     // getteo el layout y el widget del Mapa
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");

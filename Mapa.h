@@ -31,6 +31,9 @@ class Mapa : public ObservadorMapa {
          */
         explicit Mapa(QWidget* parent = 0);
         
+        int get_cant_filas();
+        int get_cant_columnas();
+        
         /**
          * \brief Parseo del json Mapa.
          * 
