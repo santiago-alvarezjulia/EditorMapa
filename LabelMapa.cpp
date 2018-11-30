@@ -3,11 +3,10 @@
 #define TAMANIO_LABEL_MAPA 32
 using std::string;
 
-LabelMapa::LabelMapa(QPixmap& sprite, string& id, int tipo, string& pos_label, 
-    QWidget* parent) : QLabel(parent), id(id), tipo(tipo), pos_label(pos_label), 
-    terrenos(terrenos) {
+LabelMapa::LabelMapa(Sprite sprite, string& pos_label, 
+    QWidget* parent) : QLabel(parent), sprite(sprite), pos_label(pos_label) {
     this->setFixedSize(TAMANIO_LABEL_MAPA, TAMANIO_LABEL_MAPA);
-    this->setPixmap(sprite);
+    this->setPixmap(sprite.imagen);
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
@@ -15,8 +14,9 @@ LabelMapa::LabelMapa(QPixmap& sprite, string& id, int tipo, string& pos_label,
 void LabelMapa::actualizar_data(QPixmap& nueva_imagen, int nuevo_tipo, 
     string& nuevo_id) {
     this->setPixmap(nueva_imagen);
-    this->tipo = nuevo_tipo; 
-    this->id = nuevo_id;
+    this->sprite.imagen = nueva_imagen;
+    this->sprite.tipo = nuevo_tipo; 
+    this->sprite.id = nuevo_id;
 }
 
 
@@ -26,12 +26,12 @@ void LabelMapa::actualizar_imagen(QPixmap& nueva_imagen) {
 
 
 int LabelMapa::get_tipo() {
-    return this->tipo;
+    return this->sprite.tipo;
 } 
 
 
 string LabelMapa::get_id() {
-    return this->id;
+    return this->sprite.id;
 } 
 
 

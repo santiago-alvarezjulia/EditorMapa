@@ -15,8 +15,6 @@ using std::vector;
 Tabs::Tabs(QWidget* parent) : parent(parent) {
     this->tabs_terrenos = map<string, LabelTab*>();
     this->id_label_clickeado = "";
-    // hardcodeo el nombre del archivo .bmp con los sprites del terreno.
-    this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
 
@@ -76,8 +74,8 @@ void Tabs::inicializar_tabs() {
             string id = tile["sprites"][i]["id"];
             vector<uint32_t> pos_tiles = tile["sprites"][i]["pos_tiles"];
             
-            LabelTab* label = new LabelTab(this->imagen_terrenos, id, 
-                elem["tipo"], pos_tiles, this->parent);
+            LabelTab* label = new LabelTab(id, elem["tipo"], pos_tiles, 
+                this->parent);
                        
             label->agregar_observador(this);
 

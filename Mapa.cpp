@@ -76,9 +76,10 @@ void Mapa::parsear_json(string& filename_json) {
             if (it_sprites != sprites_posibles.end()) {
                 sprite = it_sprites->second;
             }
+            sprite.id = id;
             
-            LabelMapa* label_mapa = new LabelMapa(sprite.sprite, id, sprite.tipo,
-                pos_label, this->parent);
+            LabelMapa* label_mapa = new LabelMapa(sprite, pos_label, 
+                this->parent);
             
             label_mapa->agregar_observador(this);
             
@@ -112,7 +113,7 @@ void Mapa::parsear_json(string& filename_json) {
         this->jugadores.emplace(id_label, true);
         map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	    if (it != this->mapa.end()) {
-            it->second->actualizar_imagen(sprite.sprite);
+            it->second->actualizar_imagen(sprite.imagen);
         } 
     }
 
@@ -126,26 +127,9 @@ void Mapa::inicializar_mapa() {
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
     QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
 
-    // cosas de parseo del json de terrenos.
-    std::ifstream entrada("../sprites/terrain/terrenos.json");
-    json terrenos_json;
-    entrada >> terrenos_json;
-
-    auto it = terrenos_json.begin();
-    const json& data_general = *it;
-    
-    ++it;
-    const json& elem = *it;
-
-    auto it_tiles = elem["sprites"].begin();
-    json tile = *it;
-    string id = tile["sprites"][0]["id"];
-    int tipo = elem["tipo"];
-    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-
     // genero sprite inicial
     GeneradorSprites generador_sprites;
-    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
+    Sprite sprite_inicial = generador_sprites.generar_sprite_inicial();
 
     for (int i = 0; i < this->filas; ++i) {
         for (int j = 0; j < this->columnas; ++j) {
@@ -154,8 +138,8 @@ void Mapa::inicializar_mapa() {
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
-                pos_label, this->parent);
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, pos_label, 
+                this->parent);
             
             label_mapa->agregar_observador(this);
             
@@ -317,27 +301,10 @@ void Mapa::agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
     // getteo el layout y el widget del Mapa-
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
     QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
-
-    // cosas de parseo del json de terrenos.
-    std::ifstream entrada("../sprites/terrain/terrenos.json");
-    json terrenos_json;
-    entrada >> terrenos_json;
-
-    auto it = terrenos_json.begin();
-    const json& data_general = *it;
-    
-    ++it;
-    const json& elem = *it;
-
-    auto it_tiles = elem["sprites"].begin();
-    json tile = *it;
-    string id = tile["sprites"][0]["id"];
-    int tipo = elem["tipo"];
-    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
      
-    // genero sprite inicial
+    // genero sprite inicial o default
     GeneradorSprites generador_sprites;
-    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
+    Sprite sprite_inicial = generador_sprites.generar_sprite_inicial();
     
     for (int i = 0; i < this->filas; ++i) {
         for (int j = this->columnas; j < nueva_cant_columnas; ++j) {
@@ -346,8 +313,8 @@ void Mapa::agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
-                pos_label, this->parent);
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, pos_label, 
+                this->parent);
             
             label_mapa->agregar_observador(this);
             
@@ -364,8 +331,8 @@ void Mapa::agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
-                pos_label, this->parent);
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, pos_label, 
+                this->parent);
             
             label_mapa->agregar_observador(this);
             
@@ -385,27 +352,6 @@ void Mapa::achicar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
     // getteo el layout y el widget del Mapa-
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
     QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
-
-    // cosas de parseo del json de terrenos.
-    std::ifstream entrada("../sprites/terrain/terrenos.json");
-    json terrenos_json;
-    entrada >> terrenos_json;
-
-    auto it = terrenos_json.begin();
-    const json& data_general = *it;
-    
-    ++it;
-    const json& elem = *it;
-
-    auto it_tiles = elem["sprites"].begin();
-    json tile = *it;
-    string id = tile["sprites"][0]["id"];
-    int tipo = elem["tipo"];
-    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-    
-    // genero sprite inicial
-    GeneradorSprites generador_sprites;
-    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
     
     for (int i = 0; i < nueva_cant_filas; ++i) {
         for (int j = (this->columnas - 1); j >= nueva_cant_columnas; --j) {
@@ -463,26 +409,9 @@ void Mapa::sacar_columnas_agregar_filas(int nueva_cant_filas,
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
     QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
 
-    // cosas de parseo del json de terrenos.
-    std::ifstream entrada("../sprites/terrain/terrenos.json");
-    json terrenos_json;
-    entrada >> terrenos_json;
-
-    auto it = terrenos_json.begin();
-    const json& data_general = *it;
-    
-    ++it;
-    const json& elem = *it;
-
-    auto it_tiles = elem["sprites"].begin();
-    json tile = *it;
-    string id = tile["sprites"][0]["id"];
-    int tipo = elem["tipo"];
-    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-   
-    // genero sprite inicial
+    // genero sprite inicial o default
     GeneradorSprites generador_sprites;
-    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
+    Sprite sprite_inicial = generador_sprites.generar_sprite_inicial();
     
     // saco columnas
     for (int i = 0; i < nueva_cant_filas; ++i) {
@@ -517,8 +446,8 @@ void Mapa::sacar_columnas_agregar_filas(int nueva_cant_filas,
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
-                pos_label, this->parent);
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, pos_label, 
+                this->parent);
             
             label_mapa->agregar_observador(this);
             
@@ -538,26 +467,9 @@ void Mapa::sacar_filas_agregar_columnas(int nueva_cant_filas,
     QGridLayout* map_layout = this->parent->findChild<QGridLayout*>("mapLayout");
     QWidget* scroll_area_mapa = this->parent->findChild<QWidget*>("scrollArea_widget_mapa");
 
-    // cosas de parseo del json de terrenos.
-    std::ifstream entrada("../sprites/terrain/terrenos.json");
-    json terrenos_json;
-    entrada >> terrenos_json;
-
-    auto it = terrenos_json.begin();
-    const json& data_general = *it;
-    
-    ++it;
-    const json& elem = *it;
-
-    auto it_tiles = elem["sprites"].begin();
-    json tile = *it;
-    string id = tile["sprites"][0]["id"];
-    int tipo = elem["tipo"];
-    vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-    
     // genero sprite inicial
     GeneradorSprites generador_sprites;
-    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
+    Sprite sprite_inicial = generador_sprites.generar_sprite_inicial();
 
     // saco filas
     for (int j = 0; j < this->columnas; ++j) {
@@ -592,8 +504,8 @@ void Mapa::sacar_filas_agregar_columnas(int nueva_cant_filas,
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, id, tipo,
-                pos_label, this->parent);
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, pos_label, 
+                this->parent);
             
             label_mapa->agregar_observador(this);
             

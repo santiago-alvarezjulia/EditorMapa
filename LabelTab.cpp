@@ -1,71 +1,36 @@
 #include "LabelTab.h"
 #include <iostream>
 #include <QPainter>
+#define DIMENSION_LABEL 32
 using std::string;
 using std::vector;
 
-LabelTab::LabelTab(QPixmap& terrenos, string& id, int tipo, vector<uint32_t>& pos_tiles, 
-    QWidget* parent) : QLabel(parent), id(id), tipo(tipo) {
-    // fijo el tamaño de Label a 32x32 pixeles. 
-    this->setFixedSize(32, 32);
-    QPixmap label_32_x_32 (32, 32);
-
-    // junto los 16 tiles de 8x8 pixeles, cuyas posiciones se encuentran en 
-    // pos_tiles y los dibujo en un unico QPixmap de 32x32 pixeles. 
-    // pos_x_label y pos_y_label es la posicion de cada sprite de 8x8 dentro
-    // del QPixmap de 32x32.
-    int pos_x_label = 0;
-    int pos_y_label = 0;
-    vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
-    for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
-        // 8 es el tamaño individual de cada sprite (8x8 pixeles).
-        // 20 es el ancho del archivo .bmp que contiene todos los sprites 
-        // de los terrenos.
-        // x e y son las posiciones de cada sprite de 8x8 en el archivo .bmp .
-        // los -1 es que arranco a contar desde 1.
-        int y = ((*it_pos_tiles - 1) / 20) * 8;
-        int x;
-        if (*it_pos_tiles < 20) {
-            x = (*it_pos_tiles - 1) * 8;
-        } else {
-            x = ((*it_pos_tiles - 1) % 20) * 8;
-        }
-
-        // copio el cuadrado de 8x8 que quiero del .bmp .
-        QRect rect(x, y, 8, 8);
-        QPixmap cropped = terrenos.copy(rect);
+LabelTab::LabelTab(string& id, int tipo, vector<uint32_t>& pos_tiles, 
+    QWidget* parent) : QLabel(parent) {
+    // fijo el tamaño de Label por DIMENSION_LABEL. 
+    this->setFixedSize(DIMENSION_LABEL, DIMENSION_LABEL);
     
-        QPainter painter (&label_32_x_32);
-        if (cont_tiles < 4) {
-            pos_x_label = cont_tiles * 8;
-        } else {
-             pos_x_label = (cont_tiles % 4) * 8;
-        }
-
-        pos_y_label = (cont_tiles / 4) * 8;
-        painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
-
-        cont_tiles++;
-    }
+    // genero el sprite
+    GeneradorSprites generador_sprites;
+    this->sprite = generador_sprites.generar_sprite(id, tipo, pos_tiles);
     
-    this->setPixmap(label_32_x_32);
-    this->pixmap = label_32_x_32;
+    this->setPixmap(this->sprite.imagen);
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
 
 int LabelTab::get_tipo() {
-    return this->tipo;
+    return this->sprite.tipo;
 }
 
 
 string LabelTab::get_id() {
-    return this->id;
+    return this->sprite.id;
 }
 
 
 QPixmap LabelTab::get_imagen() {
-    return this->pixmap;
+    return this->sprite.imagen;
 }
 
 
@@ -75,7 +40,7 @@ void LabelTab::agregar_observador(Observador* observador_) {
 
 
 void LabelTab::mousePressEvent(QMouseEvent* event) {
-    this->observador->en_notificacion(this->id);
+    this->observador->en_notificacion(this->sprite.id);
 }
 
 

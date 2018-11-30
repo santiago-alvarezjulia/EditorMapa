@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <string>
 #include "ObservadorMapa.h"
+#include "GeneradorSprites.h"
 
 class LabelMapa : public QLabel {
     public:
@@ -15,8 +16,7 @@ class LabelMapa : public QLabel {
          * Tambien el pos_label, el tipo y la posicion de los tiles de este 
          * LabelMapa en particular.
          */
-        LabelMapa(QPixmap& terrenos, std::string& id, int tipo, 
-            std::string& pos_label, QWidget* parent = 0);
+        LabelMapa(Sprite sprite, std::string& pos_label, QWidget* parent = 0);
 
         /**
          * \brief Agrego observador del LabelMapa.
@@ -98,10 +98,8 @@ class LabelMapa : public QLabel {
         void leaveEvent(QEvent* event);
 
     private:
-        int tipo;
-        std::string id;
+        Sprite sprite;
         std::string pos_label;
-        QPixmap& terrenos;
         ObservadorMapa* observador;
 };
 

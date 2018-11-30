@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "Observador.h"
+#include "GeneradorSprites.h"
 
 class LabelTab : public QLabel {
     public:
@@ -16,8 +17,8 @@ class LabelTab : public QLabel {
          * a la imagen .bmp que contiene todos los sprites de los terrenos. Tambien
          * el id, el tipo y la posicion de los tiles de este Label en particular.
          */
-        LabelTab(QPixmap& terrenos, std::string& id, int tipo, 
-            std::vector<uint32_t>& pos_tiles , QWidget* parent = 0);
+        LabelTab(std::string& id, int tipo, std::vector<uint32_t>& pos_tiles, 
+            QWidget* parent = 0);
 
         /**
          * \brief Getter tipo del LabelTab.
@@ -77,9 +78,7 @@ class LabelTab : public QLabel {
 	    void mousePressEvent(QMouseEvent * event);
 
     private:
-        std::string id;
-        int tipo;
-        QPixmap pixmap;
+        Sprite sprite;
         Observador* observador;
 };
 

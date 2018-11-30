@@ -8,8 +8,9 @@
 #include <fstream>
 
 struct Sprite {
+    std::string id;
     int tipo;
-    QPixmap sprite;
+    QPixmap imagen;
 };
 
 class GeneradorSprites {
@@ -18,7 +19,10 @@ class GeneradorSprites {
     
         std::map<std::string, Sprite> generar_sprites_posibles();
 
-        QPixmap generar_sprite_inicial(std::vector<uint32_t>& pos_tiles);
+        Sprite generar_sprite_inicial();
+
+        Sprite generar_sprite(std::string id, int tipo, 
+            std::vector<uint32_t> pos_tiles);
 
         ~GeneradorSprites() {};
 
