@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QFormLayout>
 #include <QDialogButtonBox>
+#include "Sprite.h"
 #define MINIMO_CANTIDAD_JUGADORES 2
 #define DIMENSION_MINIMA_MAPA 30
 #define DIMENSION_MAXIMA_MAPA 1000
@@ -54,28 +55,26 @@ Editor::Editor(string& filename_json, QWidget *parent) : QWidget(parent,
 
 
 void Editor::en_notificacion(string& id_label_mapa) {
-    // getteo el id del Label clickeado en Tabs
-    string tabs_id_label_clickeado = this->tabs.get_id_label_clickeado();
+    // getteo el sprite clickeado en Tabs
+    Sprite sprite_tab_clickeado = this->tabs.get_sprite_clickeado();
 
     // me fijo si hay algun Label clickeado en Tabs
-    if (tabs_id_label_clickeado != "") {
-        // getteo el tipo y la imagen del Label clickeado en Tabs
-        int nuevo_tipo = this->tabs.get_tipo_label_clickeado();
-        QPixmap nueva_imagen = this->tabs.get_imagen_clickeado();
-        
+    if (sprite_tab_clickeado.id != "") {
         // me fijo si es el caso especial en que el tipo es Jugador (6)
-        if (nuevo_tipo == 6) {
+        if (sprite_tab_clickeado.tipo == 6) {
             // me fijo que el tipo de LabelMapa sea una Roca para poder apoyar
             // al jugador
-            if (this->mapa.es_valido_agregar_jugador(id_label_mapa, this->cant_elegida_jugadores)) {
+            if (this->mapa.es_valido_agregar_jugador(id_label_mapa, 
+                this->cant_elegida_jugadores)) {
                 // agrego al jugador al mapa
-                this->mapa.agregar_jugador(id_label_mapa, nueva_imagen);
+                this->mapa.agregar_jugador(id_label_mapa, 
+                    sprite_tab_clickeado.imagen);
             } else {
                 return;
             }
         } else {
-            this->mapa.actualizar_data(id_label_mapa, nueva_imagen, nuevo_tipo,
-                tabs_id_label_clickeado);
+            this->mapa.actualizar_data(id_label_mapa, sprite_tab_clickeado.imagen, 
+                sprite_tab_clickeado.tipo, sprite_tab_clickeado.id);
         }
     }
 

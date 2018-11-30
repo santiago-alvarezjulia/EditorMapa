@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <string>
 #include <vector>
-#include "Observador.h"
+#include "ObservadorTabs.h"
 #include "GeneradorSprites.h"
 
 class LabelTab : public QLabel {
@@ -21,32 +21,18 @@ class LabelTab : public QLabel {
             QWidget* parent = 0);
 
         /**
-         * \brief Getter tipo del LabelTab.
+         * \brief Getter sprite del LabelTab.
          * 
-         * Devuelvo el tipo del LabelTab.
+         * Devuelvo el sprite del LabelTab.
          */
-        int get_tipo();
-
-        /**
-         * \brief Getter id del LabelTab.
-         * 
-         * Devuelvo el id del LabelTab.
-         */
-        std::string get_id();
-
-        /**
-         * \brief Getter imagen del LabelTab.
-         * 
-         * Devuelvo la imagen del LabelTab.
-         */
-        QPixmap get_imagen();
+        Sprite get_sprite();
 	    
         /**
          * \brief Agrego observador del LabelTab.
          * 
          * Agrego un observador del LabelTab (Tabs).
          */
-        void agregar_observador(Observador* observador);
+        void agregar_observador(ObservadorTabs* observador);
 
         /**
          * \brief Agrego el marco clickeado.
@@ -79,7 +65,7 @@ class LabelTab : public QLabel {
 
     private:
         Sprite sprite;
-        Observador* observador;
+        ObservadorTabs* observador;
 };
 
 #endif // LABEL_TAB_H

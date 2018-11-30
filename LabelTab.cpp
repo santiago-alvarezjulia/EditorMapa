@@ -19,28 +19,18 @@ LabelTab::LabelTab(string& id, int tipo, vector<uint32_t>& pos_tiles,
 }
 
 
-int LabelTab::get_tipo() {
-    return this->sprite.tipo;
+Sprite LabelTab::get_sprite() {
+    return this->sprite;
 }
 
 
-string LabelTab::get_id() {
-    return this->sprite.id;
-}
-
-
-QPixmap LabelTab::get_imagen() {
-    return this->sprite.imagen;
-}
-
-
-void LabelTab::agregar_observador(Observador* observador_) {
+void LabelTab::agregar_observador(ObservadorTabs* observador_) {
     this->observador = observador_;
 }
 
 
 void LabelTab::mousePressEvent(QMouseEvent* event) {
-    this->observador->en_notificacion(this->sprite.id);
+    this->observador->en_click_terreno_tab(this->sprite);
 }
 
 

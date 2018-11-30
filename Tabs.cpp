@@ -14,7 +14,9 @@ using std::vector;
 
 Tabs::Tabs(QWidget* parent) : parent(parent) {
     this->tabs_terrenos = map<string, LabelTab*>();
-    this->id_label_clickeado = "";
+    Sprite sprite;
+    sprite.id = "";
+    this->sprite_clickeado = sprite;
 }
 
 
@@ -120,42 +122,30 @@ void Tabs::inicializar_tabs() {
     scroll_area_jugador->setLayout(jugador_layout);
 }
 
-string Tabs::get_id_label_clickeado() {
-    return this->id_label_clickeado;
+Sprite Tabs::get_sprite_clickeado() {
+    return this->sprite_clickeado;
 }
 
-int Tabs::get_tipo_label_clickeado() {
-    map<string, LabelTab*>::iterator it = 
-        this->tabs_terrenos.find(this->id_label_clickeado);
-	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_tipo();
-    }
-}
 
-QPixmap Tabs::get_imagen_clickeado() {
-    map<string, LabelTab*>::iterator it = 
-        this->tabs_terrenos.find(this->id_label_clickeado);
-	if (it != this->tabs_terrenos.end()) {
-        return it->second->get_imagen();
-    }
-}
-
-void Tabs::en_notificacion(string& id_label) {
+void Tabs::en_click_terreno_tab(Sprite sprite) {
     // me fijo que tenga almacenado al Label en tabs_terrenos
-    map<string, LabelTab*>::iterator it = this->tabs_terrenos.find(id_label);
+    map<string, LabelTab*>::iterator it = 
+        this->tabs_terrenos.find(sprite.id);
 	if (it != this->tabs_terrenos.end()) {
         // me fijo si el id coincide con el id del label clickeado actualmente.
-        if (this->id_label_clickeado == id_label) {
+        if (this->sprite_clickeado.id == sprite.id) {
             it->second->borrar_marco_clickeado();
-            this->id_label_clickeado = "";
+            this->sprite_clickeado.id = "";
         } else {
+            // no coinciedo => le agrego el marco de clickeado y borro el marco
+            // del clickeado anteriormente.
             it->second->set_marco_clickeado();
             map<string, LabelTab*>::iterator it2 = 
-                this->tabs_terrenos.find(this->id_label_clickeado);
+                this->tabs_terrenos.find(this->sprite_clickeado.id);
 	        if (it2 != this->tabs_terrenos.end()) {
                 it2->second->borrar_marco_clickeado();
             }
-            this->id_label_clickeado = id_label;
+            this->sprite_clickeado = sprite;
         }
     }
 }

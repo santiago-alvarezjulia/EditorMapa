@@ -5,9 +5,10 @@
 #include <map>
 #include <vector>
 #include "LabelTab.h"
-#include "Observador.h"
+#include "ObservadorTabs.h"
+#include "Sprite.h"
 
-class Tabs : public Observador {
+class Tabs : public ObservadorTabs {
     public:
         /**
          * \brief Constructor Tabs.
@@ -26,27 +27,11 @@ class Tabs : public Observador {
         void inicializar_tabs();
 
         /**
-         * \brief Getter id label clickeado.
+         * \brief Getter sprite clickeado.
          * 
-         * Devuelvo el id del label clickeado, puede estar vacio ("").
+         * Devuelvo el sprite clickeado, puede estar vacio su id ("").
          */
-        std::string get_id_label_clickeado();
-
-        /**
-         * \brief Getter tipo del label clickeado.
-         * 
-         * Devuelvo el tipo del label clickeado (delego en LabelTab). Precondicion -> tiene que haberse
-         * verificado que hay un label clickeado.
-         */
-        int get_tipo_label_clickeado();
-
-        /**
-         * \brief Getter imagen del label clickeado.
-         * 
-         * Devuelvo la imagen del label clickeado (delego en LabelTab). 
-         * Precondicion -> tiene que haberse verificado que hay un label clickeado.
-         */
-        QPixmap get_imagen_clickeado();
+        Sprite get_sprite_clickeado();
 
         /**
          * \brief Metodo virtual de la interfaz Observador implementada por Tabs.
@@ -54,7 +39,7 @@ class Tabs : public Observador {
          * Metodo virtual que es llamado cuando un label de una pestaña (LabelTab)
          * es clickeado. Recibe por parametro el id del Label.
          */
-        virtual void en_notificacion(std::string& id_label);
+        virtual void en_click_terreno_tab(Sprite sprite_clickeado);
 
         /**
          * \brief Destructor de Tabs.
@@ -68,7 +53,7 @@ class Tabs : public Observador {
         QWidget* parent;
         QPixmap imagen_terrenos;
         std::map<std::string, LabelTab*> tabs_terrenos;
-        std::string id_label_clickeado;
+        Sprite sprite_clickeado;
 };
 
 #endif // TABS_H
