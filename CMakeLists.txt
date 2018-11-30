@@ -32,6 +32,7 @@ add_executable(editor
   LabelMapa.cpp
   DialogoBienvenida.cpp
   GeneradorSprites.cpp
+  ManejadorJson.cpp
   Tabs.cpp
   Mapa.cpp
   ${UIS_HEADERS})

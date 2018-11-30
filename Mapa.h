@@ -127,14 +127,6 @@ class Mapa : public ObservadorMapa {
         Observador* observador;
         std::map<std::string, LabelMapa*> mapa;
         std::map<std::string, bool> jugadores;
-
-        /**
-         * \brief Split de string.
-         * 
-         * Devuelvo un vector de strings a partir del splitteo de un string y un 
-         * caracter delimitador.
-         */
-        std::vector<std::string> split(const std::string& str, char delim);
         
         void agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas);
         void achicar_mapa(int nueva_cant_filas, int nueva_cant_columnas);
