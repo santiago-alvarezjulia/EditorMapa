@@ -6,12 +6,7 @@
 #include <QPixmap>
 #include <vector>
 #include <fstream>
-
-struct Sprite {
-    std::string id;
-    int tipo;
-    QPixmap imagen;
-};
+#include "Sprite.h"
 
 class GeneradorSprites {
     public:

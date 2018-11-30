@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <string>
 #include "ObservadorMapa.h"
-#include "GeneradorSprites.h"
+#include "Sprite.h"
 
 class LabelMapa : public QLabel {
     public:
