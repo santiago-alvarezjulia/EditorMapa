@@ -10,7 +10,7 @@
 #include <QMessageBox>
 #include "Editor.h"
 #define MINIMO_CANTIDAD_JUGADORES 2
-#define DIMENSION_MINIMA_MAPA 30
+#define DIMENSION_MINIMA_MAPA 10
 #define DIMENSION_MAXIMA_MAPA 1000
 using std::string;
 

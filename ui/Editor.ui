@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>837</width>
+    <width>833</width>
     <height>628</height>
    </rect>
   </property>
@@ -51,7 +51,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>602</width>
+           <width>598</width>
            <height>598</height>
           </rect>
          </property>
@@ -64,10 +64,10 @@
          <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>601</width>
-            <height>591</height>
+            <x>30</x>
+            <y>20</y>
+            <width>541</width>
+            <height>561</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="mapLayout">
