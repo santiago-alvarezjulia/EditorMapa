@@ -157,7 +157,7 @@ void Mapa::inicializar_mapa() {
 int Mapa::get_tipo_by_id(string& id_label_mapa) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label_mapa);
 	if (it != this->mapa.end()) {
-        return it->second->get_tipo();
+        return it->second->get_sprite().tipo;
     }
 }
 
@@ -206,7 +206,7 @@ void Mapa::generar_json(string& nombre_archivo) {
             id_label += std::to_string(j);
             map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	        if (it != this->mapa.end()) {
-                tipos_por_columna.emplace_back(it->second->get_id());
+                tipos_por_columna.emplace_back(it->second->get_sprite().id);
             }
         }
 
@@ -238,8 +238,7 @@ void Mapa::agregar_observador(Observador* observer) {
 }
 
 
-void Mapa::actualizar_data(string& id_label, QPixmap& nueva_imagen, 
-    int nuevo_tipo, string& nuevo_id) {
+void Mapa::actualizar_data(string& id_label, Sprite sprite_nuevo) {
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
         // me fijo si es el caso especial en que reemplazo a un jugador por otra
@@ -248,15 +247,15 @@ void Mapa::actualizar_data(string& id_label, QPixmap& nueva_imagen,
         if (it_jugadores != this->jugadores.end()) {
             this->jugadores.erase(it_jugadores);
         }
-        it->second->actualizar_data(nueva_imagen, nuevo_tipo, nuevo_id);
+        it->second->actualizar_sprite(sprite_nuevo);
     }
 }
 
-void Mapa::agregar_jugador(string& id_label, QPixmap& nueva_imagen) {
+void Mapa::agregar_jugador(string& id_label, Sprite nuevo_sprite) {
     this->jugadores.emplace(id_label, true);
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
-        it->second->actualizar_imagen(nueva_imagen);
+        it->second->actualizar_imagen(nuevo_sprite.imagen);
     }
 }
 

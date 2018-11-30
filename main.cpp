@@ -1,8 +1,4 @@
-#include <iostream>
 #include <QApplication>
-#include <QFormLayout>
-#include <QPushButton>
-#include "Editor.h"
 #include "DialogoBienvenida.h"
 
 int main(int argc, char *argv[]) {

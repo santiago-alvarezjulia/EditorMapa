@@ -11,12 +11,9 @@ LabelMapa::LabelMapa(Sprite sprite, string& pos_label,
 }
 
 
-void LabelMapa::actualizar_data(QPixmap& nueva_imagen, int nuevo_tipo, 
-    string& nuevo_id) {
-    this->setPixmap(nueva_imagen);
-    this->sprite.imagen = nueva_imagen;
-    this->sprite.tipo = nuevo_tipo; 
-    this->sprite.id = nuevo_id;
+void LabelMapa::actualizar_sprite(Sprite sprite_nuevo) {
+    this->setPixmap(sprite_nuevo.imagen);
+    this->sprite = sprite_nuevo;
 }
 
 
@@ -25,14 +22,9 @@ void LabelMapa::actualizar_imagen(QPixmap& nueva_imagen) {
 }
 
 
-int LabelMapa::get_tipo() {
-    return this->sprite.tipo;
-} 
-
-
-string LabelMapa::get_id() {
-    return this->sprite.id;
-} 
+Sprite LabelMapa::get_sprite() {
+    return this->sprite;
+}
 
 
 void LabelMapa::agregar_observador(ObservadorMapa* observador_) {

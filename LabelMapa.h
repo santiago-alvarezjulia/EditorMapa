@@ -26,12 +26,11 @@ class LabelMapa : public QLabel {
         void agregar_observador(ObservadorMapa* observador);
         
         /**
-         * \brief Actualizar data del LabelMapa.
+         * \brief Actualizar sprite del LabelMapa.
          * 
-         * Actualizo la data del LabelMapa.
+         * Actualizo el sprite del LabelMapa.
          */
-        void actualizar_data(QPixmap& nueva_imagen, int nuevo_tipo, 
-            std::string& nuevo_id);
+        void actualizar_sprite(Sprite nuevo_sprite);
 
         /**
          * \brief Actualizar imagen del LabelMapa.
@@ -55,18 +54,11 @@ class LabelMapa : public QLabel {
         void borrar_marco_mouse_enter();
 
         /**
-         * \brief Getter tipo del LabelMapa.
+         * \brief Getter Sprite del LabelMapa.
          * 
-         * Devuelvo el tipo del LabelMapa.
+         * Devuelvo el sprite del LabelMapa.
          */
-        int get_tipo();
-
-        /**
-         * \brief Getter id del LabelMapa.
-         * 
-         * Devuelvo el id del LabelMapa.
-         */
-        std::string get_id();
+        Sprite get_sprite();
 
         /**
          * \brief Destructor de LabelMapa.

@@ -67,24 +67,22 @@ void Editor::en_notificacion(string& id_label_mapa) {
             if (this->mapa.es_valido_agregar_jugador(id_label_mapa, 
                 this->cant_elegida_jugadores)) {
                 // agrego al jugador al mapa
-                this->mapa.agregar_jugador(id_label_mapa, 
-                    sprite_tab_clickeado.imagen);
+                this->mapa.agregar_jugador(id_label_mapa, sprite_tab_clickeado);
             } else {
                 return;
             }
         } else {
-            this->mapa.actualizar_data(id_label_mapa, sprite_tab_clickeado.imagen, 
-                sprite_tab_clickeado.tipo, sprite_tab_clickeado.id);
+            this->mapa.actualizar_data(id_label_mapa, sprite_tab_clickeado);
         }
-    }
 
-    // actualizo el valor minimo de cantidad de jugadores
-    int cantidad_jugadores_agregados = 
-        this->mapa.get_cantidad_jugadores_agregados();
-    if (cantidad_jugadores_agregados < MINIMO_CANTIDAD_JUGADORES) {
-        this->min_cant_jugadores = MINIMO_CANTIDAD_JUGADORES;
-    } else {
-        this->min_cant_jugadores = cantidad_jugadores_agregados;
+        // actualizo el valor minimo de cantidad de jugadores
+        int cantidad_jugadores_agregados = 
+            this->mapa.get_cantidad_jugadores_agregados();
+        if (cantidad_jugadores_agregados < MINIMO_CANTIDAD_JUGADORES) {
+            this->min_cant_jugadores = MINIMO_CANTIDAD_JUGADORES;
+        } else {
+            this->min_cant_jugadores = cantidad_jugadores_agregados;
+        }
     }
 }
 

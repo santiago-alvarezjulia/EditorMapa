@@ -46,7 +46,7 @@ class Mapa : public ObservadorMapa {
          */
         void inicializar_mapa();
 
-        void agregar_jugador(std::string& id_label, QPixmap& nueva_imagen);
+        void agregar_jugador(std::string& id_label, Sprite nuevo_sprite);
 
         /**
          * \brief Agrego observador del Mapa.
@@ -59,7 +59,8 @@ class Mapa : public ObservadorMapa {
          * \brief Getter tipo de LabelMapa.
          * 
          * Devuelvo el tipo del LabelMapa cuyo id es el especificado en el parámetro 
-         * (delego en LabelMapa). Precondicion -> el id_label_mapa es correcto.
+         * (delego en LabelMapa). 
+         * Precondicion -> el id_label_mapa es correcto.
          */
         int get_tipo_by_id(std::string& id_label_mapa);
 
@@ -88,8 +89,7 @@ class Mapa : public ObservadorMapa {
          * Precondicion -> Ya fue contemplado el caso en que tipo_label_mapa y nuevo_tipo
          * son Jugador. 
          */
-        void actualizar_data(std::string& id_label, QPixmap& nueva_imagen, 
-            int nuevo_tipo, std::string& nuevo_id);
+        void actualizar_data(std::string& id_label, Sprite nuevo);
 
         /**
          * \brief Metodo virtual de la interfaz ObservadorMapa.
