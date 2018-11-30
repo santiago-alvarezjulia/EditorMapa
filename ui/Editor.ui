@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>976</width>
-    <height>692</height>
+    <width>837</width>
+    <height>628</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -51,8 +51,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>598</width>
-           <height>662</height>
+           <width>602</width>
+           <height>598</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -66,8 +66,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>591</width>
-            <height>661</height>
+            <width>601</width>
+            <height>591</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="mapLayout">
@@ -93,12 +93,12 @@
         <property name="minimumSize">
          <size>
           <width>200</width>
-          <height>200</height>
+          <height>500</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>500</width>
+          <width>200</width>
           <height>500</height>
          </size>
         </property>
@@ -120,7 +120,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>323</width>
+               <width>180</width>
                <height>455</height>
               </rect>
              </property>
@@ -136,16 +136,16 @@
                <height>16777215</height>
               </size>
              </property>
-             <widget class="QWidget" name="gridLayoutWidget_5">
+             <widget class="QWidget" name="verticalLayoutWidget">
               <property name="geometry">
                <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>421</width>
-                <height>551</height>
+                <x>9</x>
+                <y>9</y>
+                <width>171</width>
+                <height>441</height>
                </rect>
               </property>
-              <layout class="QGridLayout" name="gridLayout_arena"/>
+              <layout class="QVBoxLayout" name="verticalLayout_arena"/>
              </widget>
             </widget>
            </widget>
@@ -167,7 +167,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>423</width>
+               <width>180</width>
                <height>455</height>
               </rect>
              </property>
@@ -177,16 +177,16 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <widget class="QWidget" name="gridLayoutWidget_3">
+             <widget class="QWidget" name="verticalLayoutWidget_2">
               <property name="geometry">
                <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>421</width>
-                <height>551</height>
+                <x>9</x>
+                <y>9</y>
+                <width>171</width>
+                <height>441</height>
                </rect>
               </property>
-              <layout class="QGridLayout" name="gridLayout_cima"/>
+              <layout class="QVBoxLayout" name="verticalLayout_cima"/>
              </widget>
             </widget>
            </widget>
@@ -208,7 +208,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>423</width>
+               <width>180</width>
                <height>455</height>
               </rect>
              </property>
@@ -218,16 +218,16 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <widget class="QWidget" name="gridLayoutWidget">
+             <widget class="QWidget" name="verticalLayoutWidget_3">
               <property name="geometry">
                <rect>
-                <x>-1</x>
-                <y>-1</y>
-                <width>421</width>
-                <height>551</height>
+                <x>9</x>
+                <y>9</y>
+                <width>171</width>
+                <height>441</height>
                </rect>
               </property>
-              <layout class="QGridLayout" name="gridLayout_roca"/>
+              <layout class="QVBoxLayout" name="verticalLayout_roca"/>
              </widget>
             </widget>
            </widget>
@@ -249,20 +249,20 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>423</width>
+               <width>180</width>
                <height>455</height>
               </rect>
              </property>
-             <widget class="QWidget" name="gridLayoutWidget_4">
+             <widget class="QWidget" name="verticalLayoutWidget_4">
               <property name="geometry">
                <rect>
-                <x>-1</x>
-                <y>-1</y>
-                <width>421</width>
-                <height>551</height>
+                <x>9</x>
+                <y>9</y>
+                <width>171</width>
+                <height>441</height>
                </rect>
               </property>
-              <layout class="QGridLayout" name="gridLayout_especia"/>
+              <layout class="QVBoxLayout" name="verticalLayout_especia"/>
              </widget>
             </widget>
            </widget>
@@ -284,7 +284,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>423</width>
+               <width>180</width>
                <height>455</height>
               </rect>
              </property>
@@ -294,16 +294,16 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <widget class="QWidget" name="gridLayoutWidget_2">
+             <widget class="QWidget" name="verticalLayoutWidget_5">
               <property name="geometry">
                <rect>
-                <x>-1</x>
-                <y>-1</y>
-                <width>421</width>
-                <height>551</height>
+                <x>9</x>
+                <y>9</y>
+                <width>171</width>
+                <height>441</height>
                </rect>
               </property>
-              <layout class="QGridLayout" name="gridLayout_precipicio"/>
+              <layout class="QVBoxLayout" name="verticalLayout_precipicio"/>
              </widget>
             </widget>
            </widget>
@@ -325,20 +325,20 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>423</width>
+               <width>180</width>
                <height>455</height>
               </rect>
              </property>
-             <widget class="QWidget" name="gridLayoutWidget_6">
+             <widget class="QWidget" name="verticalLayoutWidget_6">
               <property name="geometry">
                <rect>
-                <x>-1</x>
-                <y>-1</y>
-                <width>421</width>
-                <height>551</height>
+                <x>9</x>
+                <y>9</y>
+                <width>171</width>
+                <height>441</height>
                </rect>
               </property>
-              <layout class="QGridLayout" name="gridLayout_duna"/>
+              <layout class="QVBoxLayout" name="verticalLayout_duna"/>
              </widget>
             </widget>
            </widget>
@@ -360,7 +360,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>423</width>
+               <width>180</width>
                <height>455</height>
               </rect>
              </property>
@@ -370,16 +370,16 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <widget class="QWidget" name="gridLayoutWidget_7">
+             <widget class="QWidget" name="verticalLayoutWidget_7">
               <property name="geometry">
                <rect>
-                <x>-1</x>
-                <y>-1</y>
-                <width>421</width>
-                <height>551</height>
+                <x>9</x>
+                <y>9</y>
+                <width>171</width>
+                <height>441</height>
                </rect>
               </property>
-              <layout class="QGridLayout" name="gridLayout_jugador"/>
+              <layout class="QVBoxLayout" name="verticalLayout_jugador"/>
              </widget>
             </widget>
            </widget>

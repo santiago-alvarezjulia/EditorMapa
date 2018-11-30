@@ -6,7 +6,6 @@
 #include "libs/json.hpp"
 #include <fstream>
 #include <vector>
-#define MAX_COLUMNA 4
 using std::string;
 using std::map;
 using nlohmann::json;
@@ -22,31 +21,31 @@ Tabs::Tabs(QWidget* parent) : parent(parent) {
 
 void Tabs::inicializar_tabs() {
     // getteo el layout y el widget de Arena
-    QGridLayout* arena_layout = this->parent->findChild<QGridLayout*>("gridLayout_arena");
+    QVBoxLayout* arena_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_arena");
     QWidget* scroll_area_arena = this->parent->findChild<QWidget*>("scrollArea_widget_arena");
 
     // getteo el layout y el widget de Cima
-    QGridLayout* cima_layout = this->parent->findChild<QGridLayout*>("gridLayout_cima");
+    QVBoxLayout* cima_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_cima");
     QWidget* scroll_area_cima = this->parent->findChild<QWidget*>("scrollArea_widget_cima");
     
     // getteo el layout y el widget de Roca
-    QGridLayout* roca_layout = this->parent->findChild<QGridLayout*>("gridLayout_roca");
+    QVBoxLayout* roca_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_roca");
     QWidget* scroll_area_roca = this->parent->findChild<QWidget*>("scrollArea_widget_roca");
 
     // getteo el layout y el widget de Precipio
-    QGridLayout* precipicio_layout = this->parent->findChild<QGridLayout*>("gridLayout_precipicio");
+    QVBoxLayout* precipicio_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_precipicio");
     QWidget* scroll_area_precipicio = this->parent->findChild<QWidget*>("scrollArea_widget_precipicio");
 
     // getteo el layout y el widget de Duna
-    QGridLayout* duna_layout = this->parent->findChild<QGridLayout*>("gridLayout_duna");
+    QVBoxLayout* duna_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_duna");
     QWidget* scroll_area_duna = this->parent->findChild<QWidget*>("scrollArea_widget_duna");
 
     // getteo el layout y el widget de Especia
-    QGridLayout* especia_layout = this->parent->findChild<QGridLayout*>("gridLayout_especia");
+    QVBoxLayout* especia_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_especia");
     QWidget* scroll_area_especia = this->parent->findChild<QWidget*>("scrollArea_widget_especia");
 
     // getteo el layout y el widget de Jugador
-    QGridLayout* jugador_layout = this->parent->findChild<QGridLayout*>("gridLayout_jugador");
+    QVBoxLayout* jugador_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_jugador");
     QWidget* scroll_area_jugador = this->parent->findChild<QWidget*>("scrollArea_widget_jugador");
 
     // hardcodeo la ubicacion del archivo .json con la informacion sobre los
@@ -65,10 +64,6 @@ void Tabs::inicializar_tabs() {
         json elem = valores_por_defecto;
         elem.update(*it);
 
-        // valores donde ubicar los label dentro de los gridLayout de cada pestaña.
-        int columna = 0;
-        int fila = 0;
-
         auto it_sprites = elem["sprites"].begin();
         for (int i = 0; it_sprites != elem["sprites"].end(); ++it_sprites) {
             json tile = *it;
@@ -83,32 +78,31 @@ void Tabs::inicializar_tabs() {
 
             // me fijo de que tipo es y lo agrego al layout correspondiente.
             if (elem["tipo"] == 5) {
-                cima_layout->addWidget(label, fila, columna);
+                cima_layout->addWidget(label);
+                cima_layout->setAlignment(label, Qt::AlignHCenter);
             } else if (elem["tipo"] == 1){
-                arena_layout->addWidget(label, fila, columna);
+                arena_layout->addWidget(label);
+                arena_layout->setAlignment(label, Qt::AlignHCenter);
             } else if (elem["tipo"] == 0){
-                roca_layout->addWidget(label, fila, columna);
+                roca_layout->addWidget(label);
+                roca_layout->setAlignment(label, Qt::AlignHCenter);
             } else if (elem["tipo"] == 2){
-                precipicio_layout->addWidget(label, fila, columna);
+                precipicio_layout->addWidget(label);
+                precipicio_layout->setAlignment(label, Qt::AlignHCenter);
             } else if (elem["tipo"] == 4){
-                especia_layout->addWidget(label, fila, columna);
+                especia_layout->addWidget(label);
+                especia_layout->setAlignment(label, Qt::AlignHCenter);
             } else if (elem["tipo"] == 3){
-                duna_layout->addWidget(label, fila, columna);
+                duna_layout->addWidget(label);
+                duna_layout->setAlignment(label, Qt::AlignHCenter);
             } else if (elem["tipo"] == 6){
-                jugador_layout->addWidget(label, fila, columna);
+                jugador_layout->addWidget(label);
+                jugador_layout->setAlignment(label, Qt::AlignHCenter);
             } 
         
             this->tabs_terrenos.emplace(tile["sprites"][i]["id"], label);
             
             i++;
-            columna++;
-
-            // fijo un maximo de columna para que el scrolleo sobre el 
-            // QGridLayout sea solo vertical y no horizontal (cuestion estetica)
-            if (columna == MAX_COLUMNA) {
-                columna = 0;
-                fila++;
-            }
         }
     }
 
