@@ -28,7 +28,8 @@ class GeneradorSprites {
 
     private:
         QPixmap imagen_terrenos;
-    
+
+        QPixmap generar_pixmap(std::vector<uint32_t> pos_tiles);
 };
 
 #endif // GENERADOR_SPRITES_H
