@@ -20,16 +20,12 @@ Mapa::Mapa(int filas, int columnas, QWidget* parent) : filas(filas),
     columnas(columnas), parent(parent) {
     this->mapa = map<string, LabelMapa*>();
     this->jugadores = map<string, bool>();
-    // hardcodeo el nombre del archivo .bmp con los sprites del terreno.
-    this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
 
 Mapa::Mapa(QWidget* parent) : parent(parent) {
     this->mapa = std::map<std::string, LabelMapa*>();
     this->jugadores = map<string, bool>();
-    // hardcodeo el nombre del archivo .bmp con los sprites del terreno.
-    this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 
 
@@ -56,8 +52,9 @@ void Mapa::parsear_json(string& filename_json) {
     vector<vector<uint32_t>> pos_jugadores = mapa_json["jugadores"];
     vector<vector<string>> ids = mapa_json["tipo"];
     this->filas = ids.size();
-
-    map<string, Sprite> sprites_posibles = generar_sprites_posibles();
+    
+    GeneradorSprites generador_sprites;
+    map<string, Sprite> sprites_posibles = generador_sprites.generar_sprites_posibles();
     
     vector<vector<string>>::iterator it_filas_ids = ids.begin();
     this->columnas = (*it_filas_ids).size();
@@ -123,88 +120,6 @@ void Mapa::parsear_json(string& filename_json) {
     scroll_area_mapa->setLayout(map_layout);
 }
 
-map<string, Sprite> Mapa::generar_sprites_posibles() {
-    map<string, Sprite> sprites_posibles;
-    QPixmap terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
-
-    // hardcodeo la ubicacion del archivo .json con la informacion sobre los
-    // sprites del archivo de terrenos (QPixmap terrenos).
-    std::ifstream entrada("../sprites/terrain/terrenos.json");
-
-    json terrenos_json;
-
-    entrada >> terrenos_json;
-
-    auto it = terrenos_json.begin();
-    const json& valores_por_defecto = *it;
-    ++it;
-    for (; it != terrenos_json.end(); ++it) {
-        // Mergear valores por defecto con el elemento actual
-        json elem = valores_por_defecto;
-        elem.update(*it);
-
-        // valores donde ubicar los label dentro de los gridLayout de cada pestaña.
-        int columna = 0;
-        int fila = 0;
-
-        auto it_sprites = elem["sprites"].begin();
-        for (int i = 0; it_sprites != elem["sprites"].end(); ++it_sprites) {
-            json tile = *it;
-
-            Sprite sprite;
-            sprite.tipo = elem["tipo"];
-            vector<uint32_t> pos_tiles = tile["sprites"][i]["pos_tiles"];
-            string id = tile["sprites"][i]["id"];
-
-            QPixmap label_32_x_32 (32, 32);
-
-            // junto los 16 tiles de 8x8 pixeles, cuyas posiciones se encuentran en 
-            // pos_tiles y los dibujo en un unico QPixmap de 32x32 pixeles. 
-            // pos_x_label y pos_y_label es la posicion de cada sprite de 8x8 dentro
-            // del QPixmap de 32x32.
-            int pos_x_label = 0;
-            int pos_y_label = 0;
-            vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
-            for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
-                // 8 es el tamaño individual de cada sprite (8x8 pixeles).
-                // 20 es el ancho del archivo .bmp que contiene todos los sprites 
-                // de los terrenos.
-                // x e y son las posiciones de cada sprite de 8x8 en el archivo .bmp .
-                // los -1 es que arranco a contar desde 1.
-                int y = ((*it_pos_tiles - 1) / 20) * 8;
-                int x;
-                if (*it_pos_tiles < 20) {
-                    x = (*it_pos_tiles - 1) * 8;
-                } else {
-                    x = ((*it_pos_tiles - 1) % 20) * 8;
-                }
-
-                // copio el cuadrado de 8x8 que quiero del .bmp .
-                QRect rect(x, y, 8, 8);
-                QPixmap cropped = terrenos.copy(rect);
-            
-                QPainter painter (&label_32_x_32);
-                if (cont_tiles < 4) {
-                    pos_x_label = cont_tiles * 8;
-                } else {
-                    pos_x_label = (cont_tiles % 4) * 8;
-                }
-
-                pos_y_label = (cont_tiles / 4) * 8;
-                painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
-
-                cont_tiles++;
-            }
-
-            sprite.sprite = label_32_x_32;
-
-            sprites_posibles.emplace(id, sprite);
-        }
-    }
-
-    return sprites_posibles;
-}
-
 
 void Mapa::inicializar_mapa() {
     // getteo el layout y el widget del Mapa-
@@ -227,7 +142,10 @@ void Mapa::inicializar_mapa() {
     string id = tile["sprites"][0]["id"];
     int tipo = elem["tipo"];
     vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+
+    // genero sprite inicial
+    GeneradorSprites generador_sprites;
+    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
 
     for (int i = 0; i < this->filas; ++i) {
         for (int j = 0; j < this->columnas; ++j) {
@@ -249,49 +167,6 @@ void Mapa::inicializar_mapa() {
 
     map_layout->setSpacing(0);
     scroll_area_mapa->setLayout(map_layout);
-}
-
-QPixmap Mapa::generar_sprite_inicial(vector<uint32_t>& pos_tiles) {
-    QPixmap label_32_x_32 (32, 32);
-
-    // junto los 16 tiles de 8x8 pixeles, cuyas posiciones se encuentran en 
-    // pos_tiles y los dibujo en un unico QPixmap de 32x32 pixeles. 
-    int pos_x_label = 0;
-    int pos_y_label = 0;
-    vector<uint32_t>::iterator it_pos_tiles = pos_tiles.begin();
-    for (int cont_tiles = 0; it_pos_tiles != pos_tiles.end(); ++it_pos_tiles) {
-        // 8 es el tamaño individual de cada sprite (8x8 pixeles).
-        // 20 es el ancho del archivo .bmp que contiene todos los sprites 
-        // de los terrenos.
-        // x e y son las posiciones de cada sprite de 8x8 en el archivo .bmp .
-        int y = ((*it_pos_tiles - 1) / 20) * 8;
-        int x;
-        if (*it_pos_tiles < 20) {
-            x = ((*it_pos_tiles) - 1) * 8;
-        } else {
-            x = ((*it_pos_tiles - 1) % 20) * 8;
-        }
-
-        // copio el cuadrado de 8x8 que quiero del .bmp .
-        QRect rect(x, y, 8, 8);
-        QPixmap cropped = this->imagen_terrenos.copy(rect);
-    
-        // pos_x_label y pos_y_label es la posicion de cada sprite de 8x8 dentro
-        // del QPixmap de 32x32.
-        QPainter painter (&label_32_x_32);
-        if (cont_tiles < 4) {
-            pos_x_label = cont_tiles * 8;
-        } else {
-             pos_x_label = (cont_tiles % 4) * 8;
-        }
-
-        pos_y_label = (cont_tiles / 4) * 8;
-        painter.drawPixmap(pos_x_label, pos_y_label, 8, 8, cropped);
-
-        cont_tiles++;
-    }
-
-    return label_32_x_32;
 }
 
 
@@ -459,7 +334,10 @@ void Mapa::agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
     string id = tile["sprites"][0]["id"];
     int tipo = elem["tipo"];
     vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+     
+    // genero sprite inicial
+    GeneradorSprites generador_sprites;
+    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
     
     for (int i = 0; i < this->filas; ++i) {
         for (int j = this->columnas; j < nueva_cant_columnas; ++j) {
@@ -524,7 +402,10 @@ void Mapa::achicar_mapa(int nueva_cant_filas, int nueva_cant_columnas) {
     string id = tile["sprites"][0]["id"];
     int tipo = elem["tipo"];
     vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+    
+    // genero sprite inicial
+    GeneradorSprites generador_sprites;
+    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
     
     for (int i = 0; i < nueva_cant_filas; ++i) {
         for (int j = (this->columnas - 1); j >= nueva_cant_columnas; --j) {
@@ -598,7 +479,10 @@ void Mapa::sacar_columnas_agregar_filas(int nueva_cant_filas,
     string id = tile["sprites"][0]["id"];
     int tipo = elem["tipo"];
     vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+   
+    // genero sprite inicial
+    GeneradorSprites generador_sprites;
+    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
     
     // saco columnas
     for (int i = 0; i < nueva_cant_filas; ++i) {
@@ -670,7 +554,10 @@ void Mapa::sacar_filas_agregar_columnas(int nueva_cant_filas,
     string id = tile["sprites"][0]["id"];
     int tipo = elem["tipo"];
     vector<uint32_t> pos_tiles = tile["sprites"][0]["pos_tiles"];
-    QPixmap sprite_inicial = generar_sprite_inicial(pos_tiles);
+    
+    // genero sprite inicial
+    GeneradorSprites generador_sprites;
+    QPixmap sprite_inicial = generador_sprites.generar_sprite_inicial(pos_tiles);
 
     // saco filas
     for (int j = 0; j < this->columnas; ++j) {

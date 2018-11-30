@@ -97,9 +97,10 @@ void Editor::inicializar_menu() {
     menu_archivo->addAction("Guardar mapa", this, &Editor::guardar_mapa);
     menu_archivo->addAction("Cargar mapa", this, 
         &Editor::cargar_mapa_en_ejecucion);
+    this->menu_bar->addSeparator();
     menu_archivo->addAction("Salir", this, 
         &Editor::terminar_ejecucion);
-    
+
     QMenu* menu_editar = this->menu_bar->addMenu("Editar");
     menu_editar->addAction("Cambiar cantidad de jugadores", this, 
         &Editor::mostrar_dialogo_cantidad_jugadores);

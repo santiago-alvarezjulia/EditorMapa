@@ -7,11 +7,7 @@
 #include "LabelMapa.h"
 #include "Observador.h"
 #include "ObservadorMapa.h"
-
-struct Sprite {
-    int tipo;
-    QPixmap sprite;
-};
+#include "GeneradorSprites.h"
 
 class Mapa : public ObservadorMapa {
     public:
@@ -128,7 +124,6 @@ class Mapa : public ObservadorMapa {
         int filas;
         int columnas;
         QWidget* parent;
-        QPixmap imagen_terrenos;
         Observador* observador;
         std::map<std::string, LabelMapa*> mapa;
         std::map<std::string, bool> jugadores;
@@ -141,9 +136,6 @@ class Mapa : public ObservadorMapa {
          */
         std::vector<std::string> split(const std::string& str, char delim);
         
-        QPixmap generar_sprite_inicial(std::vector<uint32_t>& pos_tiles);
-        std::map<std::string, Sprite> generar_sprites_posibles();
-
         void agrandar_mapa(int nueva_cant_filas, int nueva_cant_columnas);
         void achicar_mapa(int nueva_cant_filas, int nueva_cant_columnas);
         void sacar_columnas_agregar_filas(int nueva_cant_filas, 
