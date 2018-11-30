@@ -20,33 +20,9 @@ Tabs::Tabs(QWidget* parent) : parent(parent) {
 
 
 void Tabs::inicializar_tabs() {
-    // getteo el layout y el widget de Arena
-    QVBoxLayout* arena_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_arena");
-    QWidget* scroll_area_arena = this->parent->findChild<QWidget*>("scrollArea_widget_arena");
-
-    // getteo el layout y el widget de Cima
-    QVBoxLayout* cima_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_cima");
-    QWidget* scroll_area_cima = this->parent->findChild<QWidget*>("scrollArea_widget_cima");
-    
-    // getteo el layout y el widget de Roca
-    QVBoxLayout* roca_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_roca");
-    QWidget* scroll_area_roca = this->parent->findChild<QWidget*>("scrollArea_widget_roca");
-
-    // getteo el layout y el widget de Precipio
-    QVBoxLayout* precipicio_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_precipicio");
-    QWidget* scroll_area_precipicio = this->parent->findChild<QWidget*>("scrollArea_widget_precipicio");
-
-    // getteo el layout y el widget de Duna
-    QVBoxLayout* duna_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_duna");
-    QWidget* scroll_area_duna = this->parent->findChild<QWidget*>("scrollArea_widget_duna");
-
-    // getteo el layout y el widget de Especia
-    QVBoxLayout* especia_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_especia");
-    QWidget* scroll_area_especia = this->parent->findChild<QWidget*>("scrollArea_widget_especia");
-
-    // getteo el layout y el widget de Jugador
-    QVBoxLayout* jugador_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_jugador");
-    QWidget* scroll_area_jugador = this->parent->findChild<QWidget*>("scrollArea_widget_jugador");
+    // getteo el layout y el widget de Terrenos
+    QVBoxLayout* terrenos_layout = this->parent->findChild<QVBoxLayout*>("verticalLayout_terrenos");
+    QWidget* scroll_area_terrenos = this->parent->findChild<QWidget*>("scrollArea_widget_terrenos");
 
     // hardcodeo la ubicacion del archivo .json con la informacion sobre los
     // sprites del archivo this->imagen_terrenos.
@@ -76,29 +52,9 @@ void Tabs::inicializar_tabs() {
                        
             label->agregar_observador(this);
 
-            // me fijo de que tipo es y lo agrego al layout correspondiente.
-            if (elem["tipo"] == 5) {
-                cima_layout->addWidget(label);
-                cima_layout->setAlignment(label, Qt::AlignHCenter);
-            } else if (elem["tipo"] == 1){
-                arena_layout->addWidget(label);
-                arena_layout->setAlignment(label, Qt::AlignHCenter);
-            } else if (elem["tipo"] == 0){
-                roca_layout->addWidget(label);
-                roca_layout->setAlignment(label, Qt::AlignHCenter);
-            } else if (elem["tipo"] == 2){
-                precipicio_layout->addWidget(label);
-                precipicio_layout->setAlignment(label, Qt::AlignHCenter);
-            } else if (elem["tipo"] == 4){
-                especia_layout->addWidget(label);
-                especia_layout->setAlignment(label, Qt::AlignHCenter);
-            } else if (elem["tipo"] == 3){
-                duna_layout->addWidget(label);
-                duna_layout->setAlignment(label, Qt::AlignHCenter);
-            } else if (elem["tipo"] == 6){
-                jugador_layout->addWidget(label);
-                jugador_layout->setAlignment(label, Qt::AlignHCenter);
-            } 
+            // agrego y acomodo el Label
+            terrenos_layout->addWidget(label);
+            terrenos_layout->setAlignment(label, Qt::AlignHCenter);
         
             this->tabs_terrenos.emplace(tile["sprites"][i]["id"], label);
             
@@ -106,14 +62,8 @@ void Tabs::inicializar_tabs() {
         }
     }
 
-    // asocio los QGridLayout con sus respectivas scroll areas.
-    scroll_area_arena->setLayout(arena_layout);
-    scroll_area_cima->setLayout(cima_layout);
-    scroll_area_roca->setLayout(roca_layout);
-    scroll_area_precipicio->setLayout(precipicio_layout);
-    scroll_area_especia->setLayout(especia_layout);
-    scroll_area_duna->setLayout(duna_layout);
-    scroll_area_jugador->setLayout(jugador_layout);
+    // asocio el QVBoxLayout con su respectiva scroll area.
+    scroll_area_terrenos->setLayout(terrenos_layout);
 }
 
 Sprite Tabs::get_sprite_clickeado() {
