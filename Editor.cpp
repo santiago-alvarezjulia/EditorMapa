@@ -14,7 +14,7 @@ using std::string;
 
 Editor::Editor(int filas, int columnas, int cant_elegida_jugadores, QWidget *parent) : 
     mapa(Mapa(filas, columnas, this)), tabs(Tabs(this)), 
-    cant_elegida_jugadores(cant_elegida_jugadores), QWidget(parent, Qt::Window) {
+    cant_elegida_jugadores(cant_elegida_jugadores), QMainWindow(parent, Qt::Window) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para que use esa configuracion. A partir de aca
@@ -33,7 +33,7 @@ Editor::Editor(int filas, int columnas, int cant_elegida_jugadores, QWidget *par
 }
 
 
-Editor::Editor(string& filename_json, QWidget *parent) : QWidget(parent, 
+Editor::Editor(string& filename_json, QWidget *parent) : QMainWindow(parent, 
     Qt::Window), mapa(Mapa(this)), tabs(Tabs(this)) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;

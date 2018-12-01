@@ -2,13 +2,14 @@
 #define EDITOR_H
 
 #include <QWidget>
+#include <QMainWindow>
 #include "Tabs.h"
 #include "Mapa.h"
 #include "Observador.h"
 #include <QSpinBox>
 #include <QMenuBar>
 
-class Editor : public QWidget, Observador {
+class Editor : public QMainWindow, Observador {
     public:
         /**
          * \brief 1er Constructor de Editor.

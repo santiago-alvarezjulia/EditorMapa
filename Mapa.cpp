@@ -117,9 +117,6 @@ void Mapa::parsear_json(string& filename_json) {
             it->second->actualizar_imagen(sprite.imagen);
         } 
     }
-
-    map_layout->setSpacing(0);
-    scroll_area_mapa->setLayout(map_layout);
 }
 
 
@@ -149,9 +146,6 @@ void Mapa::inicializar_mapa() {
             this->mapa.emplace(pos_label, label_mapa);
         }
     }
-
-    map_layout->setSpacing(0);
-    scroll_area_mapa->setLayout(map_layout);
 }
 
 
