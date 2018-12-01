@@ -1,6 +1,7 @@
 #include "GeneradorSprites.h"
 #include "libs/json.hpp"
 #include <QPainter>
+#include <fstream>
 using std::vector;
 using nlohmann::json;
 using std::map;
@@ -8,6 +9,7 @@ using std::string;
 using std::vector;
 
 GeneradorSprites::GeneradorSprites() {
+    // hardcodeo la ubicacion del archivo .bmp con los tiles de terreno.
     this->imagen_terrenos = QPixmap ("../sprites/terrain/d2k_BLOXBASE.bmp");
 }
 

@@ -9,6 +9,6 @@ int main(int argc, char *argv[]) {
     DialogoBienvenida dialogo;
     dialogo.show();
 
-    // Arranca el loop de la UI
+    // Arranca el loop de la UI.
     return app.exec();
 }

@@ -8,12 +8,28 @@
 
 class ManejadorJson {
     public: 
+        /**
+         * \brief Constructor ManejadorJson.
+         * 
+         * Constructor de ManejadorJson.
+         */
         ManejadorJson(){};
 
+        /**
+         * \brief Genero mapa en formato .json .
+         * 
+         * Genero el Json con el nombre, las filas, columnas, el mapa y la 
+         * posicion de los jugadores en el mapa.
+         */
         void generar_json(std::string& nombre_archivo, int filas, int columnas,
             std::map<std::string, LabelMapa*>& mapa, 
             std::map<std::string, bool>& jugadores);
 
+        /**
+         * \brief Destructor ManejadorJson.
+         * 
+         * Destructor de ManejadorJson.
+         */
         ~ManejadorJson(){};
         
     private:

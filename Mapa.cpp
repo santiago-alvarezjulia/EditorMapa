@@ -11,6 +11,7 @@
 #include "ManejadorJson.h"
 #include <QPushButton>
 #define DELIM_ID ','
+#define TIPO_ROCA 0
 using std::string;
 using std::stringstream;
 using std::getline;
@@ -179,8 +180,8 @@ int Mapa::get_tipo_by_id(string& id_label_mapa) {
 
 bool Mapa::es_valido_agregar_jugador(string& id_label_mapa, 
     int cantidad_jugadores) {
-    // tipo Roca (0)
-    if (this->get_tipo_by_id(id_label_mapa) == 0) {
+    // Verifico que se agregue el jugador sobre Roca.
+    if (this->get_tipo_by_id(id_label_mapa) == TIPO_ROCA) {
          // me fijo si faltan ubicar jugadores o ya fueron todos ubicados
         if (this->get_cantidad_jugadores_agregados() < cantidad_jugadores) {
             // me fijo si ya hay un jugador en esa posicion del Mapa
@@ -230,7 +231,10 @@ void Mapa::actualizar_data(string& id_label, Sprite sprite_nuevo) {
 }
 
 void Mapa::agregar_jugador(string& id_label, Sprite nuevo_sprite) {
+    // agrego jugador al mapa jugadores.
     this->jugadores.emplace(id_label, true);
+
+    // actualizo la imagen del LabelMapa correspondiente.
     map<string, LabelMapa*>::iterator it = this->mapa.find(id_label);
 	if (it != this->mapa.end()) {
         it->second->actualizar_imagen(nuevo_sprite.imagen);
