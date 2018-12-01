@@ -10,7 +10,7 @@ class ManejadorJson {
     public: 
         ManejadorJson(){};
 
-        void generar_json(std::string nombre_archivo, int filas, int columnas,
+        void generar_json(std::string& nombre_archivo, int filas, int columnas,
             std::map<std::string, LabelMapa*>& mapa, 
             std::map<std::string, bool>& jugadores);
 

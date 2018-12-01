@@ -140,30 +140,30 @@ void Mapa::inicializar_mapa() {
             pos_label += DELIM_ID;
             pos_label += std::to_string(j);
             
-            //LabelMapa* label_mapa = new LabelMapa(sprite_inicial, pos_label, 
-            //    this->parent);
+            LabelMapa* label_mapa = new LabelMapa(sprite_inicial, pos_label, 
+                this->parent);
             
-            //label_mapa->agregar_observador(this);
+            label_mapa->agregar_observador(this);
             
-            //map_layout->addWidget(label_mapa, i + 1, j + 1);
+            map_layout->addWidget(label_mapa, i + 1, j + 1);
             
-            //this->mapa.emplace(pos_label, label_mapa);
+            this->mapa.emplace(pos_label, label_mapa);
 
-            QPushButton* buttonLeft = new QPushButton(this->parent);
-            buttonLeft->setFixedSize(20, 20);
-            map_layout->addWidget(buttonLeft, i + 1,j +1);
+            //QPushButton* buttonLeft = new QPushButton(this->parent);
+            //buttonLeft->setFixedSize(20, 20);
+            //map_layout->addWidget(buttonLeft, i + 1,j +1);
         }
     }
 
     map_layout->setSpacing(0);
 
     // Vertical spacers
-    map_layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding), 0, 0, 1, this->filas + 2);
-    map_layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding), this->filas + 1, 0, 1, this->filas + 2);
+    //map_layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding), 0, 0, 1, this->filas + 2);
+    //map_layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding), this->filas + 1, 0, 1, this->filas + 2);
 
     // Horizontal spacers
-    map_layout->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum), 1, 0, this->columnas, 1);
-    map_layout->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum), 1, this->columnas + 1, this->columnas, 1);
+    //map_layout->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum), 1, 0, this->columnas, 1);
+    //map_layout->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum), 1, this->columnas + 1, this->columnas, 1);
 
     scroll_area_mapa->setLayout(map_layout);
 }

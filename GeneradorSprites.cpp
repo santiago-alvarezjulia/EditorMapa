@@ -86,8 +86,8 @@ Sprite GeneradorSprites::generar_sprite_inicial() {
     return sprite_inicial;
 }
 
-Sprite GeneradorSprites::generar_sprite(std::string id, int tipo, 
-    std::vector<uint32_t> pos_tiles) {
+Sprite GeneradorSprites::generar_sprite(std::string& id, int tipo, 
+    std::vector<uint32_t>& pos_tiles) {
     Sprite sprite;
     
     // genero el pixmap
@@ -101,7 +101,7 @@ Sprite GeneradorSprites::generar_sprite(std::string id, int tipo,
     return sprite;
 }
 
-QPixmap GeneradorSprites::generar_pixmap(std::vector<uint32_t> pos_tiles) {
+QPixmap GeneradorSprites::generar_pixmap(std::vector<uint32_t>& pos_tiles) {
     QPixmap label_32_x_32 (32, 32);
     
     // junto los 16 tiles de 8x8 pixeles, cuyas posiciones se encuentran en 

@@ -16,15 +16,15 @@ class GeneradorSprites {
 
         Sprite generar_sprite_inicial();
 
-        Sprite generar_sprite(std::string id, int tipo, 
-            std::vector<uint32_t> pos_tiles);
+        Sprite generar_sprite(std::string& id, int tipo, 
+            std::vector<uint32_t>& pos_tiles);
 
         ~GeneradorSprites() {};
 
     private:
         QPixmap imagen_terrenos;
 
-        QPixmap generar_pixmap(std::vector<uint32_t> pos_tiles);
+        QPixmap generar_pixmap(std::vector<uint32_t>& pos_tiles);
 };
 
 #endif // GENERADOR_SPRITES_H

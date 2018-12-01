@@ -11,7 +11,7 @@ using std::stringstream;
 using std::getline;
 using nlohmann::json;
 
-void ManejadorJson::generar_json(string nombre_archivo, int filas, int columnas,
+void ManejadorJson::generar_json(string& nombre_archivo, int filas, int columnas,
     map<string, LabelMapa*>& mapa, map<string, bool>& jugadores) {
     json j;
     

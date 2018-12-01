@@ -101,7 +101,7 @@ void Editor::inicializar_menu() {
     QMenu* menu_editar = this->menu_bar->addMenu("Editar");
     menu_editar->addAction("Cambiar cantidad de jugadores", this, 
         &Editor::mostrar_dialogo_cantidad_jugadores);
-    menu_editar->addAction("Cambiar tamaño mapa", this, 
+    menu_editar->addAction("Cambiar tamaño del mapa", this, 
         &Editor::mostrar_dialogo_tamanio_mapa);
 }
 
@@ -188,7 +188,7 @@ void Editor::mostrar_dialogo_tamanio_mapa() {
     form_layout.addRow(&box_botones);
     QObject::connect(&box_botones, SIGNAL(accepted()), &dialog, SLOT(accept()));
 
-    dialog.setWindowTitle("Cambiar tamaño mapa");
+    dialog.setWindowTitle("Cambiar tamaño del mapa");
 
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
