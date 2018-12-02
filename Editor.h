@@ -47,8 +47,6 @@ class Editor : public QMainWindow, Observador {
     private:
         Mapa mapa;
         Tabs tabs;
-        QSpinBox* spin_box_cantidad_jugadores;
-        QMenuBar* menu_bar;
         int cant_elegida_jugadores;
         int min_cant_jugadores;
         

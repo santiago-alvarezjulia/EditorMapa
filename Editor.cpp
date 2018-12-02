@@ -90,20 +90,23 @@ void Editor::en_notificacion(string& id_label_mapa) {
 
 
 void Editor::inicializar_menu() {
-    // agrego QMenuBar
-    this->menu_bar = new QMenuBar(this);
-    QMenu* menu_archivo = this->menu_bar->addMenu("Archivo");
-    menu_archivo->addAction("Guardar mapa", this, &Editor::guardar_mapa);
-    menu_archivo->addAction("Cargar mapa", this, 
-        &Editor::cargar_mapa_en_ejecucion);
-    this->menu_bar->addSeparator();
-    menu_archivo->addAction("Salir", this, 
-        &Editor::terminar_ejecucion);
+    // conecto QActions del menu
+    QAction* guardar_mapa = this->findChild<QAction*>("actionGuardar_mapa");
+    connect(guardar_mapa, &QAction::triggered, this, &Editor::guardar_mapa);
 
-    QMenu* menu_editar = this->menu_bar->addMenu("Editar");
-    menu_editar->addAction("Cambiar cantidad de jugadores", this, 
+    QAction* cargar_mapa = this->findChild<QAction*>("actionCargar_mapa");
+    connect(cargar_mapa, &QAction::triggered, this, 
+        &Editor::cargar_mapa_en_ejecucion);
+
+    QAction* salir = this->findChild<QAction*>("actionSalir");
+    connect(salir, &QAction::triggered, this, &Editor::terminar_ejecucion);
+
+    QAction* cambiar_jugadores = this->findChild<QAction*>("actionCambiar_cantidad_de_jugadores");
+    connect(cambiar_jugadores, &QAction::triggered, this, 
         &Editor::mostrar_dialogo_cantidad_jugadores);
-    menu_editar->addAction("Cambiar tamaño del mapa", this, 
+
+    QAction* cambiar_tamanio_mapa = this->findChild<QAction*>("actionCambiar_tama_o_del_mapa");
+    connect(cambiar_tamanio_mapa, &QAction::triggered, this, 
         &Editor::mostrar_dialogo_tamanio_mapa);
 }
 
@@ -261,6 +264,4 @@ void Editor::terminar_ejecucion() {
 }
 
 
-Editor::~Editor () {
-    delete this->menu_bar;
-}
+Editor::~Editor () {}
