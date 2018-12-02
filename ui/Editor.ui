@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Editor</class>
- <widget class="QWidget" name="Editor">
+ <widget class="QMainWindow" name="Editor">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>833</width>
-    <height>628</height>
+    <width>1027</width>
+    <height>590</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,69 +19,54 @@
   <property name="windowTitle">
    <string>Editor de mapas de Dune</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
-   <item row="0" column="1">
-    <widget class="QWidget" name="centralwidget" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QScrollArea" name="scrollArea_mapa">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>600</width>
-          <height>600</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>1000</width>
-          <height>1000</height>
-         </size>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollArea_widget_mapa">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>598</width>
-           <height>598</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <widget class="QWidget" name="layoutWidget">
-          <property name="geometry">
-           <rect>
-            <x>30</x>
-            <y>20</y>
-            <width>541</width>
-            <height>561</height>
-           </rect>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QScrollArea" name="scrollArea_mapa">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollArea_widget_mapa">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>501</width>
+         <height>544</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="mapLayout">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <layout class="QGridLayout" name="mapLayout">
-           <property name="sizeConstraint">
-            <enum>QLayout::SetDefaultConstraint</enum>
-           </property>
-           <property name="spacing">
-            <number>0</number>
-           </property>
-          </layout>
-         </widget>
-        </widget>
-       </widget>
-      </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QTabWidget" name="tabWidget">
         <property name="sizePolicy">
@@ -99,7 +84,7 @@
         <property name="maximumSize">
          <size>
           <width>200</width>
-          <height>500</height>
+          <height>16777215</height>
          </size>
         </property>
         <property name="currentIndex">
@@ -120,8 +105,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>180</width>
-               <height>455</height>
+               <width>176</width>
+               <height>449</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -139,8 +124,8 @@
              <widget class="QWidget" name="verticalLayoutWidget">
               <property name="geometry">
                <rect>
-                <x>9</x>
-                <y>9</y>
+                <x>-10</x>
+                <y>0</y>
                 <width>171</width>
                 <height>441</height>
                </rect>
@@ -154,10 +139,75 @@
         </widget>
        </widget>
       </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
-    </widget>
-   </item>
-  </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1027</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMen">
+    <property name="title">
+     <string>Me&amp;nú</string>
+    </property>
+    <addaction name="actionagregar_items"/>
+    <addaction name="actiondesde_el_designer"/>
+    <addaction name="action_Salir_etc"/>
+   </widget>
+   <widget class="QMenu" name="menuEspacio">
+    <property name="title">
+     <string>blah</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menublah">
+    <property name="title">
+     <string>b&amp;lah</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menublah_2">
+    <property name="title">
+     <string>blah</string>
+    </property>
+   </widget>
+   <addaction name="menuEspacio"/>
+   <addaction name="menublah"/>
+   <addaction name="menublah_2"/>
+   <addaction name="menuMen"/>
+  </widget>
+  <action name="actionagregar_items">
+   <property name="text">
+    <string>&amp;agregar items</string>
+   </property>
+  </action>
+  <action name="action_Salir_etc">
+   <property name="text">
+    <string>&amp;Salir etc..</string>
+   </property>
+  </action>
+  <action name="actiondesde_el_designer">
+   <property name="text">
+    <string>desde  el designer</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

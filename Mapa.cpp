@@ -119,9 +119,6 @@ void Mapa::parsear_json(string& filename_json) {
             it->second->actualizar_imagen(sprite.imagen);
         } 
     }
-
-    map_layout->setSpacing(0);
-    scroll_area_mapa->setLayout(map_layout);
 }
 
 
@@ -155,7 +152,6 @@ void Mapa::inicializar_mapa() {
             //map_layout->addWidget(buttonLeft, i + 1,j +1);
         }
     }
-
     map_layout->setSpacing(0);
 
     // Vertical spacers
