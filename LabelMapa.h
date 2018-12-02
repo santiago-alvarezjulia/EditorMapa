@@ -12,9 +12,8 @@ class LabelMapa : public QLabel {
         /**
          * \brief Constructor de LabelMapa.
          * 
-         * Constructor de LabelMapa que recibe como parametro el QPixmap correspondiente. 
-         * Tambien el pos_label, el tipo y la posicion de los tiles de este 
-         * LabelMapa en particular.
+         * Constructor de LabelMapa que recibe como parametro el Sprite 
+         * correspondiente, la pos_label dentro del mapa y el widget padre.
          */
         LabelMapa(Sprite sprite, std::string& pos_label, QWidget* parent = 0);
 

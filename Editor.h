@@ -40,7 +40,7 @@ class Editor : public QMainWindow, Observador {
         /**
          * \brief Destructor de Editor.
          * 
-         * Destructor de editor.
+         * Destructor de Editor.
          */
         ~Editor();
         
@@ -61,7 +61,7 @@ class Editor : public QMainWindow, Observador {
         void inicializar_menu();
 
         /**
-         * \brief Funcion que guarda el mapa en un archivo.
+         * \brief Guardo el mapa en un archivo.
          * 
          * Antes de guardar el mapa, verifica que sea valido (se fija en la cantidad
          * de jugadores ubicados en el mapa) y luego muestra un dialogo para elegir
@@ -70,12 +70,34 @@ class Editor : public QMainWindow, Observador {
          */
         void guardar_mapa();
 
+        /**
+         * \brief Cargo un mapa.
+         * 
+         * Muestra un dialogo para elegir el mapa. Delega en Mapa la limpieza del
+         * mapa actual y la generacion del nuevo mapa a partir del archivo.
+         */
         void cargar_mapa_en_ejecucion();
         
+        /**
+         * \brief Muestra dialogo para cambiar el tamaño del mapa.
+         * 
+         * Muestra un dialogo para elegir el nuevo tamaño del mapa. Delega en Mapa 
+         * el cambio de tamaño.
+         */
         void mostrar_dialogo_tamanio_mapa();
 
+        /**
+         * \brief Muestra dialogo para cambiar la cantidad de jugadores.
+         * 
+         * Muestra un dialogo para elegir ela nueva cantidad de jugadores.
+         */
         void mostrar_dialogo_cantidad_jugadores();
 
+        /**
+         * \brief Termine ejecucion de Editor.
+         * 
+         * Cierra el Editor.
+         */
         void terminar_ejecucion();
 };
 

@@ -2,8 +2,6 @@
 #include <QFormLayout>
 #include <QPushButton>
 #include <QLabel>
-#include <iostream>
-#include <QLineEdit>
 #include <QSpinBox>
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -14,9 +12,8 @@
 #define DIMENSION_MAXIMA_MAPA 1000
 using std::string;
 
-DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {
-    this->editor_fue_creado = false;
-
+DialogoBienvenida::DialogoBienvenida(QWidget *parent) : editor_fue_creado(false), 
+    QDialog(parent) {
     this->form_layout = new QFormLayout(this);
 
     this->titulo = new QLabel("Bienvenido al editor de mapas de Dune");
@@ -25,17 +22,17 @@ DialogoBienvenida::DialogoBienvenida(QWidget *parent) : QDialog(parent) {
     this->boton_crear_mapa = new QPushButton("CREAR MAPA");
     this->form_layout->addRow(this->boton_crear_mapa);
     QObject::connect(this->boton_crear_mapa, &QPushButton::clicked,
-        this, &DialogoBienvenida::crear_mapa);
+        this, &DialogoBienvenida::mostrar_dialogo_crear_mapa);
 
     this->boton_cargar_mapa = new QPushButton("CARGAR MAPA");
     this->form_layout->addRow(this->boton_cargar_mapa);
     QObject::connect(this->boton_cargar_mapa, &QPushButton::clicked,
-        this, &DialogoBienvenida::cargar_mapa);
+        this, &DialogoBienvenida::mostrar_dialogo_cargar_mapa);
 
     this->setWindowTitle("Editor de Mapas de Dune");
 }
 
-void DialogoBienvenida::crear_mapa() {
+void DialogoBienvenida::mostrar_dialogo_crear_mapa() {
     QDialog dialog (this);
     QFormLayout form_layout (&dialog);
 
@@ -77,7 +74,7 @@ void DialogoBienvenida::crear_mapa() {
     }
 }
 
-void DialogoBienvenida::cargar_mapa() {
+void DialogoBienvenida::mostrar_dialogo_cargar_mapa() {
     // filename, incluye el filepath completo.
     QString filename = QFileDialog::getOpenFileName(this, 
         "Cargar mapa", "", "JSON files (*.json)");

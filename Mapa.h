@@ -46,6 +46,12 @@ class Mapa : public ObservadorMapa {
          */
         void inicializar_mapa();
 
+        /**
+         * \brief Agrega jugador al Mapa.
+         * 
+         * Agrega jugador al mapa jugadores y actualiza la imagen del LabelMapa
+         * correspondiente.
+         */
         void agregar_jugador(std::string& id_label, Sprite nuevo_sprite);
 
         /**
@@ -107,9 +113,20 @@ class Mapa : public ObservadorMapa {
          */
         int get_cantidad_jugadores_agregados();
 
-
+        /**
+         * \brief Cambia tamaño del Mapa.
+         * 
+         * Recibe el nuevo tamaño del Mapa por parámetro. Delega la implementacion
+         * en algunos metodos privados segun si se achica o agranda el mapa.
+         */
         void cambiar_tamanio(int nueva_cant_filas, int nueva_cant_columnas);
 
+        /**
+         * \brief Limpia Mapa.
+         * 
+         * Libero los LabelMapa del heap (fueron tomados los recursos en 
+         * Mapa::inicializar_mapa o en Mapa::parsear_json).
+         */
         void limpiar_mapa();
         
         /**

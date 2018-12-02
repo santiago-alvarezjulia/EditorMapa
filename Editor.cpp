@@ -10,23 +10,23 @@
 #define MINIMO_CANTIDAD_JUGADORES 2
 #define DIMENSION_MINIMA_MAPA 30
 #define DIMENSION_MAXIMA_MAPA 1000
+#define TIPO_JUGADOR 6
 using std::string;
 
 Editor::Editor(int filas, int columnas, int cant_elegida_jugadores, QWidget *parent) : 
-    mapa(Mapa(filas, columnas, this)), tabs(Tabs(this)), 
+    mapa(Mapa(filas, columnas, this)), tabs(Tabs(this)), min_cant_jugadores(MINIMO_CANTIDAD_JUGADORES),
     cant_elegida_jugadores(cant_elegida_jugadores), QMainWindow(parent, Qt::Window) {
     // Instancio la configuracion generada por el designer y uic
     Ui::Editor editor;
     // Configuro este widget para que use esa configuracion. A partir de aca
-    // puedo usar findChild
+    // puedo usar findChild.
     editor.setupUi(this);
 
-    // aca inicializo Tabs y Mapa para poder utilizar findChild
+    // aca inicializo Tabs y Mapa para poder utilizar findChild.
     this->tabs.inicializar_tabs();
     this->mapa.inicializar_mapa();
-    this->min_cant_jugadores = MINIMO_CANTIDAD_JUGADORES;
 
-    // agrego al editor como observador del mapa
+    // agrego al editor como observador del mapa.
     this->mapa.agregar_observador(this);
 
     inicializar_menu();
@@ -35,19 +35,21 @@ Editor::Editor(int filas, int columnas, int cant_elegida_jugadores, QWidget *par
 
 Editor::Editor(string& filename_json, QWidget *parent) : QMainWindow(parent, 
     Qt::Window), mapa(Mapa(this)), tabs(Tabs(this)) {
-    // Instancio la configuracion generada por el designer y uic
+    // Instancio la configuracion generada por el designer y uic.
     Ui::Editor editor;
     // Configuro este widget para use esa configuracion. A partir de aca
-    // puedo usar findChild
+    // puedo usar findChild.
     editor.setupUi(this);
 
-    // aca inicializo Tabs y Mapa para poder utilizar findChild
+    // aca inicializo Tabs y Mapa para poder utilizar findChild.
     this->tabs.inicializar_tabs();
     this->mapa.parsear_json(filename_json);
+
+    // actualizo atributos segun el Mapa cargado.
     this->cant_elegida_jugadores = this->mapa.get_cantidad_jugadores_agregados();
     this->min_cant_jugadores = this->cant_elegida_jugadores;
 
-    // agrego al editor como observador del mapa
+    // agrego al editor como observador del mapa.
     this->mapa.agregar_observador(this);
 
     inicializar_menu();
@@ -55,15 +57,15 @@ Editor::Editor(string& filename_json, QWidget *parent) : QMainWindow(parent,
 
 
 void Editor::en_notificacion(string& id_label_mapa) {
-    // getteo el sprite clickeado en Tabs
+    // getteo el sprite clickeado en Tabs.
     Sprite sprite_tab_clickeado = this->tabs.get_sprite_clickeado();
 
-    // me fijo si hay algun Label clickeado en Tabs
+    // me fijo si hay algun Label clickeado en Tabs.
     if (sprite_tab_clickeado.id != "") {
-        // me fijo si es el caso especial en que el tipo es Jugador (6)
-        if (sprite_tab_clickeado.tipo == 6) {
+        // me fijo si es el caso especial en que el tipo es Jugador.
+        if (sprite_tab_clickeado.tipo == TIPO_JUGADOR) {
             // me fijo que el tipo de LabelMapa sea una Roca para poder apoyar
-            // al jugador
+            // al jugador.
             if (this->mapa.es_valido_agregar_jugador(id_label_mapa, 
                 this->cant_elegida_jugadores)) {
                 // agrego al jugador al mapa
@@ -101,7 +103,7 @@ void Editor::inicializar_menu() {
     QMenu* menu_editar = this->menu_bar->addMenu("Editar");
     menu_editar->addAction("Cambiar cantidad de jugadores", this, 
         &Editor::mostrar_dialogo_cantidad_jugadores);
-    menu_editar->addAction("Cambiar tamaño mapa", this, 
+    menu_editar->addAction("Cambiar tamaño del mapa", this, 
         &Editor::mostrar_dialogo_tamanio_mapa);
 }
 
@@ -114,12 +116,20 @@ void Editor::cargar_mapa_en_ejecucion() {
         return;
     }
     
-    // limpio el mapa actual y cargo el elegido por el user mapa
-    string filename_std_string = filename.toStdString();
+    // me fijo si el usuario incluyo la extension del archivo al ingresar el
+    // nombre del mismo.
+    if(!filename.contains(".json", Qt::CaseSensitive)) {
+        filename += ".json";
+    }
+
+    // limpio el mapa actual.
     this->mapa.limpiar_mapa();
+
+    // cargo el elegido por el user mapa.
+    string filename_std_string = filename.toStdString();
     this->mapa.parsear_json(filename_std_string);
 
-    // actualizo atributos 
+    // actualizo atributos.
     this->cant_elegida_jugadores = this->mapa.get_cantidad_jugadores_agregados();
     this->min_cant_jugadores = this->cant_elegida_jugadores;
 }
@@ -188,7 +198,7 @@ void Editor::mostrar_dialogo_tamanio_mapa() {
     form_layout.addRow(&box_botones);
     QObject::connect(&box_botones, SIGNAL(accepted()), &dialog, SLOT(accept()));
 
-    dialog.setWindowTitle("Cambiar tamaño mapa");
+    dialog.setWindowTitle("Cambiar tamaño del mapa");
 
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
@@ -234,7 +244,7 @@ void Editor::mostrar_dialogo_cantidad_jugadores() {
         if (this->cant_elegida_jugadores == spinbox_jugadores.value()) {
             // muestro mensaje de que se cambio la cantidad de jugadores correctamente
             QMessageBox::information(this, "Cantidad de jugadores", 
-                "Elegiste la misma cantidad de jugadores");
+                "Elegiste la misma cantidad de jugadores!");
         } else {
             this->cant_elegida_jugadores = spinbox_jugadores.value();
     

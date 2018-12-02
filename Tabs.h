@@ -22,7 +22,7 @@ class Tabs : public ObservadorTabs {
         /**
          * \brief Inicializador Tabs.
          * 
-         * Llena las pestañas o tabs de sprites. Los separa segun su tipo.
+         * Llena la pestaña sprites.
          */
         void inicializar_tabs();
 

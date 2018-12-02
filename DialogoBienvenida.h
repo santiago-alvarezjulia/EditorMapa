@@ -22,7 +22,7 @@ class DialogoBienvenida : public QDialog {
          * dialogo con las configuraciones posibles para un mapa nuevo 
          * (tamaño y cantidad de jugadores).
          */
-        void crear_mapa();
+        void mostrar_dialogo_crear_mapa();
 
         /**
          * \brief Muestro dialogo cargar mapa.
@@ -30,7 +30,7 @@ class DialogoBienvenida : public QDialog {
          * Es llamada al tocar el boton de cargar mapa (vease main.cpp). Muestra el 
          * dialogo para elegir al mapa previamente creado y almacenado en la pc.
          */
-        void cargar_mapa();
+        void mostrar_dialogo_cargar_mapa();
 
         /**
          * \brief Destructor DialogoBienvenida.

@@ -13,9 +13,8 @@ class LabelTab : public QLabel {
         /**
          * \brief Constructor de LabelTab.
          * 
-         * Constructor de LabelTab que recibe como parametro el QPixmap correspondiente
-         * a la imagen .bmp que contiene todos los sprites de los terrenos. Tambien
-         * el id, el tipo y la posicion de los tiles de este Label en particular.
+         * Constructor de LabelTab que recibe como parametro el id, el tipo y 
+         * la posicion de los tiles de este LabelTab en particular.
          */
         LabelTab(std::string& id, int tipo, std::vector<uint32_t>& pos_tiles, 
             QWidget* parent = 0);
@@ -49,9 +48,9 @@ class LabelTab : public QLabel {
         void borrar_marco_clickeado();
         
         /**
-         * \brief Destructor de Label.
+         * \brief Destructor de LabelTab.
          * 
-         * Destructor de Label.
+         * Destructor de LabelTab.
          */
         ~LabelTab() {};
  
